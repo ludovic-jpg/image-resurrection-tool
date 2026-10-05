@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Recueil des besoins — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page">
+<!-- inclure:entete -->
+
+<h1>Recueil des besoins — pré-formation</h1>
+<p class="sous-titre">Attentes, niveau de départ et objectifs spécifiques — indicateurs Qualiopi n° 1 et 4</p>
+<div class="fiche">
+  <div>Stagiaire</div><div class="v">{{stagiaire_1_nom}}</div>
+  <div>Intitulé de la formation</div><div class="v">{{formation_titre}}</div>
+  <div>Durée</div><div>{{formation_duree_heures_total}} heures — du {{formation_date_debut}} au {{formation_date_fin}}</div>
+  <div>Formateur</div><div>{{formateur_prenom}} {{formateur_nom}}</div>
+</div>
+<p>Recueil effectué le <span class="v">{{recueil_date}}</span> par le formateur {{formateur_prenom}} {{formateur_nom}}.</p>
+<!-- zone:reponses_recueil -->
+<div class="signatures">
+  <div class="signature">
+    <div class="qui">Le stagiaire</div>
+    <div class="nom">{{stagiaire_1_nom}}</div>
+    <!-- zone:signature_apprenant -->
+  </div>
+  <div class="signature">
+    <div class="qui">Le formateur</div>
+    <div class="nom">{{formateur_prenom}} {{formateur_nom}}</div>
+    <!-- zone:signature_formateur -->
+  </div>
+</div>
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>

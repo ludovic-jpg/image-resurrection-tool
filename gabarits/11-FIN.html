@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Facture — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page">
+<!-- inclure:entete -->
+
+<h1>Facture n° {{facture_of_numero}}</h1>
+<p class="sous-titre">Action de formation professionnelle — dossier {{dossier_reference}}</p>
+<div class="parties">
+  <div class="partie">
+    <div class="role">Émetteur</div>
+    <p><span class="v">{{of_nom}}</span> — {{of_forme_juridique}}<br>{{of_adresse}}</p>
+    <p>SIRET : {{of_siret}}<!-- si:of_tva_intracom --><br>TVA intracommunautaire : {{of_tva_intracom}}<!-- /si:of_tva_intracom --></p>
+    <p>{{of_email_comptabilite}}<!-- si:of_telephone --> — {{of_telephone}}<!-- /si:of_telephone --></p>
+  </div>
+  <div class="partie">
+    <div class="role">Facturé à</div>
+    <p><span class="v">{{entreprise_nom}}</span><br>{{entreprise_adresse}}</p>
+    <p>SIRET : {{entreprise_siret}}</p>
+    <!-- si:formation_opco --><p>Financeur : {{formation_opco}}<!-- si:facture_of_numero_adherent --> — n° d'adhérent {{facture_of_numero_adherent}}<!-- /si:facture_of_numero_adherent --></p><!-- /si:formation_opco -->
+  </div>
+</div>
+<div class="fiche">
+  <div>Date de facture</div><div>{{facture_of_date}}</div>
+  <div>Échéance</div><div>{{facture_of_date_echeance}}</div>
+  <!-- si:facture_of_code_client --><div>Code client</div><div>{{facture_of_code_client}}</div><!-- /si:facture_of_code_client -->
+  <div>Stagiaire(s)</div><div>{{formation_liste_stagiaires}}</div>
+  <div>Période et lieu</div><div>Du {{formation_date_debut}} au {{formation_date_fin}} — {{formation_lieu_nom}}</div>
+</div>
+<table>
+  <thead><tr><th>Désignation</th><th class="num">Heures</th><th class="num">Prix unitaire HT</th><th class="num">Stagiaires</th><th class="num">Montant HT</th></tr></thead>
+  <tbody><tr><td>Formation « {{formation_titre}} »<!-- si:formation_duree_heures_distanciel --><br><span class="mention">dont {{formation_duree_heures_distanciel}} heures à distance</span><!-- /si:formation_duree_heures_distanciel --></td><td class="num">{{formation_duree_heures_total}}</td><td class="num">{{facture_of_prix_unitaire_ht}}</td><td class="num">{{formation_nb_stagiaires}}</td><td class="num">{{facture_of_montant_ht}}</td></tr></tbody>
+</table>
+<div class="total"><table>
+  <tr><td>Total HT</td><td class="num">{{facture_of_montant_ht}}</td></tr>
+  <tr><td>TVA</td><td class="num">{{facture_of_montant_tva}}</td></tr>
+  <tr><td>Total TTC</td><td class="num">{{facture_of_montant_ttc}}</td></tr>
+  <!-- si:facture_of_acompte --><tr><td>Acompte versé</td><td class="num">− {{facture_of_acompte}}</td></tr><!-- /si:facture_of_acompte -->
+  <tr><td>Solde dû</td><td class="num">{{facture_of_solde_du}}</td></tr>
+</table></div>
+<p class="mention">Exonération de TVA — article 261.4.4° du CGI. Déclaration d'activité n° {{of_nda_numero}} auprès de la DREETS {{of_dreets_region}}.<!-- si:of_certification_complementaire_numero --> Certification n° {{of_certification_complementaire_numero}}.<!-- /si:of_certification_complementaire_numero --></p>
+<div class="encadre">Règlement par virement — {{of_banque_nom}} — IBAN : <span class="v">{{of_iban}}</span> — BIC : <span class="v">{{of_bic}}</span></div>
+<p class="mention">En cas de retard de paiement, une pénalité égale à trois fois le taux d'intérêt légal est exigible, ainsi qu'une indemnité forfaitaire pour frais de recouvrement de 40 €. Tout litige relève du {{of_tribunal_competent}}.</p>
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>

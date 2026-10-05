@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Pré-dossier — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page">
+<!-- inclure:entete -->
+
+<h1>Pré-dossier de formation</h1>
+<p class="sous-titre">Synthèse du recueil des besoins et du test de positionnement, soumise à la validation du stagiaire</p>
+<div class="fiche">
+  <div>Stagiaire</div><div class="v">{{stagiaire_1_nom}}</div>
+  <div>Intitulé de la formation</div><div class="v">{{formation_titre}}</div>
+  <div>Durée</div><div>{{formation_duree_heures_total}} heures — du {{formation_date_debut}} au {{formation_date_fin}}</div>
+  <div>Formateur</div><div>{{formateur_prenom}} {{formateur_nom}}</div>
+</div>
+<div class="fiche">
+  <div>Entreprise</div><div>{{entreprise_nom}}</div>
+  <div>Objectifs de la formation</div><div>{{formation_objectifs}}</div>
+  <div>Niveau visé</div><div>{{formation_niveau}}</div>
+  <div>Modalité</div><div>{{formation_modalite}}</div>
+</div>
+<h2>1. Recueil des besoins</h2>
+<!-- zone:reponses_recueil -->
+<h2>2. Test de positionnement</h2>
+<!-- zone:synthese_positionnement -->
+<!-- si:positionnement_ajustement --><h3>Ajustement du programme retenu</h3><p>{{positionnement_ajustement}}</p><!-- /si:positionnement_ajustement -->
+<div class="encadre">En validant ce pré-dossier, je confirme que les informations ci-dessus reflètent mes besoins et mon niveau de départ, et que le programme de la formation m'a été communiqué.</div>
+<div class="signatures">
+  <div class="signature">
+    <div class="qui">Le stagiaire</div>
+    <div class="nom">{{stagiaire_1_nom}}</div>
+    <!-- zone:signature_apprenant -->
+  </div>
+  <div class="signature">
+    <div class="qui">Le formateur</div>
+    <div class="nom">{{formateur_prenom}} {{formateur_nom}}</div>
+    <!-- zone:signature_formateur -->
+  </div>
+</div>
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>

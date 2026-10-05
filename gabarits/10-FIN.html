@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Facture formateur — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page">
+<!-- inclure:entete -->
+
+<h1>Facture n° {{facture_formateur_numero}}</h1>
+<p class="sous-titre">Prestation de sous-traitance de formation — dossier {{dossier_reference}}</p>
+<div class="parties">
+  <div class="partie">
+    <div class="role">Émetteur — le sous-traitant</div>
+    <p><span class="v">{{formateur_entreprise_nom}}</span><br>{{formateur_entreprise_adresse}}</p>
+    <p>SIRET : {{formateur_entreprise_siret}}<br>Déclaration d'activité n° {{formateur_nda_numero}} — DREETS {{formateur_dreets_region}}</p>
+    <p>{{formateur_prenom}} {{formateur_nom}} — {{formateur_email}}</p>
+  </div>
+  <div class="partie">
+    <div class="role">Destinataire — le donneur d'ordre</div>
+    <p><span class="v">{{of_nom}}</span><br>{{of_adresse}}</p>
+    <p>SIRET : {{of_siret}}</p>
+    <p>{{of_email_comptabilite}}</p>
+  </div>
+</div>
+<div class="fiche">
+  <div>Date de facture</div><div>{{facture_formateur_date}}</div>
+  <div>Échéance</div><div>{{facture_formateur_date_echeance}}</div>
+  <div>Formation</div><div>{{formation_titre}} — du {{formation_date_debut}} au {{formation_date_fin}}</div>
+  <div>Client final</div><div>{{entreprise_nom}}</div>
+</div>
+<table>
+  <thead><tr><th>Désignation</th><th class="num">Heures</th><th class="num">Coût horaire</th><th class="num">Montant</th></tr></thead>
+  <tbody><tr><td>Animation de la formation « {{formation_titre}} »</td><td class="num">{{formation_duree_heures_total}}</td><td class="num">{{formateur_cout_horaire}}</td><td class="num">{{formateur_montant_total}}</td></tr></tbody>
+</table>
+<div class="total"><table>
+  <tr><td>Prix de vente HT de la formation</td><td class="num">{{formation_prix_total_ht}}</td></tr>
+  <tr><td>Commission de portage ({{portage_commission_pourcentage}})</td><td class="num">− {{portage_commission_montant}}</td></tr>
+  <tr><td>Net à payer</td><td class="num">{{facture_formateur_net_a_payer}}</td></tr>
+</table></div>
+<p class="mention">TVA non applicable — article 261.4.4° du CGI. Règlement sous 10 jours après le règlement du client ou du financeur, conformément à l'article 4 du contrat de sous-traitance.</p>
+<!-- si:formateur_iban --><div class="encadre">Règlement par virement — IBAN : <span class="v">{{formateur_iban}}</span><!-- si:formateur_bic --> — BIC : <span class="v">{{formateur_bic}}</span><!-- /si:formateur_bic --></div><!-- /si:formateur_iban -->
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>

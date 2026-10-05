@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Feuille d'émargement — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page paysage">
+<!-- inclure:entete -->
+
+<h1>Feuille d'émargement</h1>
+<p class="sous-titre">Preuve de réalisation de l'action de formation — indicateur Qualiopi n° 17</p>
+<div class="fiche">
+  <div>Intitulé de la formation</div><div class="v">{{formation_titre}}</div>
+  <div>Objectif pédagogique</div><div>{{formation_objectifs}}</div>
+  <div>Durée totale</div><div>{{formation_duree_heures_total}} heures — du {{formation_date_debut}} au {{formation_date_fin}}</div>
+  <div>Lieu de formation</div><div>{{formation_lieu_nom}} — {{formation_lieu_adresse}}</div>
+  <div>Entreprise cliente</div><div>{{entreprise_nom}} (SIRET : {{entreprise_siret}})</div>
+  <div>Formateur</div><div>{{formateur_prenom}} {{formateur_nom}}</div>
+</div>
+<!-- repeter:stagiaire -->
+<h2>Stagiaire : {{stagiaire_N_nom}}</h2>
+<table>
+  <thead><tr><th style="width:34mm">Date</th><th style="width:26mm">Heure de début</th><th style="width:26mm">Heure de fin</th><th>Signature du stagiaire</th><th>Signature du formateur</th></tr></thead>
+  <tbody>
+  <!-- repeter:session --><tr><td class="v">{{session_N_date}}</td><td>{{session_N_heure_debut}}</td><td>{{session_N_heure_fin}}</td><td class="case-emargement"><!-- zone:emargement_stagiaire --></td><td class="case-emargement"><!-- zone:emargement_formateur --></td></tr>
+  <!-- /repeter:session -->
+  </tbody>
+</table>
+<!-- /repeter:stagiaire -->
+<p class="mention">Chaque signature électronique est horodatée et rattachée à la séance et au signataire concernés. Feuille clôturée le dernier jour de la formation.</p>
+<div class="signatures">
+  <div class="signature">
+    <div class="qui">Validation de la feuille par le stagiaire</div>
+    <div class="nom">{{stagiaire_1_nom}}</div>
+    <!-- zone:signature_apprenant -->
+  </div>
+  <div class="signature">
+    <div class="qui">Le formateur</div>
+    <div class="nom">{{formateur_prenom}} {{formateur_nom}}</div>
+    <!-- zone:signature_formateur -->
+  </div>
+</div>
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>
