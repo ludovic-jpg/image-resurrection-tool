@@ -1,26 +1,37 @@
-# S4M Visualizer
+# Skills4mation (S4M) : dossiers de formation
 
-tout reprednre pour avoir une image de https://github.com/ludovic-jpg/s4mfinal
+Application de suivi des dossiers de formation (portage Qualiopi) : de la candidature du formateur à l'archivage du dossier, avec trois rôles (admin de l'organisme, formateur, apprenant).
 
-This project was built with [Lovable](https://lovable.dev).
+**Application en ligne** : https://image-resurrection-tool.lovable.app
 
-**Live app**: https://image-resurrection-tool.lovable.app
+Construite avec [Lovable](https://lovable.dev) (TanStack Start, React, Tailwind) et Lovable Cloud (Supabase) pour l'authentification et les données.
 
-## Build with Lovable
+## État du projet
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/8d38c230-ac9b-4f52-bcd3-6bf1b3a85733).
+Reprise par lots, suivie dans [`roadmap.md`](roadmap.md). Aujourd'hui : accueil, connexion, inscription, invitation, réinitialisation du mot de passe et premier espace protégé. Les écrans et le noyau métier d'origine sont conservés dans [`docs/reference-implementation`](docs/reference-implementation) comme référence de la reprise ; ils ne sont pas compilés.
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+## Lancer en local
 
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Le dépôt utilise [Bun](https://bun.sh) (`bun.lock`).
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+bun install
+bun run dev        # serveur de développement
+bun run lint       # ESLint + Prettier
+bun run test       # tests Vitest
+bun run build      # build de production
+npx tsc --noEmit   # contrôle des types
 ```
+
+Le fichier `.env` ne contient que l'URL et la clé **publique** (publishable) du projet : aucune clé secrète ne doit y entrer.
+
+## Base de données
+
+- `supabase/migrations/` : schéma, droits d'accès (RLS) et fonctions, à appliquer dans l'ordre.
+- `supabase/seed_demo.sql` : données de démonstration, **réservé à un projet de test** (comptes à mot de passe connu).
+- `supabase/admin_production.sql` : gabarit de création de l'organisme et du premier administrateur en production.
+- `supabase/tests/rls_test.mjs` : test d'isolation des droits.
+
+## Documentation
+
+Cadrage, architecture, recette et guides dans [`docs/`](docs/) et [`lovable/`](lovable/).

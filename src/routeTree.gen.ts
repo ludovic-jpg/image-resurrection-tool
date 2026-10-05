@@ -13,6 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as ConnexionRouteImport } from './routes/connexion'
 import { Route as InscriptionRouteImport } from './routes/inscription'
+import { Route as InvitationRouteImport } from './routes/invitation'
+import { Route as MotDePasseOublieRouteImport } from './routes/mot-de-passe-oublie'
+import { Route as ReinitialiserRouteImport } from './routes/reinitialiser'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
 
 const IndexRoute = IndexRouteImport.update({
@@ -34,6 +37,21 @@ const InscriptionRoute = InscriptionRouteImport.update({
   path: '/inscription',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InvitationRoute = InvitationRouteImport.update({
+  id: '/invitation',
+  path: '/invitation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MotDePasseOublieRoute = MotDePasseOublieRouteImport.update({
+  id: '/mot-de-passe-oublie',
+  path: '/mot-de-passe-oublie',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReinitialiserRoute = ReinitialiserRouteImport.update({
+  id: '/reinitialiser',
+  path: '/reinitialiser',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedTableauDeBordRoute =
   AuthenticatedTableauDeBordRouteImport.update({
     id: '/tableau-de-bord',
@@ -45,12 +63,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/connexion': typeof ConnexionRoute
   '/inscription': typeof InscriptionRoute
+  '/invitation': typeof InvitationRoute
+  '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
+  '/reinitialiser': typeof ReinitialiserRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/connexion': typeof ConnexionRoute
   '/inscription': typeof InscriptionRoute
+  '/invitation': typeof InvitationRoute
+  '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
+  '/reinitialiser': typeof ReinitialiserRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
 }
 export interface FileRoutesById {
@@ -59,19 +83,39 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/connexion': typeof ConnexionRoute
   '/inscription': typeof InscriptionRoute
+  '/invitation': typeof InvitationRoute
+  '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
+  '/reinitialiser': typeof ReinitialiserRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/connexion' | '/inscription' | '/tableau-de-bord'
+  fullPaths:
+    | '/'
+    | '/connexion'
+    | '/inscription'
+    | '/invitation'
+    | '/mot-de-passe-oublie'
+    | '/reinitialiser'
+    | '/tableau-de-bord'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/connexion' | '/inscription' | '/tableau-de-bord'
+  to:
+    | '/'
+    | '/connexion'
+    | '/inscription'
+    | '/invitation'
+    | '/mot-de-passe-oublie'
+    | '/reinitialiser'
+    | '/tableau-de-bord'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/connexion'
     | '/inscription'
+    | '/invitation'
+    | '/mot-de-passe-oublie'
+    | '/reinitialiser'
     | '/_authenticated/tableau-de-bord'
   fileRoutesById: FileRoutesById
 }
@@ -80,6 +124,9 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   ConnexionRoute: typeof ConnexionRoute
   InscriptionRoute: typeof InscriptionRoute
+  InvitationRoute: typeof InvitationRoute
+  MotDePasseOublieRoute: typeof MotDePasseOublieRoute
+  ReinitialiserRoute: typeof ReinitialiserRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -112,6 +159,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InscriptionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/invitation': {
+      id: '/invitation'
+      path: '/invitation'
+      fullPath: '/invitation'
+      preLoaderRoute: typeof InvitationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mot-de-passe-oublie': {
+      id: '/mot-de-passe-oublie'
+      path: '/mot-de-passe-oublie'
+      fullPath: '/mot-de-passe-oublie'
+      preLoaderRoute: typeof MotDePasseOublieRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reinitialiser': {
+      id: '/reinitialiser'
+      path: '/reinitialiser'
+      fullPath: '/reinitialiser'
+      preLoaderRoute: typeof ReinitialiserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/tableau-de-bord': {
       id: '/_authenticated/tableau-de-bord'
       path: '/tableau-de-bord'
@@ -138,6 +206,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ConnexionRoute: ConnexionRoute,
   InscriptionRoute: InscriptionRoute,
+  InvitationRoute: InvitationRoute,
+  MotDePasseOublieRoute: MotDePasseOublieRoute,
+  ReinitialiserRoute: ReinitialiserRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
