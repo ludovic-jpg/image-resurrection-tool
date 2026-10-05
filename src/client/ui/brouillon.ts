@@ -47,16 +47,30 @@ export function useBrouillonLocal<T>(cle: string, valeur: T, initiale: T) {
   }, [cle, valeur]);
 
   /** À appeler après un enregistrement réussi sur le serveur : le filet local n'a plus lieu d'être. */
-  const oublier = useCallback((nouvelEtatEnregistre?: T) => {
-    if (nouvelEtatEnregistre !== undefined) depart.current = JSON.stringify(nouvelEtatEnregistre);
-    try {
-      localStorage.removeItem(PREFIXE + cle);
-    } catch {
-      /* rien */
-    }
-    setPropose(null);
-    modifie.current = false;
-  }, [cle]);
+  const oublier = useCallback(
+    (nouvelEtatEnregistre?: T) => {
+      if (nouvelEtatEnregistre !== undefined) depart.current = JSON.stringify(nouvelEtatEnregistre);
+      try {
+        localStorage.removeItem(PREFIXE + cle);
+      } catch {
+        /* rien */
+      }
+      setPropose(null);
+      modifie.current = false;
+    },
+    [cle],
+  );
 
-  return { propose, ignorer: () => { oublier(); }, accepter: () => { const v = propose?.valeur; setPropose(null); return v; }, oublier };
+  return {
+    propose,
+    ignorer: () => {
+      oublier();
+    },
+    accepter: () => {
+      const v = propose?.valeur;
+      setPropose(null);
+      return v;
+    },
+    oublier,
+  };
 }

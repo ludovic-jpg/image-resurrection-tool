@@ -73,14 +73,32 @@ export function ListeOuAutre({
             onChange={(e) => onChange(e.target.value)}
             className="h-10 w-full rounded-sm border border-trait-fort bg-carte px-3 text-sm focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none"
           />
-          {(erreur || aide) && <p className={cx("mt-1.5 text-[13px]", erreur ? "text-danger" : "text-encre-3")}>{erreur ?? aide}</p>}
+          {(erreur || aide) && (
+            <p className={cx("mt-1.5 text-[13px]", erreur ? "text-danger" : "text-encre-3")}>
+              {erreur ?? aide}
+            </p>
+          )}
         </div>
       )}
     </div>
   );
 }
 
-export function ChoixMultiples({ libelle, options, valeurs, onChange, aide, max = 20 }: { libelle: string; options: readonly string[]; valeurs: string[]; onChange: (v: string[]) => void; aide?: string; max?: number }) {
+export function ChoixMultiples({
+  libelle,
+  options,
+  valeurs,
+  onChange,
+  aide,
+  max = 20,
+}: {
+  libelle: string;
+  options: readonly string[];
+  valeurs: string[];
+  onChange: (v: string[]) => void;
+  aide?: string;
+  max?: number;
+}) {
   return (
     <fieldset className="min-w-0">
       <legend className="mb-1.5 block text-[13px] font-medium text-encre-2">{libelle}</legend>
@@ -96,7 +114,9 @@ export function ChoixMultiples({ libelle, options, valeurs, onChange, aide, max 
               onClick={() => onChange(actif ? valeurs.filter((x) => x !== o) : [...valeurs, o])}
               className={cx(
                 "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[13px] transition-colors duration-150 disabled:opacity-40",
-                actif ? "border-accent bg-accent-doux font-medium text-accent-fort" : "border-trait-fort bg-carte text-encre-2 hover:border-accent",
+                actif
+                  ? "border-accent bg-accent-doux font-medium text-accent-fort"
+                  : "border-trait-fort bg-carte text-encre-2 hover:border-accent",
               )}
             >
               {actif && <Check className="size-3.5" strokeWidth={3} aria-hidden />}
@@ -112,7 +132,10 @@ export function ChoixMultiples({ libelle, options, valeurs, onChange, aide, max 
 
 /** Convertit une saisie française (« 3,5 ») en nombre, ou `null` si vide. */
 export const nombreSaisi = (x: string | number | null | undefined): number | null => {
-  const t = String(x ?? "").trim().replace(",", ".").replace(/\s/g, "");
+  const t = String(x ?? "")
+    .trim()
+    .replace(",", ".")
+    .replace(/\s/g, "");
   if (t === "") return null;
   const n = Number(t);
   return Number.isFinite(n) ? n : null;
@@ -124,4 +147,5 @@ export const centimesSaisis = (x: string): number | null => {
   return n === null ? null : Math.round(n * 100);
 };
 
-export const eurosEnSaisie = (c: number | null | undefined): string => (c === null || c === undefined ? "" : String(c / 100).replace(".", ","));
+export const eurosEnSaisie = (c: number | null | undefined): string =>
+  c === null || c === undefined ? "" : String(c / 100).replace(".", ",");

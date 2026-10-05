@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { FournisseurToasts } from "@/client/ui/base";
 import {
   Outlet,
   Link,
@@ -20,9 +21,7 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Page introuvable</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Cette page n’existe pas ou a été déplacée.
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">Cette page n’existe pas ou a été déplacée.</p>
         <div className="mt-6">
           <Link
             to="/"
@@ -118,8 +117,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <FournisseurToasts>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </FournisseurToasts>
     </QueryClientProvider>
   );
 }
