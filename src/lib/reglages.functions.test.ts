@@ -71,7 +71,7 @@ describe("enregistrerReglages (route 31)", () => {
     const r = await appeler(enregistrerReglages, ACTEURS.admin, {
       ia_cle: "sk-ant-TRES-SECRET",
       smtp_mot_de_passe: "mdp-smtp-SECRET",
-      ia_modele: "claude-sonnet-5",
+      ia_modele: "claude-sonnet-5-5",
       courrier_actif: "oui",
     });
     // L'ordre suit le catalogue des réglages, pas l'ordre d'envoi.
@@ -94,7 +94,7 @@ describe("enregistrerReglages (route 31)", () => {
     const parCle = Object.fromEntries(lignes.map((l) => [l.cle, l]));
     expect(parCle["ia_cle"]).toMatchObject({ secret: true });
     expect(parCle["ia_cle"]!.valeur.startsWith("v1:")).toBe(true);
-    expect(parCle["ia_modele"]).toMatchObject({ secret: false, valeur: "claude-sonnet-5" });
+    expect(parCle["ia_modele"]).toMatchObject({ secret: false, valeur: "claude-sonnet-5-5" });
     const chiffreur = await creerChiffreur(CLE);
     expect(await chiffreur.dechiffrer(parCle["ia_cle"]!.valeur)).toBe("sk-ant-TRES-SECRET");
     expect(await chiffreur.dechiffrer(parCle["smtp_mot_de_passe"]!.valeur)).toBe("mdp-smtp-SECRET");

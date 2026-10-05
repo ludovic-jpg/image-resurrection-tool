@@ -41,7 +41,7 @@ export const REGLAGES_DEFAUT: Reglages = {
 
 /** Modèles proposés dans la liste déroulante (identifiants de l'API). */
 export const MODELES_IA = [
-  { valeur: "claude-sonnet-5", libelle: "Claude Sonnet 5 — recommandé (qualité / coût)" },
+  { valeur: "claude-sonnet-5-5", libelle: "Claude Sonnet 5.5 — recommandé (qualité / coût)" },
   { valeur: "claude-opus-5-5", libelle: "Claude Opus 5.5 — le plus fin, deux fois plus coûteux" },
   { valeur: "claude-haiku-4-5-20251001", libelle: "Claude Haiku 4.5 — rapide et économique" },
 ] as const;

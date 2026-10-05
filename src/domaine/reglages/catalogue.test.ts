@@ -40,12 +40,12 @@ describe("écritures de réglages", () => {
     const e = ecrituresReglages({
       ia_cle: "",
       smtp_mot_de_passe: "-",
-      ia_modele: "claude-sonnet-5",
+      ia_modele: "claude-sonnet-5-5",
       courrier_actif: "oui",
     });
     expect(e).toEqual([
       { cle: "smtp_mot_de_passe", secret: true, clair: "" },
-      { cle: "ia_modele", secret: false, clair: "claude-sonnet-5" },
+      { cle: "ia_modele", secret: false, clair: "claude-sonnet-5-5" },
       { cle: "courrier_actif", secret: false, clair: "oui" },
     ]);
   });

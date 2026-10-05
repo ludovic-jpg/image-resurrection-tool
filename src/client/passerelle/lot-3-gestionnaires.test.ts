@@ -467,7 +467,7 @@ describe("route 27 : POST /admin/candidatures/:id/decision", () => {
 describe("routes 30, 31, 32 : réglages", () => {
   const VUE = {
     of_id: "of1",
-    ia_modele: "claude-sonnet-5",
+    ia_modele: "claude-sonnet-5-5",
     ia_workspace: "",
     ia_recherche_web: "oui",
     ia_active: "oui",
