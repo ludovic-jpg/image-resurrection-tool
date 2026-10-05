@@ -262,7 +262,7 @@ export function DepotFichier({ libelle, accept, enCours, deposer, compact = fals
   return (
     <>
       <input ref={ref} type="file" accept={accept} className="sr-only" tabIndex={-1} onChange={(e) => { const f = e.target.files?.[0]; if (f) deposer(f); e.target.value = ""; }} />
-      <Bouton variante="secondaire" taille={compact ? "sm" : "md"} enCours={enCours} icone={<Upload className="size-4" aria-hidden />} onClick={() => ref.current?.click()}>
+      <Bouton variante="secondaire" taille={compact ? "sm" : "md"} enCours={enCours ?? false} icone={<Upload className="size-4" aria-hidden />} onClick={() => ref.current?.click()}>
         {libelle}
       </Bouton>
     </>
