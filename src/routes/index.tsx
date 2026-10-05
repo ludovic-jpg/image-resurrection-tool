@@ -24,7 +24,7 @@ function Index() {
           <span className="grid size-9 place-items-center rounded-md bg-accent text-sur-accent"><ShieldCheck className="size-5" aria-hidden /></span>
           Dossiers de formation
         </div>
-        <Bouton variante="primaire" asChild={false} onClick={() => location.assign('/connexion')}>Connexion</Bouton>
+        <Link to="/connexion"><Bouton variante="primaire">Connexion</Bouton></Link>
       </header>
       <section className="mx-auto grid max-w-6xl gap-10 px-5 pb-16 pt-12 sm:px-8 lg:grid-cols-[minmax(0,3fr)_minmax(340px,2fr)] lg:items-center lg:pt-20">
         <div>
