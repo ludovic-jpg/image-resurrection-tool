@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { ArrowRight, CheckCircle2, FolderLock, GraduationCap, ShieldCheck } from "lucide-react";
 import { Bouton } from "@/client/ui/base";
 
@@ -17,6 +18,13 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const retour = sessionStorage.getItem("s4m_retour_auth");
+    if (retour !== "/tableau-de-bord") return;
+    sessionStorage.removeItem("s4m_retour_auth");
+    void navigate({ to: "/tableau-de-bord", replace: true });
+  }, [navigate]);
   return (
     <main className="min-h-dvh bg-papier">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8">
