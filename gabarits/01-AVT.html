@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Test de positionnement — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page">
+<!-- inclure:entete -->
+
+<h1>Test de positionnement</h1>
+<p class="sous-titre">Évaluation diagnostique initiale des prérequis — indicateur Qualiopi n° 8</p>
+<div class="fiche">
+  <div>Stagiaire</div><div class="v">{{stagiaire_1_nom}}</div>
+  <div>Intitulé de la formation</div><div class="v">{{formation_titre}}</div>
+  <div>Durée</div><div>{{formation_duree_heures_total}} heures — du {{formation_date_debut}} au {{formation_date_fin}}</div>
+  <div>Formateur</div><div>{{formateur_prenom}} {{formateur_nom}}</div>
+</div>
+<!-- si:formation_prerequis --><div class="encadre"><span class="v">Prérequis de la formation.</span> {{formation_prerequis}}</div><!-- /si:formation_prerequis -->
+<p>Test réalisé le <span class="v">{{positionnement_date}}</span>.</p>
+<!-- zone:questions_positionnement -->
+<!-- si:positionnement_ajustement --><h2>Ajustement du programme</h2><p>{{positionnement_ajustement}}</p><!-- /si:positionnement_ajustement -->
+<div class="signatures">
+  <div class="signature">
+    <div class="qui">Le stagiaire</div>
+    <div class="nom">{{stagiaire_1_nom}}</div>
+    <!-- zone:signature_apprenant -->
+  </div>
+  <div class="signature">
+    <div class="qui">Le formateur</div>
+    <div class="nom">{{formateur_prenom}} {{formateur_nom}}</div>
+    <!-- zone:signature_formateur -->
+  </div>
+</div>
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>

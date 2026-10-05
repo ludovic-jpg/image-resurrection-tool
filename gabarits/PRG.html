@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Programme de formation — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page">
+<!-- inclure:entete -->
+
+<h1>Programme de formation</h1>
+<p class="sous-titre">Annexe à la convention n° {{dossier_reference}}</p>
+<div class="fiche">
+  <div>Intitulé de la formation</div><div class="v">{{formation_titre}}</div>
+  <div>Stagiaire(s)</div><div>{{formation_liste_stagiaires}}</div>
+  <div>Période</div><div>Du {{formation_date_debut}} au {{formation_date_fin}}</div>
+  <div>Durée totale</div><div>{{formation_duree_heures_total}} heures sur {{formation_duree_jours}} jour(s)</div>
+  <div>Modalité</div><div>{{formation_modalite}}</div>
+  <div>Formateur</div><div>{{formateur_prenom}} {{formateur_nom}}</div>
+</div>
+<div class="fiche">
+  <!-- si:formation_public_vise --><div>Public visé</div><div>{{formation_public_vise}}</div><!-- /si:formation_public_vise -->
+  <div>Niveau</div><div>{{formation_niveau}}</div>
+  <div>Prérequis</div><div>{{formation_prerequis}}</div>
+</div>
+<h2>Objectifs pédagogiques</h2>
+<p>{{formation_objectifs}}</p>
+<h2>Contenu de la formation</h2>
+<p>{{formation_programme}}</p>
+<h2>Modalités d'évaluation</h2>
+<p>Recueil des besoins et test de positionnement avant la formation ; évaluation des acquis en fin de formation ; enquêtes de satisfaction à chaud et à froid. Une attestation de réalisation est remise à l'issue de l'action.</p>
+<p class="mention">Programme transmis en annexe de la convention de formation. Toute modification fait l'objet d'un nouveau programme communiqué aux parties.</p>
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>

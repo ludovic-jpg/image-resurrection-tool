@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Contrat de sous-traitance de formation — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page">
+<!-- inclure:entete -->
+
+<h1>Contrat de sous-traitance de formation</h1>
+<p class="sous-titre">Ordre de mission n° {{dossier_reference}}</p>
+
+<p>Entre les soussignés :</p>
+<div class="parties">
+  <div class="partie">
+    <div class="role">Le donneur d'ordre</div>
+    <p><span class="v">{{of_nom}}</span><br>{{of_adresse}}</p>
+    <p>SIRET : {{of_siret}}<br>Organisme de formation enregistré sous le numéro {{of_nda_numero}} auprès de la DREETS {{of_dreets_region}}</p>
+    <p>Représenté par : <span class="v">{{of_representant_prenom}} {{of_representant_nom}}</span></p>
+  </div>
+  <div class="partie">
+    <div class="role">Le sous-traitant</div>
+    <p><span class="v">{{formateur_entreprise_nom}}</span><br>{{formateur_entreprise_adresse}}</p>
+    <p>SIRET : {{formateur_entreprise_siret}}<br>Organisme de formation enregistré sous le numéro {{formateur_nda_numero}} auprès de la DREETS {{formateur_dreets_region}}</p>
+    <p>Représenté par : <span class="v">{{formateur_prenom}} {{formateur_nom}}</span></p>
+  </div>
+</div>
+<p>Il a été convenu ce qui suit :</p>
+
+<h2>Article 1 — Nature du contrat</h2>
+<p>Le présent contrat est conclu dans le cadre d'une prestation de formation ponctuelle réalisée par le sous-traitant au bénéfice du donneur d'ordre.</p>
+
+<h2>Article 2 — Objet du contrat</h2>
+<p>La formation, objet du contrat, est la suivante :</p>
+<div class="fiche">
+  <div>a) Intitulé</div><div class="v">{{formation_titre}}</div>
+  <div>b) Dates</div><div>Du {{formation_date_debut}} au {{formation_date_fin}}</div>
+  <div>c) Durée</div><div>{{formation_duree_heures_total}} heures<!-- si:formation_duree_heures_presentiel -->, dont {{formation_duree_heures_presentiel}} heures en présentiel<!-- /si:formation_duree_heures_presentiel --></div>
+  <div>d) Objectifs de la mission</div><div>{{formation_objectifs}}</div>
+  <div>e) Programme et méthodes</div><div>Méthodes d'animation participatives : interactivité, exemples et cas pratiques. Procédés pédagogiques adaptés au niveau du ou des participants. Travaux pratiques adaptés à l'activité du client.</div>
+  <div>f) Lieu</div><div>{{formation_lieu_adresse}}</div>
+  <div>g) Société cliente</div><div>{{entreprise_nom}}</div>
+  <div>h) Responsable</div><div>{{entreprise_representant_prenom}} {{entreprise_representant_nom}}<!-- si:entreprise_representant_telephone --> — {{entreprise_representant_telephone}}<!-- /si:entreprise_representant_telephone --></div>
+</div>
+<h3>i) Effectif de l'action de formation</h3>
+<table>
+  <thead><tr><th style="width:10mm">N°</th><th>Stagiaire</th><th>Poste occupé</th></tr></thead>
+  <tbody>
+  <!-- repeter:stagiaire --><tr><td>{{rang_stagiaire}}</td><td>{{stagiaire_N_nom}}</td><td>{{stagiaire_N_poste}}</td></tr>
+  <!-- /repeter:stagiaire -->
+  </tbody>
+</table>
+
+<h2>Article 3 — Durée du contrat</h2>
+<p>Le présent contrat est strictement limité à la prestation de formation visée à l'article 2. Il cesse de plein droit à son terme.</p>
+
+<h2>Article 4 — Modalités financières</h2>
+<p>Le sous-traitant percevra une rémunération de <span class="v">{{formateur_cout_horaire}}</span> par heure, net de taxe — TVA non applicable (article 261.4.4° du CGI), soit un total de <span class="v">{{formateur_montant_total}}</span>.</p>
+<p>Le règlement interviendra sous 10 jours après le règlement du client ou du financeur.</p>
+
+<h2>Article 5 — Obligations du sous-traitant</h2>
+<p>Le sous-traitant s'engage à :</p>
+<ul>
+  <li>communiquer au donneur d'ordre une copie de son extrait K-bis ou de son immatriculation avant le début de la formation ;</li>
+  <li>animer la formation dans le respect des objectifs fixés par le donneur d'ordre ;</li>
+  <li>animer personnellement la formation, sauf situation exceptionnelle et uniquement après accord écrit du donneur d'ordre ;</li>
+  <li>assurer l'évaluation des stagiaires à l'issue de l'action de formation, afin de permettre au donneur d'ordre d'établir les attestations de fin de formation prévues à l'article L.6353-1 du Code du travail ;</li>
+  <li>participer aux réunions de préparation, aux jurys d'examen et aux remises de diplôme.</li>
+</ul>
+
+<h2>Article 6 — Obligations du donneur d'ordre</h2>
+<p>Le donneur d'ordre s'engage à :</p>
+<ul>
+  <li>confier au sous-traitant la formation prévue à l'article 2 ;</li>
+  <li>prendre en charge la gestion administrative et logistique de la formation ;</li>
+  <li>transmettre au sous-traitant les feuilles de présence à faire signer par le stagiaire ;</li>
+  <li>transmettre au sous-traitant une copie des questionnaires de satisfaction à faire remplir par le stagiaire à l'issue de la formation ;</li>
+  <li>prévenir le sous-traitant au moins 8 jours à l'avance en cas d'annulation ou de report de la formation.</li>
+</ul>
+
+<h2>Article 7 — Dispositions diverses</h2>
+<p>Le présent contrat ne crée entre les parties aucun lien de subordination, le sous-traitant demeurant libre et responsable du contenu de la formation.</p>
+<p>Le sous-traitant dispose d'une propriété intellectuelle et/ou artistique sur le contenu de sa formation. Le donneur d'ordre s'engage à ne pas reproduire ni diffuser ce contenu sans l'accord du sous-traitant.</p>
+
+<h2>Article 8 — Différend</h2>
+<p>Tout contrat engage les parties à respecter chacune de ses clauses. Tout différend entre les parties relatif à l'existence, la validité, l'interprétation, l'exécution et la résiliation du présent contrat (ou de l'une quelconque de ses clauses), que les parties ne pourraient résoudre entre elles à l'amiable, sera soumis au {{of_tribunal_competent}}, seul compétent pour régler le litige.</p>
+
+<p style="margin-top:7mm">Fait en double exemplaire à <span class="v">{{signature_lieu}}</span>, le <span class="v">{{signature_date}}</span>.</p>
+<div class="signatures">
+  <div class="signature">
+    <div class="qui">Le donneur d'ordre</div>
+    <div class="nom">{{of_representant_prenom}} {{of_representant_nom}}</div>
+    <!-- zone:signature_of -->
+  </div>
+  <div class="signature">
+    <div class="qui">Le sous-traitant</div>
+    <div class="nom">{{formateur_prenom}} {{formateur_nom}}</div>
+    <!-- zone:signature_formateur -->
+  </div>
+</div>
+<p class="mention">Pas de tampon en cas de signature électronique.</p>
+
+<h1 class="saut">Charte professionnelle du formateur</h1>
+<p class="sous-titre">Annexe au contrat de sous-traitance n° {{dossier_reference}}</p>
+<p>En tant que professionnel de la formation, je m'engage à respecter la charte déontologique et de qualité professionnelle.</p>
+<h2>Titre I — Déontologie et éthique professionnelle</h2>
+<p>Je m'engage à exercer mon activité en appliquant les principes généraux de la déontologie et de l'éthique professionnelle : respect de la personne humaine ; indépendance de jugement et d'action ; honnêteté et neutralité ; respect de la confidentialité professionnelle.</p>
+<h2>Titre II — Relations avec les clients</h2>
+<ul>
+  <li>Donner des renseignements exacts sur ma formation, mes compétences professionnelles et mes spécialisations.</li>
+  <li>Tenir compte du travail de préparation et des processus administratifs avant le commencement de tous travaux pédagogiques.</li>
+  <li>Respecter les engagements pris dans leur intégralité.</li>
+  <li>Exercer mon action dans l'intérêt commun du client et des bénéficiaires des actions de formation, en mettant en œuvre les moyens nécessaires pour atteindre les objectifs contractualisés.</li>
+  <li>Être neutre par rapport aux jeux d'influence chez le client et n'exprimer aucun jugement ou critique sur le client auprès des participants. Respecter la confidentialité des informations concernant le client et la culture de l'organisation cliente.</li>
+</ul>
+<h2>Titre III — Relations avec les participants des actions de formation</h2>
+<ul>
+  <li>Respecter la personnalité de chacun et m'interdire toute forme de discrimination.</li>
+  <li>Garantir aux bénéficiaires des actions la confidentialité absolue à propos de leurs paroles ou comportements, sauf s'ils présentent des risques pour l'action.</li>
+  <li>Entretenir avec les bénéficiaires des actions des relations empreintes de correction, de droiture et de neutralité.</li>
+  <li>M'interdire tout abus d'autorité ou de pouvoir lié à ma position.</li>
+</ul>
+<h2>Titre IV — Relations avec la profession</h2>
+<ul>
+  <li>Contribuer par mon comportement et la qualité de mes actions à renforcer l'image de la profession.</li>
+  <li>Me doter des moyens nécessaires à mon professionnalisme et au développement de mes compétences.</li>
+  <li>Connaître et appliquer les règles en vigueur dans la profession.</li>
+  <li>Veiller à établir le juste rapport qualité-prix de ma prestation.</li>
+</ul>
+<h2>Titre V — Respect du cadre légal</h2>
+<ul>
+  <li>Connaître et appliquer les lois et règlements, en particulier le livre IX du Code du travail pour les actions de formation professionnelle continue, et me tenir au courant de leur évolution.</li>
+  <li>Être en règle par rapport à toute obligation légale et fiscale.</li>
+  <li>N'accepter aucune rémunération illicite et informer des cadeaux reçus.</li>
+  <li>Citer mes sources et respecter la propriété intellectuelle.</li>
+</ul>
+<h2>Titre VI — Rapport aux méthodes et aux savoirs</h2>
+<p>Le formateur se situe dans la pédagogie active et place l'apprenant dans une démarche permanente d'évaluation et d'auto-évaluation. Il s'assure de la cohérence pédagogique de chaque module de formation par rapport à l'ensemble de la formation, ainsi que des choix pédagogiques et des contenus de référence.</p>
+<h2>Titre VII — Accessibilité aux personnes en situation de handicap</h2>
+<p>Je m'engage à assurer l'accès à toute personne en situation de handicap et à m'adapter à sa situation particulière.</p>
+<div class="encadre">Le formateur, <span class="v">{{formateur_prenom}} {{formateur_nom}}</span>, s'engage à respecter cette charte — le {{signature_date}}.</div>
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>

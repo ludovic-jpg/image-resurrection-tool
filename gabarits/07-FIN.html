@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Évaluation des acquis — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page">
+<!-- inclure:entete -->
+
+<h1>Évaluation des acquis</h1>
+<p class="sous-titre">Validation des compétences acquises en fin de formation — indicateur Qualiopi n° 11</p>
+<div class="fiche">
+  <div>Stagiaire</div><div class="v">{{stagiaire_1_nom}}</div>
+  <div>Intitulé de la formation</div><div class="v">{{formation_titre}}</div>
+  <div>Durée</div><div>{{formation_duree_heures_total}} heures — du {{formation_date_debut}} au {{formation_date_fin}}</div>
+  <div>Formateur</div><div>{{formateur_prenom}} {{formateur_nom}}</div>
+</div>
+<div class="fiche">
+  <div>Date de l'évaluation</div><div class="v">{{evaluation_acquis_date}}</div>
+  <div>Résultat</div><div><span class="v">{{evaluation_acquis_score}}</span> — niveau d'atteinte des objectifs : <span class="v">{{evaluation_acquis_niveau_atteinte}}</span></div>
+</div>
+<!-- zone:questions_acquis -->
+<div class="signatures">
+  <div class="signature">
+    <div class="qui">Le stagiaire</div>
+    <div class="nom">{{stagiaire_1_nom}}</div>
+    <!-- zone:signature_apprenant -->
+  </div>
+  <div class="signature">
+    <div class="qui">Le formateur</div>
+    <div class="nom">{{formateur_prenom}} {{formateur_nom}}</div>
+    <!-- zone:signature_formateur -->
+  </div>
+</div>
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>

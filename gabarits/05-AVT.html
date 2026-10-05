@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Convocation à la formation — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page">
+<!-- inclure:entete -->
+
+<h1>Convocation</h1>
+<p class="sous-titre">{{formation_titre}}</p>
+
+<p>Bonjour <span class="v">{{stagiaire_1_nom}}</span>,</p>
+<p>Nous avons le plaisir de vous convoquer à votre première séance de formation :</p>
+<div class="fiche">
+  <div>Formation</div><div class="v">{{formation_titre}}</div>
+  <div>Première séance</div><div>Le <span class="v">{{session_1_date}}</span>, de <span class="v">{{session_1_heure_debut}}</span> à <span class="v">{{session_1_heure_fin}}</span></div>
+  <div>Période</div><div>Du {{formation_date_debut}} au {{formation_date_fin}} — {{formation_duree_heures_total}} heures</div>
+  <div>Modalité</div><div>{{formation_modalite}}</div>
+  <!-- si:formation_lieu_adresse --><div>Lieu</div><div>{{formation_lieu_nom}}<br>{{formation_lieu_adresse}}</div><!-- /si:formation_lieu_adresse -->
+</div>
+
+<!-- si:formation_lien_visio -->
+<div class="encadre">
+  <p><span class="v">Lien de connexion.</span> Il est identique pour l'ensemble de la formation, dont le calendrier figure ci-dessous.</p>
+  <p>{{formation_lien_visio}}</p>
+</div>
+<h2>Équipement nécessaire</h2>
+<ul>
+  <li>Un micro-ordinateur et une connexion internet</li>
+  <li>Un casque avec micro (recommandé), ou le micro intégré à votre ordinateur</li>
+  <li>Une webcam — obligatoire</li>
+</ul>
+<!-- /si:formation_lien_visio -->
+
+<h2>Calendrier des séances</h2>
+<table>
+  <thead><tr><th style="width:18mm">Séance</th><th>Date</th><th>Début</th><th>Fin</th></tr></thead>
+  <tbody>
+  <!-- repeter:session --><tr><td>{{rang_session}}</td><td>{{session_N_date}}</td><td>{{session_N_heure_debut}}</td><td>{{session_N_heure_fin}}</td></tr>
+  <!-- /repeter:session -->
+  </tbody>
+</table>
+
+<h2>Votre formateur</h2>
+<p><span class="v">{{formateur_prenom}} {{formateur_nom}}</span><br>{{formateur_email}}<!-- si:formateur_telephone --> — {{formateur_telephone}}<!-- /si:formateur_telephone --></p>
+<!-- si:formation_prerequis --><h2>Prérequis</h2><p>{{formation_prerequis}}</p><!-- /si:formation_prerequis -->
+<p>Le programme de la formation et nos engagements qualité sont à votre disposition dans votre espace personnel. Si vous êtes en situation de handicap, contactez-nous à {{of_email_pedagogie}} afin que nous adaptions les conditions de votre formation.</p>
+
+<div class="signatures">
+  <div class="signature">
+    <div class="qui">L'organisme de formation</div>
+    <div class="nom">{{of_nom}}</div>
+    <!-- zone:signature_of -->
+  </div>
+  <div class="signature">
+    <div class="qui">Le stagiaire ou le responsable de l'entreprise — bon pour accusé de réception</div>
+    <div class="nom">{{stagiaire_1_nom}}</div>
+    <!-- zone:signature_apprenant -->
+  </div>
+</div>
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>

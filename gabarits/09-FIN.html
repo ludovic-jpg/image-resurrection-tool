@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Attestation de réalisation — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page">
+<!-- inclure:entete -->
+
+<h1>Attestation de réalisation de formation</h1>
+<p class="sous-titre">Durée réalisée et niveau d'atteinte des objectifs — indicateur Qualiopi n° 11</p>
+<p>Je soussigné(e) <span class="v">{{of_representant_civilite}} {{of_representant_prenom}} {{of_representant_nom}}</span>, représentant légal de l'organisme de formation <span class="v">{{of_nom}}</span>, atteste que :</p>
+<div class="encadre" style="font-size:12pt"><span class="v">{{stagiaire_1_nom}}</span><!-- si:stagiaire_1_poste -->, {{stagiaire_1_poste}}<!-- /si:stagiaire_1_poste -->, salarié(e) de l'entreprise <span class="v">{{entreprise_nom}}</span>,</div>
+<p>a suivi l'action de formation suivante :</p>
+<div class="fiche">
+  <div>Intitulé</div><div class="v">{{formation_titre}}</div>
+  <div>Nature de l'action</div><div>Action de formation (article L.6313-1 du Code du travail)</div>
+  <div>Dates</div><div>Du {{formation_date_debut}} au {{formation_date_fin}}</div>
+  <div>Lieu</div><div>{{formation_lieu_nom}}</div>
+  <div>Durée prévue</div><div>{{formation_duree_heures_total}} heures</div>
+  <div>Durée effectivement réalisée</div><div class="v">{{attestation_heures_realisees}} heures, attestées par l'émargement</div>
+  <div>Objectifs de la formation</div><div>{{formation_objectifs}}</div>
+  <div>Résultat de l'évaluation des acquis</div><div><span class="v">{{evaluation_acquis_niveau_atteinte}}</span><!-- si:evaluation_acquis_score --> ({{evaluation_acquis_score}})<!-- /si:evaluation_acquis_score --></div>
+  <!-- si:formation_objectifs_atteints --><div>Objectifs atteints</div><div>{{formation_objectifs_atteints}}</div><!-- /si:formation_objectifs_atteints -->
+</div>
+<p style="margin-top:7mm">Fait à <span class="v">{{signature_lieu}}</span>, le <span class="v">{{attestation_date}}</span>.</p>
+<div class="signatures">
+  <div class="signature">
+    <div class="qui">Pour l'organisme de formation</div>
+    <div class="nom">{{of_representant_prenom}} {{of_representant_nom}}</div>
+    <!-- zone:signature_of -->
+  </div>
+  <div class="signature">
+    <div class="qui">Le stagiaire — remise de l'attestation</div>
+    <div class="nom">{{stagiaire_1_nom}}</div>
+    <!-- zone:signature_apprenant -->
+  </div>
+</div>
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>

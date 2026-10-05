@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Planning de formation — {{dossier_reference}}</title>
+<style><!-- inclure:styles --></style>
+</head>
+<body>
+<div class="page">
+<!-- inclure:entete -->
+
+<h1>Planning de formation</h1>
+<p class="sous-titre">Annexe à la convention n° {{dossier_reference}}</p>
+<div class="fiche">
+  <div>Intitulé de la formation</div><div class="v">{{formation_titre}}</div>
+  <div>Stagiaire(s)</div><div>{{formation_liste_stagiaires}}</div>
+  <div>Période</div><div>Du {{formation_date_debut}} au {{formation_date_fin}}</div>
+  <div>Durée totale</div><div>{{formation_duree_heures_total}} heures sur {{formation_duree_jours}} jour(s)</div>
+  <div>Lieu de formation</div><div>{{formation_lieu_adresse}}</div>
+  <div>Formateur</div><div>{{formateur_prenom}} {{formateur_nom}}</div>
+</div>
+<h2>Détail du planning</h2>
+<table>
+  <thead><tr><th style="width:22mm">Séance</th><th>Date</th><th>Heure de début</th><th>Heure de fin</th></tr></thead>
+  <tbody>
+  <!-- repeter:session --><tr><td>Séance {{rang_session}}</td><td class="v">{{session_N_date}}</td><td>{{session_N_heure_debut}}</td><td>{{session_N_heure_fin}}</td></tr>
+  <!-- /repeter:session -->
+  </tbody>
+</table>
+<p class="mention">Planning transmis en annexe de la convention de formation. Toute modification fait l'objet d'un nouveau planning communiqué aux parties.</p>
+
+<!-- inclure:pied -->
+</div>
+</body>
+</html>
