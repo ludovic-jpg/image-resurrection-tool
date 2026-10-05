@@ -56,11 +56,24 @@ import {
   NIVEAUX,
 } from "@/domaine/pedagogie/listes";
 import { ZoneDeTrace } from "../ui/Signature";
-import { AutresPieces, EspaceCommunication, ListePieces, useRafraichirDossier } from "./DossierPieces";
+import {
+  AutresPieces,
+  EspaceCommunication,
+  ListePieces,
+  useRafraichirDossier,
+} from "./DossierPieces";
 import { FormulairesApprenant, Questionnaires } from "./DossierQuestionnaires";
 
 const ETAPES = ["A", "B", "C", "D", "E", "F", "G"] as const;
-const TITRES_ETAPES = ["Création", "Financement", "Début", "Fin", "Paiement", "Encaissé", "Archivé"];
+const TITRES_ETAPES = [
+  "Création",
+  "Financement",
+  "Début",
+  "Fin",
+  "Paiement",
+  "Encaissé",
+  "Archivé",
+];
 const FINANCEMENTS: Record<string, string> = {
   opco: "OPCO",
   faf: "FAF",
@@ -76,10 +89,17 @@ const MODALITES: Record<string, string> = {
 export function EcranDossier() {
   const { id } = useParams({ from: "/_authenticated/dossiers/$id" });
   const acteur = useActeur();
-  const dossier = useQuery({ queryKey: ["dossier", id], queryFn: () => api.get<Dossier>(`/dossiers/${id}`) });
+  const dossier = useQuery({
+    queryKey: ["dossier", id],
+    queryFn: () => api.get<Dossier>(`/dossiers/${id}`),
+  });
   if (dossier.isPending) return <Chargement />;
   if (dossier.error) return <Alerte ton="danger">{dossier.error.message}</Alerte>;
-  return acteur.role === "apprenant" ? <VueApprenant d={dossier.data} /> : <VueInterne d={dossier.data} />;
+  return acteur.role === "apprenant" ? (
+    <VueApprenant d={dossier.data} />
+  ) : (
+    <VueInterne d={dossier.data} />
+  );
 }
 
 function Frise({ d }: { d: Dossier }) {
@@ -92,7 +112,13 @@ function Frise({ d }: { d: Dossier }) {
           <span
             className={cx(
               "block h-1.5 rounded-full",
-              i < rang ? "bg-valide" : i === rang ? (refuse ? "bg-danger" : "bg-attente") : "bg-papier-3",
+              i < rang
+                ? "bg-valide"
+                : i === rang
+                  ? refuse
+                    ? "bg-danger"
+                    : "bg-attente"
+                  : "bg-papier-3",
             )}
           />
           <span
@@ -124,7 +150,9 @@ function EnTete({ d, children }: { d: Dossier; children?: React.ReactNode }) {
           <p className="chiffres flex flex-wrap items-center gap-2 text-[13px] font-semibold tracking-wide text-encre-3">
             {d.dossier_reference}
             <Etiquette
-              ton={d.sous_statut === "refus_financement" ? "danger" : d.archive ? "neutre" : "accent"}
+              ton={
+                d.sous_statut === "refus_financement" ? "danger" : d.archive ? "neutre" : "accent"
+              }
             >
               {d.libelle_statut}
             </Etiquette>
@@ -221,7 +249,11 @@ function Actions({ d }: { d: Dossier }) {
         </div>
       )}
 
-      <Modale ouverte={avecMotif !== null} fermer={() => setAvecMotif(null)} titre={avecMotif?.libelle ?? ""}>
+      <Modale
+        ouverte={avecMotif !== null}
+        fermer={() => setAvecMotif(null)}
+        titre={avecMotif?.libelle ?? ""}
+      >
         <form
           className="space-y-4"
           onSubmit={(e) => {
@@ -242,11 +274,15 @@ function Actions({ d }: { d: Dossier }) {
         </form>
       </Modale>
 
-      <Modale ouverte={refus} fermer={() => setRefus(false)} titre="Enregistrer un refus de financement">
+      <Modale
+        ouverte={refus}
+        fermer={() => setRefus(false)}
+        titre="Enregistrer un refus de financement"
+      >
         <div className="space-y-4">
           <Alerte ton="attention" titre="Le dossier sera archivé">
-            Il restera consultable dans le pipeline, avec ses pièces, mais ne pourra plus être repris. Vous
-            pourrez créer un nouveau dossier à partir de celui-ci.
+            Il restera consultable dans le pipeline, avec ses pièces, mais ne pourra plus être
+            repris. Vous pourrez créer un nouveau dossier à partir de celui-ci.
           </Alerte>
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-trait p-3">
             <p className="text-sm">
@@ -358,9 +394,9 @@ function VueInterne({ d }: { d: Dossier }) {
             <section>
               <h2 className="mb-1 text-base font-semibold">Hors espace de communication</h2>
               <p className="mb-3 text-sm text-encre-2">
-                Recueil, positionnement, évaluation des acquis et enquêtes de satisfaction : renseignés et
-                signés en ligne par l'apprenant, archivés avec le dossier. Les envois se suivent depuis
-                l'onglet « Synthèse », sous chaque apprenant.
+                Recueil, positionnement, évaluation des acquis et enquêtes de satisfaction :
+                renseignés et signés en ligne par l'apprenant, archivés avec le dossier. Les envois
+                se suivent depuis l'onglet « Synthèse », sous chaque apprenant.
               </p>
               <AutresPieces d={d} />
             </section>
@@ -458,9 +494,9 @@ function Synthese({ d }: { d: Dossier }) {
         )}
         <Stagiaires d={d} />
         {!d.archive &&
-          ["formation_debutee", "fin_dossier_incomplet", "fin_dossier_complet"].includes(d.sous_statut) && (
-            <ObjectifsAtteints d={d} />
-          )}
+          ["formation_debutee", "fin_dossier_incomplet", "fin_dossier_complet"].includes(
+            d.sous_statut,
+          ) && <ObjectifsAtteints d={d} />}
       </div>
 
       <div className="min-w-0 space-y-6">
@@ -600,8 +636,8 @@ function EditionDossier({ d }: { d: Dossier }) {
         <div>
           <h2 className="text-base font-semibold">Le dossier</h2>
           <p className="mt-0.5 text-[13px] text-encre-3">
-            Pré-rempli depuis votre catalogue et la fiche de l'entreprise. Ce que vous modifiez ici ne change
-            que ce dossier.
+            Pré-rempli depuis votre catalogue et la fiche de l'entreprise. Ce que vous modifiez ici
+            ne change que ce dossier.
           </p>
         </div>
         <Champ libelle="Intitulé (figure sur la convention)" {...champ("formation_titre")} />
@@ -646,12 +682,24 @@ function EditionDossier({ d }: { d: Dossier }) {
             inputMode="decimal"
             {...champ("formation_duree_heures_total")}
           />
-          <Champ libelle="Nombre de jours" inputMode="decimal" {...champ("formation_duree_jours")} />
+          <Champ
+            libelle="Nombre de jours"
+            inputMode="decimal"
+            {...champ("formation_duree_jours")}
+          />
         </div>
         {v.formation_modalite === "mixte" && (
           <div className="grid gap-4 sm:grid-cols-2">
-            <Champ libelle="Dont heures en présentiel" inputMode="decimal" {...champ("heures_presentiel")} />
-            <Champ libelle="Dont heures à distance" inputMode="decimal" {...champ("heures_distanciel")} />
+            <Champ
+              libelle="Dont heures en présentiel"
+              inputMode="decimal"
+              {...champ("heures_presentiel")}
+            />
+            <Champ
+              libelle="Dont heures à distance"
+              inputMode="decimal"
+              {...champ("heures_distanciel")}
+            />
           </div>
         )}
         {v.formation_modalite !== "distanciel" && (
@@ -679,7 +727,9 @@ function EditionDossier({ d }: { d: Dossier }) {
             <Selecteur
               libelle="Mode de financement"
               value={v.mode_financement}
-              onChange={(e) => setV({ ...v, mode_financement: e.target.value as typeof v.mode_financement })}
+              onChange={(e) =>
+                setV({ ...v, mode_financement: e.target.value as typeof v.mode_financement })
+              }
             >
               {MODES_FINANCEMENT.map((m) => (
                 <option key={m.valeur} value={m.valeur}>
@@ -704,13 +754,15 @@ function EditionDossier({ d }: { d: Dossier }) {
             <Champ libelle="Convention signée à" placeholder="Ville" {...champ("signature_lieu")} />
           </div>
           <p className="text-[12.5px] text-encre-3">
-            La rémunération du formateur n'est pas saisie : elle se calcule dans l'encadré « Finances », par
-            la commission de portage de l'organisme.
+            La rémunération du formateur n'est pas saisie : elle se calcule dans l'encadré «
+            Finances », par la commission de portage de l'organisme.
           </p>
         </fieldset>
 
         <fieldset>
-          <legend className="mb-2 text-[13px] font-medium text-encre-2">Planning des séances</legend>
+          <legend className="mb-2 text-[13px] font-medium text-encre-2">
+            Planning des séances
+          </legend>
           <div className="space-y-2">
             {seances.map((s, i) => (
               <div
@@ -723,7 +775,9 @@ function EditionDossier({ d }: { d: Dossier }) {
                   value={s.date}
                   min={v.formation_date_debut}
                   onChange={(e) =>
-                    setSeances(seances.map((x, k) => (k === i ? { ...x, date: e.target.value } : x)))
+                    setSeances(
+                      seances.map((x, k) => (k === i ? { ...x, date: e.target.value } : x)),
+                    )
                   }
                   className="h-10 min-w-0 rounded-sm border border-trait-fort bg-carte px-2 text-sm"
                 />
@@ -732,7 +786,9 @@ function EditionDossier({ d }: { d: Dossier }) {
                   aria-label="Heure de début"
                   value={s.heure_debut}
                   onChange={(e) =>
-                    setSeances(seances.map((x, k) => (k === i ? { ...x, heure_debut: e.target.value } : x)))
+                    setSeances(
+                      seances.map((x, k) => (k === i ? { ...x, heure_debut: e.target.value } : x)),
+                    )
                   }
                   className="h-10 min-w-0 rounded-sm border border-trait-fort bg-carte px-2 text-sm"
                 />
@@ -741,7 +797,9 @@ function EditionDossier({ d }: { d: Dossier }) {
                   aria-label="Heure de fin"
                   value={s.heure_fin}
                   onChange={(e) =>
-                    setSeances(seances.map((x, k) => (k === i ? { ...x, heure_fin: e.target.value } : x)))
+                    setSeances(
+                      seances.map((x, k) => (k === i ? { ...x, heure_fin: e.target.value } : x)),
+                    )
                   }
                   className="h-10 min-w-0 rounded-sm border border-trait-fort bg-carte px-2 text-sm"
                 />
@@ -878,7 +936,10 @@ function ObjectifsAtteints({ d }: { d: Dossier }) {
     mutationFn: () => api.patch(`/dossiers/${d.id}/objectifs-atteints`, { texte }),
     onSuccess: async () => {
       await rafraichir();
-      notifier("succes", "Enregistré. Pensez à régénérer l'attestation si elle n'est pas encore signée.");
+      notifier(
+        "succes",
+        "Enregistré. Pensez à régénérer l'attestation si elle n'est pas encore signée.",
+      );
     },
   });
   return (
@@ -928,7 +989,8 @@ function Emargement({ d }: { d: Dossier }) {
     },
   });
   if (etat.isPending) return <Chargement />;
-  if (!etat.data || etat.data.length === 0) return <Alerte>Aucune séance n'est encore planifiée.</Alerte>;
+  if (!etat.data || etat.data.length === 0)
+    return <Alerte>Aucune séance n'est encore planifiée.</Alerte>;
   const moi = acteur.role === "apprenant" ? acteur.stagiaire_id : null;
 
   return (
@@ -959,10 +1021,13 @@ function Emargement({ d }: { d: Dossier }) {
                 se.signatures.some((x) => x.stagiaire_id === stagiaire_id && x.signataire === qui);
               const resteAMoi = moi
                 ? !signe(moi, "stagiaire")
-                : acteur.role === "formateur" && d.stagiaires.some((st) => !signe(st.id, "formateur"));
+                : acteur.role === "formateur" &&
+                  d.stagiaires.some((st) => !signe(st.id, "formateur"));
               return (
                 <tr key={se.id}>
-                  <td className="chiffres px-4 py-3 font-medium whitespace-nowrap">{dateLongue(se.date)}</td>
+                  <td className="chiffres px-4 py-3 font-medium whitespace-nowrap">
+                    {dateLongue(se.date)}
+                  </td>
                   <td className="chiffres px-4 py-3 whitespace-nowrap text-encre-2">
                     {se.heure_debut} – {se.heure_fin} · {heuresFr(se.duree_heures)}
                   </td>
@@ -1011,7 +1076,9 @@ function Emargement({ d }: { d: Dossier }) {
         ouverte={seance !== null}
         fermer={() => setSeance(null)}
         titre={
-          seance ? `Émargement — ${dateLongue(seance.date)}, ${seance.heure_debut} – ${seance.heure_fin}` : ""
+          seance
+            ? `Émargement — ${dateLongue(seance.date)}, ${seance.heure_debut} – ${seance.heure_fin}`
+            : ""
         }
       >
         <p className="mb-4 text-sm text-encre-2">
@@ -1068,7 +1135,10 @@ function Journal({ d }: { d: Dossier }) {
 // ——— Vue de l'apprenant : son parcours, section par section (cahier des charges oral du 23/09/2026) ———
 type SectionParcours = Dossier["parcours"][number]["sections"][number];
 
-const STYLE_SECTION: Record<SectionParcours["etat"], { cadre: string; pastille: string; libelle: string }> = {
+const STYLE_SECTION: Record<
+  SectionParcours["etat"],
+  { cadre: string; pastille: string; libelle: string }
+> = {
   a_faire: {
     cadre: "border-attente/70 bg-attente-doux/40",
     pastille: "bg-attente text-attente-encre",
@@ -1105,7 +1175,10 @@ function DeclarationDepot({ d }: { d: Dossier }) {
     mutationFn: () => api.post(`/dossiers/${d.id}/actions/declarer_depot`, {}),
     onSuccess: async () => {
       await rafraichir();
-      notifier("succes", "Merci : votre formateur et l'organisme sont informés du dépôt de votre demande.");
+      notifier(
+        "succes",
+        "Merci : votre formateur et l'organisme sont informés du dépôt de votre demande.",
+      );
     },
     onError: (e) => {
       setCoche(false);
@@ -1130,8 +1203,10 @@ function DeclarationDepot({ d }: { d: Dossier }) {
           onChange={(e) => setCoche(e.target.checked)}
         />
         <span>
-          <strong className="font-semibold">J'affirme avoir déposé la demande de financement</strong> auprès
-          de mon organisme de financement (OPCO, FAF…), avec les documents ci-dessus.
+          <strong className="font-semibold">
+            J'affirme avoir déposé la demande de financement
+          </strong>{" "}
+          auprès de mon organisme de financement (OPCO, FAF…), avec les documents ci-dessus.
           {bloquee && <span className="mt-1 block text-xs">{action.bloqueePar}</span>}
         </span>
       </label>
@@ -1174,7 +1249,10 @@ function SectionApprenant({
         </span>
         <h2 className="min-w-0 flex-1 text-base font-semibold sm:text-lg">{section.titre}</h2>
         <span
-          className={cx("rounded-xs px-2 py-0.5 text-[11px] font-semibold tracking-wide", style.pastille)}
+          className={cx(
+            "rounded-xs px-2 py-0.5 text-[11px] font-semibold tracking-wide",
+            style.pastille,
+          )}
         >
           {style.libelle}
         </span>
@@ -1192,7 +1270,10 @@ function SectionApprenant({
 
 function VueApprenant({ d }: { d: Dossier }) {
   const acteur = useActeur();
-  const coffres = useQuery({ queryKey: ["coffres"], queryFn: () => api.get<CoffreApprenant[]>("/coffres") });
+  const coffres = useQuery({
+    queryKey: ["coffres"],
+    queryFn: () => api.get<CoffreApprenant[]>("/coffres"),
+  });
   const coffre = coffres.data?.find((c) => c.dossier_id === d.id);
   const sections = d.parcours.find((p) => p.stagiaire_id === acteur.stagiaire_id)?.sections ?? [];
   // La section « Accord » n'existe pour l'apprenant qu'une fois sa demande déclarée déposée.
@@ -1220,7 +1301,10 @@ function VueApprenant({ d }: { d: Dossier }) {
         {visibles.map((s, i) => (
           <li
             key={s.cle}
-            className={cx("rounded-xs px-2 py-1 text-[11px] font-semibold", STYLE_SECTION[s.etat].pastille)}
+            className={cx(
+              "rounded-xs px-2 py-1 text-[11px] font-semibold",
+              STYLE_SECTION[s.etat].pastille,
+            )}
           >
             {i + 1}. {s.titre.split(" — ")[0]}
           </li>
@@ -1267,8 +1351,13 @@ function VueApprenant({ d }: { d: Dossier }) {
           <Carte>
             <ul className="divide-y divide-trait">
               {coffre.fichiers.map((fichier) => (
-                <li key={fichier.id} className="flex items-center justify-between gap-3 px-4 py-3 sm:px-5">
-                  <span className="min-w-0 truncate text-sm font-medium">{fichier.nom_fichier}</span>
+                <li
+                  key={fichier.id}
+                  className="flex items-center justify-between gap-3 px-4 py-3 sm:px-5"
+                >
+                  <span className="min-w-0 truncate text-sm font-medium">
+                    {fichier.nom_fichier}
+                  </span>
                   <a
                     href={`/api/coffre/${fichier.id}/telecharger`}
                     className="inline-flex shrink-0 items-center gap-2 rounded-sm px-3 py-1.5 text-[13px] font-medium text-accent hover:bg-accent-doux"

@@ -6,7 +6,16 @@
  */
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Archive, Download, History, PencilRuler, Plus, RotateCcw, Sparkles, Trash2 } from "lucide-react";
+import {
+  Archive,
+  Download,
+  History,
+  PencilRuler,
+  Plus,
+  RotateCcw,
+  Sparkles,
+  Trash2,
+} from "lucide-react";
 import { NOMBRES_QUESTIONS } from "@/domaine/pedagogie/listes";
 import { api, ErreurApi, instantFr, type Formation, type Outil } from "../api";
 import {
@@ -66,7 +75,9 @@ export function Editeur({
     (initial?.type as TypeOutil) ?? proposition?.type ?? "positionnement",
   );
   const [titre, setTitre] = useState(initial?.titre ?? proposition?.titre ?? "");
-  const [formationId, setFormationId] = useState(initial?.formation_id ?? proposition?.formation_id ?? "");
+  const [formationId, setFormationId] = useState(
+    initial?.formation_id ?? proposition?.formation_id ?? "",
+  );
   const [questions, setQuestions] = useState<Question[]>(
     contenu?.questions ??
       proposition?.questions ?? [{ enonce: "", propositions: ["", ""], bonne_reponse: 0 }],
@@ -95,7 +106,8 @@ export function Editeur({
       fermer();
     },
   });
-  const details = enregistrer.error instanceof ErreurApi ? enregistrer.error.details?.erreurs : undefined;
+  const details =
+    enregistrer.error instanceof ErreurApi ? enregistrer.error.details?.erreurs : undefined;
   const maj = (i: number, q: Partial<Question>) =>
     setQuestions(questions.map((x, k) => (k === i ? { ...x, ...q } : x)));
 
@@ -125,8 +137,8 @@ export function Editeur({
       )}
       {proposition && (
         <Alerte ton="attention" titre="Brouillon généré">
-          Relisez chaque question et chaque bonne réponse, aménagez-les, puis enregistrez : vous en êtes
-          l'auteur.
+          Relisez chaque question et chaque bonne réponse, aménagez-les, puis enregistrez : vous en
+          êtes l'auteur.
         </Alerte>
       )}
       <div className="grid gap-4 sm:grid-cols-2">
@@ -161,7 +173,9 @@ export function Editeur({
 
       {type === "recueil" ? (
         <fieldset className="space-y-2">
-          <legend className="mb-1 text-[13px] font-medium text-encre-2">Questions supplémentaires</legend>
+          <legend className="mb-1 text-[13px] font-medium text-encre-2">
+            Questions supplémentaires
+          </legend>
           {libres.map((q, i) => (
             <div key={i} className="flex gap-2">
               <input
@@ -235,7 +249,11 @@ export function Editeur({
                       placeholder={`Proposition ${j + 1}`}
                       aria-label={`Proposition ${j + 1}`}
                       onChange={(e) =>
-                        maj(i, { propositions: q.propositions.map((x, k) => (k === j ? e.target.value : x)) })
+                        maj(i, {
+                          propositions: q.propositions.map((x, k) =>
+                            k === j ? e.target.value : x,
+                          ),
+                        })
                       }
                       className={cx(
                         "h-9 min-w-0 flex-1 rounded-sm border bg-carte px-3 text-sm focus:border-accent focus:outline-none",
@@ -270,7 +288,8 @@ export function Editeur({
             </fieldset>
           ))}
           <p className="text-[13px] text-encre-3">
-            Cochez la bonne réponse de chaque question. Le corrigé n'est jamais transmis à l'apprenant.
+            Cochez la bonne réponse de chaque question. Le corrigé n'est jamais transmis à
+            l'apprenant.
           </p>
           <Bouton
             disabled={questions.length >= 40}
@@ -332,7 +351,8 @@ export function Outils() {
     },
   });
   if (outils.isPending || formations.isPending) return <Chargement />;
-  const titreFormation = (id: string | null) => formations.data?.find((f) => f.id === id)?.formation_titre;
+  const titreFormation = (id: string | null) =>
+    formations.data?.find((f) => f.id === id)?.formation_titre;
 
   return (
     <>
@@ -341,7 +361,10 @@ export function Outils() {
         soustitre="Vos modèles de questionnaires. À la création d'un dossier, celui de la formation est repris tel quel — le modifier ensuite ne réécrit pas les dossiers existants."
         actions={
           <>
-            <Bouton icone={<Sparkles className="size-4" aria-hidden />} onClick={() => setGeneration(true)}>
+            <Bouton
+              icone={<Sparkles className="size-4" aria-hidden />}
+              onClick={() => setGeneration(true)}
+            >
               Générer depuis un parcours
             </Bouton>
             <Bouton
@@ -398,9 +421,10 @@ export function Outils() {
           <ul className="divide-y divide-trait">
             {outils.data.map((o) => {
               const nb =
-                (o.contenu as { questions?: unknown[]; questions_supplementaires?: unknown[] }).questions
+                (o.contenu as { questions?: unknown[]; questions_supplementaires?: unknown[] })
+                  .questions?.length ??
+                (o.contenu as { questions_supplementaires?: unknown[] }).questions_supplementaires
                   ?.length ??
-                (o.contenu as { questions_supplementaires?: unknown[] }).questions_supplementaires?.length ??
                 0;
               return (
                 <li
@@ -470,7 +494,8 @@ export function Outils() {
             </Bouton>
           }
         >
-          Sans test de positionnement, un dossier ne peut pas être soumis à la validation de l'organisme.
+          Sans test de positionnement, un dossier ne peut pas être soumis à la validation de
+          l'organisme.
         </EtatVide>
       )}
       <Modale
@@ -548,11 +573,14 @@ export function GenerateurTest({
   });
   const generer = useMutation({
     mutationFn: () =>
-      api.post<{ questionnaire: { titre: string; questions: Question[] }; source: string }>("/ia/test", {
-        formation_id: choix.formation_id,
-        type: choix.type,
-        nombre: Number(choix.nombre),
-      }),
+      api.post<{ questionnaire: { titre: string; questions: Question[] }; source: string }>(
+        "/ia/test",
+        {
+          formation_id: choix.formation_id,
+          type: choix.type,
+          nombre: Number(choix.nombre),
+        },
+      ),
   });
   if (generer.data) {
     return (
@@ -593,7 +621,9 @@ export function GenerateurTest({
         <Selecteur
           libelle="Questionnaire"
           value={choix.type}
-          onChange={(e) => setChoix({ ...choix, type: e.target.value as "positionnement" | "acquis" })}
+          onChange={(e) =>
+            setChoix({ ...choix, type: e.target.value as "positionnement" | "acquis" })
+          }
         >
           <option value="positionnement">Test de positionnement (avant la formation)</option>
           <option value="acquis">Évaluation des acquis (fin de formation)</option>
@@ -611,15 +641,15 @@ export function GenerateurTest({
         </Selecteur>
       </div>
       <p className="text-[13px] text-encre-2">
-        L'assistant rédige des questions de connaissances à choix multiples, fondées sur le dossier d'enjeux
-        et le parcours de la formation : le test de positionnement mesure le niveau de départ (indicateur
-        Qualiopi n° 8), l'évaluation des acquis ce qui a été appris (indicateur n° 11). Vous relisez chaque
-        question et chaque bonne réponse avant d'enregistrer.
+        L'assistant rédige des questions de connaissances à choix multiples, fondées sur le dossier
+        d'enjeux et le parcours de la formation : le test de positionnement mesure le niveau de
+        départ (indicateur Qualiopi n° 8), l'évaluation des acquis ce qui a été appris (indicateur
+        n° 11). Vous relisez chaque question et chaque bonne réponse avant d'enregistrer.
       </p>
       {formationChoisie && !formationChoisie.dossier_enjeux && (
         <Alerte>
-          Cette formation n'a pas encore de dossier d'enjeux : il sera constitué d'abord (recherche web), ce
-          qui ajoute une minute environ.
+          Cette formation n'a pas encore de dossier d'enjeux : il sera constitué d'abord (recherche
+          web), ce qui ajoute une minute environ.
         </Alerte>
       )}
       {generer.error && (
@@ -645,7 +675,9 @@ export function GenerateurTest({
         </Bouton>
         {ia.disponible && <MentionMoteur description={ia.description} />}
         {generer.isPending && (
-          <span className="text-[12.5px] text-encre-3">Rédaction en cours — une à deux minutes.</span>
+          <span className="text-[12.5px] text-encre-3">
+            Rédaction en cours — une à deux minutes.
+          </span>
         )}
       </div>
     </div>

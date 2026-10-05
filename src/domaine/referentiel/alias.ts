@@ -126,11 +126,19 @@ const MOTIFS: ReadonlyArray<{
   groupe: "stagiaire" | "session";
 }> = [
   { re: /^nomapp(\d+)$/, cible: (n) => `stagiaire_${n}_nom`, groupe: "stagiaire" },
-  { re: /^Prenom_et_Nom_de_l_apprenant_(\d+)$/, cible: (n) => `stagiaire_${n}_nom`, groupe: "stagiaire" },
+  {
+    re: /^Prenom_et_Nom_de_l_apprenant_(\d+)$/,
+    cible: (n) => `stagiaire_${n}_nom`,
+    groupe: "stagiaire",
+  },
   { re: /^positionapp(\d+)$/, cible: (n) => `stagiaire_${n}_poste`, groupe: "stagiaire" },
   { re: /^stagiaireposte(\d+)$/, cible: (n) => `stagiaire_${n}_poste`, groupe: "stagiaire" },
   { re: /^Date_Session_(\d+)$/, cible: (n) => `session_${n}_date`, groupe: "session" },
-  { re: /^Heure_debut_Session_(\d+)$/i, cible: (n) => `session_${n}_heure_debut`, groupe: "session" },
+  {
+    re: /^Heure_debut_Session_(\d+)$/i,
+    cible: (n) => `session_${n}_heure_debut`,
+    groupe: "session",
+  },
   { re: /^Heure_fin_Session_(\d+)$/i, cible: (n) => `session_${n}_heure_fin`, groupe: "session" },
 ];
 

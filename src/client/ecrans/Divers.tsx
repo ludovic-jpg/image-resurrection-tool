@@ -3,7 +3,15 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Download, FileSpreadsheet, Mail, Paperclip, RefreshCw } from "lucide-react";
-import { api, dateFr, euros, instantFr, type ApercuSuppression, type Courrier, type VueBpf } from "../api";
+import {
+  api,
+  dateFr,
+  euros,
+  instantFr,
+  type ApercuSuppression,
+  type Courrier,
+  type VueBpf,
+} from "../api";
 import { useActeur } from "../session";
 import {
   Alerte,
@@ -71,8 +79,8 @@ export function Bpf() {
           icone={<FileSpreadsheet className="size-8" aria-hidden />}
           titre={`Aucune action réalisée en ${bpf.exercice}`}
         >
-          Une action entre au bilan de l'exercice de sa date de fin, dès que la formation est déclarée
-          terminée.
+          Une action entre au bilan de l'exercice de sa date de fin, dès que la formation est
+          déclarée terminée.
         </EtatVide>
       ) : (
         <div className="space-y-6">
@@ -149,7 +157,10 @@ function Tableau({
           <thead>
             <tr className="border-b border-trait text-xs tracking-wide text-encre-3 uppercase">
               {entetes.map((e, i) => (
-                <th key={e} className={`px-4 py-2.5 font-semibold ${i === 0 ? "text-left" : "text-right"}`}>
+                <th
+                  key={e}
+                  className={`px-4 py-2.5 font-semibold ${i === 0 ? "text-left" : "text-right"}`}
+                >
                   {e}
                 </th>
               ))}
@@ -214,7 +225,10 @@ export function Courriers() {
   const notifier = useNotifier();
   const [ouvert, setOuvert] = useState<string | null>(null);
   const [filtre, setFiltre] = useState<"tous" | "echecs">("tous");
-  const courriers = useQuery({ queryKey: ["courriers"], queryFn: () => api.get<Courrier[]>("/courriers") });
+  const courriers = useQuery({
+    queryKey: ["courriers"],
+    queryFn: () => api.get<Courrier[]>("/courriers"),
+  });
   const renvoyer = useMutation({
     mutationFn: (id: string) =>
       api.post<{ statut: Courrier["statut"]; erreur: string }>(`/courriers/${id}/renvoyer`),
@@ -222,7 +236,10 @@ export function Courriers() {
       await requetes.invalidateQueries({ queryKey: ["courriers"] });
       if (r.statut === "envoye") notifier("succes", "E-mail renvoyé.");
       else if (r.statut === "journalise")
-        notifier("succes", "E-mail consigné dans la boîte d'envoi (l'envoi réel n'est pas activé).");
+        notifier(
+          "succes",
+          "E-mail consigné dans la boîte d'envoi (l'envoi réel n'est pas activé).",
+        );
       else notifier("danger", `Le renvoi a échoué : ${r.erreur || "raison inconnue"}`);
       setOuvert(null);
     },
@@ -232,7 +249,8 @@ export function Courriers() {
   if (courriers.error) return <Alerte ton="danger">{courriers.error.message}</Alerte>;
   const local = courriers.data.every((c) => c.statut === "journalise");
   const echecs = courriers.data.filter((c) => c.statut === "echec").length;
-  const visibles = filtre === "echecs" ? courriers.data.filter((c) => c.statut === "echec") : courriers.data;
+  const visibles =
+    filtre === "echecs" ? courriers.data.filter((c) => c.statut === "echec") : courriers.data;
   const detail = courriers.data.find((c) => c.id === ouvert) ?? null;
 
   return (
@@ -244,8 +262,8 @@ export function Courriers() {
       {local && courriers.data.length > 0 && (
         <div className="mb-5">
           <Alerte titre="Mode « boîte locale »">
-            Aucun e-mail n'est réellement expédié : ils sont seulement consignés ici. L'envoi réel se règle
-            dans{" "}
+            Aucun e-mail n'est réellement expédié : ils sont seulement consignés ici. L'envoi réel
+            se règle dans{" "}
             {acteur.role === "admin" ? (
               <Link
                 to="/admin/organisme"
@@ -266,7 +284,8 @@ export function Courriers() {
             ton="attention"
             titre={`${echecs} e-mail${echecs > 1 ? "s" : ""} n'${echecs > 1 ? "ont" : "a"} pas pu partir`}
           >
-            Ouvrez-le pour lire la cause, corrigez les réglages d'envoi si besoin, puis « Renvoyer ».
+            Ouvrez-le pour lire la cause, corrigez les réglages d'envoi si besoin, puis « Renvoyer
+            ».
           </Alerte>
         </div>
       )}
@@ -281,7 +300,10 @@ export function Courriers() {
         />
       )}
       {courriers.data.length === 0 ? (
-        <EtatVide icone={<Mail className="size-8" aria-hidden />} titre="Aucun e-mail pour l'instant" />
+        <EtatVide
+          icone={<Mail className="size-8" aria-hidden />}
+          titre="Aucun e-mail pour l'instant"
+        />
       ) : visibles.length === 0 ? (
         <EtatVide icone={<Mail className="size-8" aria-hidden />} titre="Aucun échec d'envoi">
           Tous les e-mails sont partis ou ont été consignés.
@@ -304,7 +326,9 @@ export function Courriers() {
                   </span>
                   <span className="min-w-0">
                     <span className="block truncate text-sm font-medium">{c.sujet}</span>
-                    <span className="block truncate text-[13px] text-encre-2">À : {c.destinataire}</span>
+                    <span className="block truncate text-[13px] text-encre-2">
+                      À : {c.destinataire}
+                    </span>
                   </span>
                   <span className="chiffres flex items-center gap-3 text-xs text-encre-3">
                     {(c.pieces_jointes as unknown[]).length > 0 && (
@@ -321,7 +345,12 @@ export function Courriers() {
           </ul>
         </Carte>
       )}
-      <Modale ouverte={detail !== null} fermer={() => setOuvert(null)} titre={detail?.sujet ?? ""} large>
+      <Modale
+        ouverte={detail !== null}
+        fermer={() => setOuvert(null)}
+        titre={detail?.sujet ?? ""}
+        large
+      >
         {detail && (
           <>
             <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
@@ -330,7 +359,8 @@ export function Courriers() {
                   {STATUTS_COURRIER[detail.statut]?.libelle ?? detail.statut}
                 </Etiquette>
                 <span>
-                  {libelleType(detail.type)} · À : {detail.destinataire} · {instantFr(detail.cree_le)}
+                  {libelleType(detail.type)} · À : {detail.destinataire} ·{" "}
+                  {instantFr(detail.cree_le)}
                 </span>
               </p>
               <Bouton
@@ -424,15 +454,19 @@ export function Compte() {
         <Carte className="mt-6 border-danger/30 p-5">
           <h2 className="text-base font-semibold">Supprimer mon compte</h2>
           <p className="mt-1 text-sm text-encre-2">
-            Vos données personnelles sont effacées. Les dossiers de formation que vous avez instruits sont
-            conservés par l'organisme, comme la loi l'y oblige.
+            Vos données personnelles sont effacées. Les dossiers de formation que vous avez
+            instruits sont conservés par l'organisme, comme la loi l'y oblige.
           </p>
           <Bouton variante="secondaire" className="mt-4" onClick={() => setSuppression(true)}>
             Voir ce qui sera supprimé…
           </Bouton>
         </Carte>
       )}
-      <Modale ouverte={suppression} fermer={() => setSuppression(false)} titre="Supprimer mon compte">
+      <Modale
+        ouverte={suppression}
+        fermer={() => setSuppression(false)}
+        titre="Supprimer mon compte"
+      >
         {suppression && <Suppression />}
       </Modale>
     </div>
@@ -474,7 +508,9 @@ function Suppression() {
           </ul>
         </div>
         <div>
-          <p className="mb-1.5 text-[13px] font-semibold text-valide">Sera conservé par l'organisme</p>
+          <p className="mb-1.5 text-[13px] font-semibold text-valide">
+            Sera conservé par l'organisme
+          </p>
           <ul className="list-disc space-y-1 pl-4 text-[13px] text-encre-2">
             {a.conserve.map((x) => (
               <li key={x}>{x}</li>

@@ -65,7 +65,8 @@ export function sectionsParcours(e: EntreeParcours): Section[] {
   const accordObtenu = aAtteint(s, "accord_financement");
 
   // 1. Étape préliminaire
-  const preliminaireFait = e.recueil_renseigne && (e.positionnement_renseigne || !e.positionnement_prevu);
+  const preliminaireFait =
+    e.recueil_renseigne && (e.positionnement_renseigne || !e.positionnement_prevu);
   const preliminaire: Section = {
     cle: "preliminaire",
     titre: "Étape préliminaire — vos besoins et votre niveau",

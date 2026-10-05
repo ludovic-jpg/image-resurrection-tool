@@ -17,9 +17,10 @@ describe("dictionnaire des variables", () => {
   });
 
   it("respecte les règles de nommage pour chaque variable", () => {
-    const fautives = DICTIONNAIRE.map((d) => ({ nom: d.nom, erreurs: validerNomVariable(d.nom) })).filter(
-      (x) => x.erreurs.length > 0,
-    );
+    const fautives = DICTIONNAIRE.map((d) => ({
+      nom: d.nom,
+      erreurs: validerNomVariable(d.nom),
+    })).filter((x) => x.erreurs.length > 0);
     expect(fautives).toEqual([]);
   });
 
@@ -104,9 +105,18 @@ describe("table d'alias", () => {
 
   it("résout les formes à rang variable, ordinaux compris", () => {
     expect(resoudreAlias("nomapp4")).toEqual({ statut: "resolu", cibles: ["stagiaire_4_nom"] });
-    expect(resoudreAlias("positionapp8")).toEqual({ statut: "resolu", cibles: ["stagiaire_8_poste"] });
-    expect(resoudreAlias("Date_Session_17")).toEqual({ statut: "resolu", cibles: ["session_17_date"] });
-    expect(resoudreAlias("Date_1ere_Session")).toEqual({ statut: "resolu", cibles: ["session_1_date"] });
+    expect(resoudreAlias("positionapp8")).toEqual({
+      statut: "resolu",
+      cibles: ["stagiaire_8_poste"],
+    });
+    expect(resoudreAlias("Date_Session_17")).toEqual({
+      statut: "resolu",
+      cibles: ["session_17_date"],
+    });
+    expect(resoudreAlias("Date_1ere_Session")).toEqual({
+      statut: "resolu",
+      cibles: ["session_1_date"],
+    });
     expect(resoudreAlias("Heure_debut_3eme_session")).toEqual({
       statut: "resolu",
       cibles: ["session_3_heure_debut"],

@@ -30,7 +30,8 @@ describe("menu du formateur", () => {
   });
 
   it("range le générateur de conventions dans l'espace formation, et les outils pédagogiques dans l'espace pédagogique", () => {
-    const ou = (vers: string) => ESPACES_FORMATEUR.find((e) => e.liens.some((l) => l.vers === vers))?.cle;
+    const ou = (vers: string) =>
+      ESPACES_FORMATEUR.find((e) => e.liens.some((l) => l.vers === vers))?.cle;
     expect(ou("/dossiers/nouveau")).toBe("formation");
     expect(ou("/dossiers")).toBe("formation");
     expect(ou("/formations")).toBe("pedagogique");
@@ -62,12 +63,15 @@ describe("menu du formateur", () => {
 
 describe("menus de l'admin et de l'apprenant", () => {
   it("l'admin garde ses écrans, regroupés : formation puis administration", () => {
-    expect(navigationPour("admin", false).espaces.map((e) => e.cle)).toEqual(["formation", "administration"]);
+    expect(navigationPour("admin", false).espaces.map((e) => e.cle)).toEqual([
+      "formation",
+      "administration",
+    ]);
   });
 
   it("l'apprenant n'a qu'une entrée : ses formations", () => {
-    expect(navigationPour("apprenant", false).espaces.flatMap((e) => e.liens.map((l) => l.libelle))).toEqual([
-      "Mes formations",
-    ]);
+    expect(
+      navigationPour("apprenant", false).espaces.flatMap((e) => e.liens.map((l) => l.libelle)),
+    ).toEqual(["Mes formations"]);
   });
 });

@@ -125,7 +125,8 @@ export const REGLES: Record<Action, Regle> = {
     // Déclenchée par le système au dépôt de la pièce « Accord », quel que soit le déposant (RG-06).
     acteurs: ["systeme"],
     libelle: "Enregistrer l'accord de financement",
-    garde: (c) => (estValide(c, "ACC") ? null : "L'accord de financement doit être déposé sur le dossier."),
+    garde: (c) =>
+      estValide(c, "ACC") ? null : "L'accord de financement doit être déposé sur le dossier.",
     effets: ["GENERER_ET_ENVOYER_ODM", "OUVRIR_COFFRE_AUX_APPRENANTS"],
   },
   enregistrer_refus: {
@@ -133,7 +134,8 @@ export const REGLES: Record<Action, Regle> = {
     vers: "refus_financement",
     acteurs: ["formateur", "admin"],
     libelle: "Enregistrer un refus de financement",
-    garde: (c) => (estValide(c, "REF") ? null : "Le justificatif du refus de financement doit être déposé."),
+    garde: (c) =>
+      estValide(c, "REF") ? null : "Le justificatif du refus de financement doit être déposé.",
     effets: ["ARCHIVER_EN_LECTURE_SEULE"],
   },
   envoyer_elements_pedagogiques: {
@@ -155,7 +157,11 @@ export const REGLES: Record<Action, Regle> = {
     vers: completude,
     acteurs: ["formateur", "admin"],
     libelle: "Déclarer la formation terminée",
-    effets: ["GENERER_PIECES_DE_FIN", "ENVOYER_FORMULAIRES_DE_FIN", "PLANIFIER_SATISFACTION_A_FROID"],
+    effets: [
+      "GENERER_PIECES_DE_FIN",
+      "ENVOYER_FORMULAIRES_DE_FIN",
+      "PLANIFIER_SATISFACTION_A_FROID",
+    ],
   },
   reevaluer_completude: {
     de: ["fin_dossier_incomplet", "fin_dossier_complet"],
@@ -184,7 +190,9 @@ export const REGLES: Record<Action, Regle> = {
     acteurs: ["admin"],
     libelle: "Déclarer le formateur payé et archiver",
     garde: (c) =>
-      estValide(c, "10-FIN") ? null : "La facture du formateur doit être déposée avant l'archivage.",
+      estValide(c, "10-FIN")
+        ? null
+        : "La facture du formateur doit être déposée avant l'archivage.",
     effets: ["ARCHIVER_EN_LECTURE_SEULE"],
   },
 };
@@ -201,7 +209,11 @@ export function transiter(
 ): ResultatTransition {
   const regle = REGLES[action];
   if (estTerminal(c.sous_statut)) {
-    return { ok: false, code: "terminal", motif: "Ce dossier est archivé : il n'est plus modifiable." };
+    return {
+      ok: false,
+      code: "terminal",
+      motif: "Ce dossier est archivé : il n'est plus modifiable.",
+    };
   }
   if (!regle.de.includes(c.sous_statut)) {
     return {

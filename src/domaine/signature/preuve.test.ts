@@ -22,13 +22,21 @@ const preuve: PreuveSignature = {
 
 describe("demande de signature", () => {
   it("accepte un tracé PNG avec lieu et consentement", () => {
-    expect(validerDemandeSignature({ trace_png: TRACE, lieu: "Mulhouse", consentement: true })).toEqual([]);
+    expect(
+      validerDemandeSignature({ trace_png: TRACE, lieu: "Mulhouse", consentement: true }),
+    ).toEqual([]);
   });
 
   it("refuse l'absence de consentement, de lieu, un tracé vide ou un format détourné", () => {
-    expect(validerDemandeSignature({ trace_png: TRACE, lieu: " ", consentement: false })).toHaveLength(2);
     expect(
-      validerDemandeSignature({ trace_png: "data:image/png;base64,AAAA", lieu: "Ici", consentement: true }),
+      validerDemandeSignature({ trace_png: TRACE, lieu: " ", consentement: false }),
+    ).toHaveLength(2);
+    expect(
+      validerDemandeSignature({
+        trace_png: "data:image/png;base64,AAAA",
+        lieu: "Ici",
+        consentement: true,
+      }),
     ).toEqual(["Le tracé de signature est vide."]);
     expect(
       validerDemandeSignature({
@@ -38,7 +46,11 @@ describe("demande de signature", () => {
       })[0],
     ).toMatch(/format non reconnu/);
     expect(
-      validerDemandeSignature({ trace_png: `javascript:alert(1)`, lieu: "Ici", consentement: true })[0],
+      validerDemandeSignature({
+        trace_png: `javascript:alert(1)`,
+        lieu: "Ici",
+        consentement: true,
+      })[0],
     ).toMatch(/format non reconnu/);
     expect(
       validerDemandeSignature({
@@ -53,7 +65,9 @@ describe("demande de signature", () => {
 describe("intégrité et preuve", () => {
   it("détecte un document modifié après signature", async () => {
     expect(await verifierIntegrite("<html>convention</html>", preuve, hacherTest)).toBe(true);
-    expect(await verifierIntegrite("<html>convention modifiée</html>", preuve, hacherTest)).toBe(false);
+    expect(await verifierIntegrite("<html>convention modifiée</html>", preuve, hacherTest)).toBe(
+      false,
+    );
   });
 
   it("affiche l'attente puis la signature, en échappant le nom du signataire", () => {

@@ -31,7 +31,10 @@ const FORMATION: ContexteFormation = {
 const ENJEUX: DossierEnjeux = {
   resume:
     "Les tableaux croisés dynamiques sont l'outil central de synthèse d'Excel ; leur maîtrise conditionne la fiabilité du reporting.",
-  enjeux: ["Fiabiliser le reporting mensuel", "Réduire le temps de production des tableaux de bord"],
+  enjeux: [
+    "Fiabiliser le reporting mensuel",
+    "Réduire le temps de production des tableaux de bord",
+  ],
   cadre: ["Aucune obligation réglementaire ; bonnes pratiques Microsoft"],
   notions_cles: ["Tableau croisé dynamique", "Segments", "Power Query"],
   erreurs_frequentes: ["Confondre valeurs et étiquettes de lignes"],
@@ -121,7 +124,11 @@ describe("validation d'un dossier d'enjeux proposé (version 7)", () => {
         "https://support.microsoft.com/fr-fr/excel",
         "https://learn.microsoft.com/power-query",
       ]);
-      expect(r.valeur.notions_cles).toEqual(["Tableau croisé dynamique", "Segments", "Power Query"]);
+      expect(r.valeur.notions_cles).toEqual([
+        "Tableau croisé dynamique",
+        "Segments",
+        "Power Query",
+      ]);
     }
   });
 
@@ -177,12 +184,17 @@ describe("validation d'un parcours proposé (version 7)", () => {
   });
 
   it("public visé et prérequis absents valent chaîne vide ; nombre de modules ou d'objectifs erroné = refus", () => {
-    const ok = validerPropositionParcours({ objectifs: ["A", "B", "C"], modules: [module(1)] }, [7]);
+    const ok = validerPropositionParcours(
+      { objectifs: ["A", "B", "C"], modules: [module(1)] },
+      [7],
+    );
     expect(ok).toMatchObject({ ok: true, valeur: { public_vise: "", prerequis: "" } });
     expect(
       validerPropositionParcours({ objectifs: ["A", "B", "C"], modules: [module(1)] }, [4, 3]),
     ).toMatchObject({ ok: false, erreurs: [expect.stringContaining("au lieu de 2")] });
-    expect(validerPropositionParcours({ objectifs: ["A"], modules: [module(1)] }, [7]).ok).toBe(false);
+    expect(validerPropositionParcours({ objectifs: ["A"], modules: [module(1)] }, [7]).ok).toBe(
+      false,
+    );
   });
 });
 
@@ -238,7 +250,9 @@ describe("validation d'une proposition d'objectifs et de programme", () => {
         programme: "Jour 1 — Tableaux croisés dynamiques.",
       }).ok,
     ).toBe(false);
-    expect(validerPropositionProgramme({ objectifs: ["A", "B", "C"], programme: "" }).ok).toBe(false);
+    expect(validerPropositionProgramme({ objectifs: ["A", "B", "C"], programme: "" }).ok).toBe(
+      false,
+    );
   });
 });
 

@@ -83,7 +83,10 @@ export function Cadre() {
     </Link>
   );
   const navigation = (
-    <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto" aria-label="Navigation principale">
+    <nav
+      className="flex flex-1 flex-col gap-0.5 overflow-y-auto"
+      aria-label="Navigation principale"
+    >
       {accueil && lien(accueil, <House className="size-[18px]" aria-hidden />)}
       {espaces.map((e) => (
         <div key={e.cle} role="group" aria-label={e.titre} className="mt-3 first:mt-0">
@@ -92,7 +95,9 @@ export function Cadre() {
               {e.titre}
             </p>
           )}
-          <div className="flex flex-col gap-0.5">{e.liens.map((l) => lien(l, <Icone cle={l.icone} />))}</div>
+          <div className="flex flex-col gap-0.5">
+            {e.liens.map((l) => lien(l, <Icone cle={l.icone} />))}
+          </div>
         </div>
       ))}
       {personnels.length > 0 && (
@@ -152,7 +157,9 @@ export function Cadre() {
       </aside>
 
       <header className="sticky top-0 z-30 flex items-center justify-between border-b border-trait bg-papier/95 px-4 py-3 backdrop-blur lg:hidden">
-        <span className="min-w-0 truncate font-display font-semibold">{moi.data?.organisme?.nom}</span>
+        <span className="min-w-0 truncate font-display font-semibold">
+          {moi.data?.organisme?.nom}
+        </span>
         <button
           type="button"
           onClick={() => setTiroir(true)}

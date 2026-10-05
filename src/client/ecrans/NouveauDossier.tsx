@@ -40,7 +40,11 @@ const FINANCEMENTS = [
     titre: "Entreprise",
     detail: "Financement direct par l'entreprise, sans organisme tiers.",
   },
-  { cle: "fonds_propres", titre: "Fonds propres", detail: "Le stagiaire finance lui-même sa formation." },
+  {
+    cle: "fonds_propres",
+    titre: "Fonds propres",
+    detail: "Le stagiaire finance lui-même sa formation.",
+  },
 ] as const;
 
 function Choix({
@@ -120,7 +124,13 @@ export function NouveauDossier() {
   });
 
   if (stagiaires.isPending || entreprises.isPending || formations.isPending) return <Chargement />;
-  const remplis = [v.stagiaire_ids.length > 0, v.entreprise_id !== "", v.formation_id !== "", true, true];
+  const remplis = [
+    v.stagiaire_ids.length > 0,
+    v.entreprise_id !== "",
+    v.formation_id !== "",
+    true,
+    true,
+  ];
   const pret = remplis[etape];
   // Un onglet est accessible si tous ceux qui le précèdent sont remplis : on peut donc « reprendre » n'importe lequel.
   const accessible = (i: number) => remplis.slice(0, i).every(Boolean);
@@ -310,7 +320,9 @@ export function NouveauDossier() {
             <dl className="mt-4 grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-1.5 rounded-md border border-trait bg-papier-2 p-4 text-sm">
               <dt className="text-encre-3">Apprenant(s)</dt>
               <dd className="truncate">
-                {selection.stagiaires.map((s) => `${s.stagiaire_prenom} ${s.stagiaire_nom}`).join(", ")}
+                {selection.stagiaires
+                  .map((s) => `${s.stagiaire_prenom} ${s.stagiaire_nom}`)
+                  .join(", ")}
               </dd>
               <dt className="text-encre-3">Entreprise</dt>
               <dd className="truncate">{selection.entreprise?.entreprise_nom}</dd>

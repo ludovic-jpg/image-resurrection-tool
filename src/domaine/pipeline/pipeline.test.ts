@@ -58,7 +58,12 @@ describe("structure du pipeline (section 8 du cahier des charges)", () => {
 describe("parcours nominal, de Brouillon à Archivé", () => {
   it("enchaîne les 11 transitions avec les bons acteurs et déclenche les bons effets", () => {
     const etapes: Array<[Action, Acteur, SousStatut, string[]]> = [
-      ["soumettre_validation", "formateur", "en_cours_validation", ["NOTIFIER_ADMIN_DEMANDE_VALIDATION"]],
+      [
+        "soumettre_validation",
+        "formateur",
+        "en_cours_validation",
+        ["NOTIFIER_ADMIN_DEMANDE_VALIDATION"],
+      ],
       [
         "valider_dossier",
         "admin",
@@ -105,7 +110,9 @@ describe("gardes métier", () => {
       ok: false,
       code: "garde",
     });
-    expect(transiter(contexte("brouillon", ["00-AVT"]), "soumettre_validation", "formateur")).toMatchObject({
+    expect(
+      transiter(contexte("brouillon", ["00-AVT"]), "soumettre_validation", "formateur"),
+    ).toMatchObject({
       ok: false,
       motif: expect.stringContaining("test de positionnement"),
     });
@@ -114,7 +121,8 @@ describe("gardes métier", () => {
     (premier as PieceDuDossier).statut = "en_attente";
     expect(transiter(partiel, "soumettre_validation", "formateur").ok).toBe(false);
     expect(
-      transiter(contexte("brouillon", ["00-AVT", "01-AVT"]), "soumettre_validation", "formateur").ok,
+      transiter(contexte("brouillon", ["00-AVT", "01-AVT"]), "soumettre_validation", "formateur")
+        .ok,
     ).toBe(true);
   });
 
@@ -123,8 +131,12 @@ describe("gardes métier", () => {
       ok: false,
       code: "garde",
     });
-    expect(transiter(contexte("dossier_valide", ["ACC"]), "enregistrer_accord", "systeme").ok).toBe(true);
-    expect(transiter(contexte("dossier_depose", ["ACC"]), "enregistrer_accord", "systeme").ok).toBe(true);
+    expect(transiter(contexte("dossier_valide", ["ACC"]), "enregistrer_accord", "systeme").ok).toBe(
+      true,
+    );
+    expect(transiter(contexte("dossier_depose", ["ACC"]), "enregistrer_accord", "systeme").ok).toBe(
+      true,
+    );
   });
 
   it("RG-07 : un refus exige son justificatif, archive le dossier et le fige", () => {
@@ -132,13 +144,18 @@ describe("gardes métier", () => {
       ok: false,
       code: "garde",
     });
-    expect(transiter(contexte("dossier_depose", ["REF"]), "enregistrer_refus", "formateur")).toMatchObject({
+    expect(
+      transiter(contexte("dossier_depose", ["REF"]), "enregistrer_refus", "formateur"),
+    ).toMatchObject({
       ok: true,
       vers: "refus_financement",
       effets: ["ARCHIVER_EN_LECTURE_SEULE"],
     });
     for (const action of Object.keys(REGLES) as Action[]) {
-      expect(transiter(contexte("refus_financement", ["*"]), action, "admin"), action).toMatchObject({
+      expect(
+        transiter(contexte("refus_financement", ["*"]), action, "admin"),
+        action,
+      ).toMatchObject({
         ok: false,
         code: "terminal",
       });
@@ -160,10 +177,9 @@ describe("gardes métier", () => {
       ok: true,
       vers: "fin_dossier_incomplet",
     });
-    expect(piecesManquantesPourCompletude(incomplet.pieces, STAGIAIRES).map((p) => p.code)).toEqual([
-      "09-FIN",
-      "09-FIN",
-    ]);
+    expect(piecesManquantesPourCompletude(incomplet.pieces, STAGIAIRES).map((p) => p.code)).toEqual(
+      ["09-FIN", "09-FIN"],
+    );
     expect(
       transiter(contexte("fin_dossier_incomplet", ["*"]), "reevaluer_completude", "systeme"),
     ).toMatchObject({ ok: true, vers: "fin_dossier_complet" });
@@ -171,14 +187,18 @@ describe("gardes métier", () => {
     expect(
       transiter(contexte("fin_dossier_complet", ["*"]), "reevaluer_completude", "systeme"),
     ).toMatchObject({ ok: true, vers: "fin_dossier_complet", effets: [] });
-    expect(transiter(contexte("fin_dossier_incomplet"), "demander_paiement", "admin")).toMatchObject({
+    expect(
+      transiter(contexte("fin_dossier_incomplet"), "demander_paiement", "admin"),
+    ).toMatchObject({
       ok: false,
       code: "statut",
     });
   });
 
   it("exige un motif pour renvoyer un dossier, et la facture du formateur pour archiver", () => {
-    expect(transiter(contexte("en_cours_validation"), "renvoyer_en_brouillon", "admin")).toMatchObject({
+    expect(
+      transiter(contexte("en_cours_validation"), "renvoyer_en_brouillon", "admin"),
+    ).toMatchObject({
       ok: false,
       code: "motif",
     });
@@ -206,7 +226,10 @@ describe("cloisonnement par rôle (correctif de l'audit du 01/09/2026)", () => {
   it("interdit au formateur de valider son dossier ou de toucher au paiement", () => {
     for (const action of RESERVEES_ADMIN) {
       const de = REGLES[action].de[0]!;
-      expect(transiter(contexte(de, ["*"]), action, "formateur", { motif: "x" }), action).toMatchObject({
+      expect(
+        transiter(contexte(de, ["*"]), action, "formateur", { motif: "x" }),
+        action,
+      ).toMatchObject({
         ok: false,
         code: "role",
       });
@@ -215,14 +238,18 @@ describe("cloisonnement par rôle (correctif de l'audit du 01/09/2026)", () => {
 
   it("n'accorde à l'apprenant qu'une transition : affirmer avoir déposé sa demande de financement (CdC oral 23/09)", () => {
     const permises = (Object.keys(REGLES) as Action[]).filter(
-      (action) => transiter(contexte(REGLES[action].de[0]!, ["*"]), action, "apprenant", { motif: "x" }).ok,
+      (action) =>
+        transiter(contexte(REGLES[action].de[0]!, ["*"]), action, "apprenant", { motif: "x" }).ok,
     );
     expect(permises).toEqual(["declarer_depot"]);
   });
 
   it("refuse de déclarer la demande de financement déposée tant que la convention n'est pas signée", () => {
     for (const acteur of ["apprenant", "formateur", "admin"] as const) {
-      expect(transiter(contexte("dossier_valide", ["PRE"]), "declarer_depot", acteur), acteur).toMatchObject({
+      expect(
+        transiter(contexte("dossier_valide", ["PRE"]), "declarer_depot", acteur),
+        acteur,
+      ).toMatchObject({
         ok: false,
         code: "garde",
         motif: expect.stringContaining("convention"),
@@ -235,7 +262,9 @@ describe("cloisonnement par rôle (correctif de l'audit du 01/09/2026)", () => {
   });
 
   it("réserve au système l'enregistrement de l'accord : personne ne le « force » à la main", () => {
-    expect(transiter(contexte("dossier_depose", ["ACC"]), "enregistrer_accord", "admin")).toMatchObject({
+    expect(
+      transiter(contexte("dossier_depose", ["ACC"]), "enregistrer_accord", "admin"),
+    ).toMatchObject({
       ok: false,
       code: "role",
     });
@@ -251,18 +280,27 @@ describe("cloisonnement par rôle (correctif de l'audit du 01/09/2026)", () => {
       },
     ]);
     expect(actionsPossibles(contexte("en_cours_validation"), "formateur")).toEqual([]);
-    expect(actionsPossibles(contexte("en_cours_validation"), "admin").map((a) => a.action)).toEqual([
-      "renvoyer_en_brouillon",
-      "valider_dossier",
-    ]);
+    expect(actionsPossibles(contexte("en_cours_validation"), "admin").map((a) => a.action)).toEqual(
+      ["renvoyer_en_brouillon", "valider_dossier"],
+    );
   });
 });
 
 describe("pièces attendues et visibilité", () => {
   it("fait apparaître les pièces au fil du pipeline", () => {
-    const codes = (s: SousStatut) => [...new Set(piecesAttendues(s, STAGIAIRES).map((p) => p.code))];
+    const codes = (s: SousStatut) => [
+      ...new Set(piecesAttendues(s, STAGIAIRES).map((p) => p.code)),
+    ];
     expect(codes("brouillon")).toEqual(["00-AVT", "01-AVT"]);
-    expect(codes("dossier_valide")).toEqual(["00-AVT", "01-AVT", "PRE", "02-AVT", "03-AVT", "PRG", "ACC"]);
+    expect(codes("dossier_valide")).toEqual([
+      "00-AVT",
+      "01-AVT",
+      "PRE",
+      "02-AVT",
+      "03-AVT",
+      "PRG",
+      "ACC",
+    ]);
     expect(codes("accord_financement")).toContain("04-AVT");
     expect(codes("accord_financement")).toContain("05-AVT");
     expect(codes("dossier_depose")).not.toContain("04-AVT");
@@ -273,7 +311,9 @@ describe("pièces attendues et visibilité", () => {
   it("crée un exemplaire par stagiaire pour les pièces individuelles, un seul pour les collectives", () => {
     const pieces = piecesAttendues("dossier_valide", STAGIAIRES);
     expect(pieces.filter((p) => p.code === "PRE").map((p) => p.stagiaire_id)).toEqual(["s1", "s2"]);
-    expect(pieces.filter((p) => p.code === "02-AVT")).toEqual([{ code: "02-AVT", stagiaire_id: null }]);
+    expect(pieces.filter((p) => p.code === "02-AVT")).toEqual([
+      { code: "02-AVT", stagiaire_id: null },
+    ]);
   });
 
   it("cloisonne la lecture de l'apprenant : son espace, ses pièces, jamais l'ODM ni les factures", () => {
@@ -286,9 +326,9 @@ describe("pièces attendues et visibilité", () => {
     const vue = vueEspace("apprenant", contexte("archive").pieces, moi).map((x) => x.def.ordre);
     expect(vue).toEqual(["1", "2", "2 bis", "2 ter", "3", "4", "5", "6", "7"]);
     expect(vueEspace("of", contexte("archive").pieces, moi)).toEqual([]);
-    expect(vueEspace("of", contexte("archive").pieces, { role: "formateur" }).map((x) => x.def.code)).toEqual(
-      ["04-AVT", "10-FIN", "11-FIN"],
-    );
+    expect(
+      vueEspace("of", contexte("archive").pieces, { role: "formateur" }).map((x) => x.def.code),
+    ).toEqual(["04-AVT", "10-FIN", "11-FIN"]);
   });
 
   it("désigne qui valide quoi", () => {

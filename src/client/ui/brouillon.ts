@@ -38,7 +38,11 @@ export function useBrouillonLocal<T>(cle: string, valeur: T, initiale: T) {
     const minuterie = setTimeout(() => {
       try {
         if (courant === depart.current) localStorage.removeItem(PREFIXE + cle);
-        else localStorage.setItem(PREFIXE + cle, JSON.stringify({ valeur, le: new Date().toISOString() }));
+        else
+          localStorage.setItem(
+            PREFIXE + cle,
+            JSON.stringify({ valeur, le: new Date().toISOString() }),
+          );
       } catch {
         /* stockage indisponible : on continue sans filet */
       }

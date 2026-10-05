@@ -92,7 +92,9 @@ export function InviterPositionnement({
   const choisi = stagiaires.data?.find((s) => s.id === v.stagiaire_id);
   // Le serveur refuse l'invitation tant que le parcours n'a pas de test de positionnement : on renvoie vers la fiche.
   const sansTest =
-    inviter.error !== null && /test de positionnement/i.test(inviter.error.message) && v.formation_id !== "";
+    inviter.error !== null &&
+    /test de positionnement/i.test(inviter.error.message) &&
+    v.formation_id !== "";
   return (
     <form
       className="space-y-4"
@@ -139,9 +141,9 @@ export function InviterPositionnement({
         onChange={(e) => setV({ ...v, message: e.target.value })}
       />
       <p className="text-[13px] text-encre-2">
-        L'apprenant reçoit un e-mail avec un lien personnel (30 jours) vers sa page : recueil des besoins,
-        test de positionnement du parcours, date et signature. Le PDF signé sera téléchargeable par lui, par
-        vous et par l'organisme.
+        L'apprenant reçoit un e-mail avec un lien personnel (30 jours) vers sa page : recueil des
+        besoins, test de positionnement du parcours, date et signature. Le PDF signé sera
+        téléchargeable par lui, par vous et par l'organisme.
       </p>
       {inviter.error && (
         <Alerte
@@ -240,7 +242,8 @@ export function Positionnements() {
               >
                 <div className="min-w-0">
                   <p className="font-medium">
-                    {p.apprenant} <span className="font-normal text-encre-3">— {p.formation_titre}</span>
+                    {p.apprenant}{" "}
+                    <span className="font-normal text-encre-3">— {p.formation_titre}</span>
                   </p>
                   <p className="mt-1 flex flex-wrap items-center gap-2 text-[13px] text-encre-2">
                     <Etiquette ton={STATUTS[p.statut]!.ton}>{STATUTS[p.statut]!.libelle}</Etiquette>
@@ -298,7 +301,11 @@ export function Positionnements() {
       ) : (
         <EtatVide
           icone={<ClipboardList className="size-8" aria-hidden />}
-          titre={vue === "archives" ? "Aucun positionnement archivé" : "Aucun positionnement pour l'instant"}
+          titre={
+            vue === "archives"
+              ? "Aucun positionnement archivé"
+              : "Aucun positionnement pour l'instant"
+          }
           action={
             vue === "actifs" ? (
               <Bouton
@@ -311,8 +318,8 @@ export function Positionnements() {
             ) : undefined
           }
         >
-          Le positionnement à l'entrée en formation est exigé par Qualiopi (indicateur n° 8) ; le recueil des
-          besoins aussi (n° 4).
+          Le positionnement à l'entrée en formation est exigé par Qualiopi (indicateur n° 8) ; le
+          recueil des besoins aussi (n° 4).
         </EtatVide>
       )}
       <Modale ouverte={inviter} fermer={() => setInviter(false)} titre="Inviter à se positionner">
@@ -352,7 +359,9 @@ function Formulaire({ jeton, p }: { jeton: string; p: PositionnementPublic }) {
   const requetes = useQueryClient();
   const [recueil, setRecueil] = useState<Record<string, string>>(p.brouillon?.recueil ?? {});
   const [reponses, setReponses] = useState<Array<number | null>>(
-    p.brouillon?.reponses?.length ? p.brouillon.reponses : (p.questionnaire?.questions.map(() => null) ?? []),
+    p.brouillon?.reponses?.length
+      ? p.brouillon.reponses
+      : (p.questionnaire?.questions.map(() => null) ?? []),
   );
   const [date, setDate] = useState(p.brouillon?.date || p.aujourdhui);
   const [trace, setTrace] = useState<string | null>(null);
@@ -419,8 +428,8 @@ function Formulaire({ jeton, p }: { jeton: string; p: PositionnementPublic }) {
       <>
         {entete}
         <Alerte ton="succes" titre="Votre positionnement est complet et signé">
-          Merci. Votre formateur l'a reçu ; il s'en servira pour adapter la formation. Le PDF de vos réponses
-          vous a aussi été envoyé par e-mail.
+          Merci. Votre formateur l'a reçu ; il s'en servira pour adapter la formation. Le PDF de vos
+          réponses vous a aussi été envoyé par e-mail.
         </Alerte>
         <Carte className="mt-6 p-5">
           <p className="text-sm text-encre-2">
@@ -446,7 +455,9 @@ function Formulaire({ jeton, p }: { jeton: string; p: PositionnementPublic }) {
   const champs = p.recueil.champs as unknown as ChampFormulaire[];
   const erreursServeur = signer.error instanceof ErreurApi ? signer.error.details : null;
   const erreursChamps = (erreursServeur?.champs ?? {}) as Record<string, string>;
-  const erreursListe = Array.isArray(erreursServeur?.erreurs) ? (erreursServeur.erreurs as string[]) : [];
+  const erreursListe = Array.isArray(erreursServeur?.erreurs)
+    ? (erreursServeur.erreurs as string[])
+    : [];
   const recueilComplet = champs.every((c) => !c.requis || (recueil[c.id] ?? "").trim() !== "");
   const testComplet = reponses.every((r) => r !== null);
   const pret =
@@ -467,7 +478,11 @@ function Formulaire({ jeton, p }: { jeton: string; p: PositionnementPublic }) {
       )}
       <Carte className="mb-6 p-5">
         <div className="grid gap-4 sm:grid-cols-2">
-          <Champ libelle="Nom et prénom" value={`${p.apprenant.prenom} ${p.apprenant.nom}`} disabled />
+          <Champ
+            libelle="Nom et prénom"
+            value={`${p.apprenant.prenom} ${p.apprenant.nom}`}
+            disabled
+          />
           <Champ libelle="Adresse e-mail" value={p.apprenant.email} disabled />
         </div>
         <p className="mt-3 text-[13px] text-encre-3">
@@ -534,7 +549,9 @@ function Formulaire({ jeton, p }: { jeton: string; p: PositionnementPublic }) {
                   className="w-full rounded-sm border border-trait-fort bg-carte px-3 py-2.5 text-sm leading-relaxed focus:border-accent focus:ring-2 focus:ring-accent/20 focus:outline-none"
                 />
               )}
-              {erreursChamps[c.id] && <p className="mt-1.5 text-[13px] text-danger">{erreursChamps[c.id]}</p>}
+              {erreursChamps[c.id] && (
+                <p className="mt-1.5 text-[13px] text-danger">{erreursChamps[c.id]}</p>
+              )}
             </fieldset>
           ))}
         </Carte>
@@ -555,8 +572,8 @@ function Formulaire({ jeton, p }: { jeton: string; p: PositionnementPublic }) {
           </h2>
           <Carte className="space-y-6 p-5">
             <p className="text-sm text-encre-2">
-              {p.questionnaire.titre} — répondez spontanément : il ne s'agit pas d'un examen, mais de situer
-              votre point de départ.
+              {p.questionnaire.titre} — répondez spontanément : il ne s'agit pas d'un examen, mais
+              de situer votre point de départ.
             </p>
             {p.questionnaire.questions.map((q, i) => (
               <fieldset key={i} className="min-w-0">
@@ -629,8 +646,9 @@ function Formulaire({ jeton, p }: { jeton: string; p: PositionnementPublic }) {
               className="mt-0.5 size-4 shrink-0 accent-(--color-accent)"
             />
             <span>
-              Je certifie l'exactitude de mes réponses et je signe électroniquement mon positionnement. La
-              date et l'heure de ma signature sont enregistrées avec une empreinte de mes réponses.
+              Je certifie l'exactitude de mes réponses et je signe électroniquement mon
+              positionnement. La date et l'heure de ma signature sont enregistrées avec une
+              empreinte de mes réponses.
             </span>
           </label>
         </Carte>
@@ -664,17 +682,22 @@ function Formulaire({ jeton, p }: { jeton: string; p: PositionnementPublic }) {
           enCours={signer.isPending}
           onClick={() => signer.mutate()}
           title={
-            pret ? undefined : "Complétez A, B, la date, le lieu, la signature et la case de certification"
+            pret
+              ? undefined
+              : "Complétez A, B, la date, le lieu, la signature et la case de certification"
           }
         >
           Signer et envoyer
         </Bouton>
         {enregistreLe && (
           <span className="text-[13px] text-encre-3">
-            Enregistré le {instantFr(enregistreLe)} — vous pouvez fermer la page et revenir par le même lien.
+            Enregistré le {instantFr(enregistreLe)} — vous pouvez fermer la page et revenir par le
+            même lien.
           </span>
         )}
-        {brouillon.error && <span className="text-[13px] text-danger">{brouillon.error.message}</span>}
+        {brouillon.error && (
+          <span className="text-[13px] text-danger">{brouillon.error.message}</span>
+        )}
       </div>
       <p className="mt-4 text-center text-xs text-encre-3">
         <PastilleStatut statut={null} libelle="Lien personnel — ne le transférez pas" />

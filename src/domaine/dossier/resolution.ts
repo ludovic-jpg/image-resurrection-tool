@@ -142,7 +142,9 @@ export function resoudreVariables(d: AgregatDossier, options: OptionsResolution 
           : `${formaterNombre(e.evaluation_acquis_score)} / 100`,
       evaluation_acquis_niveau_atteinte: niveauAtteinte(e.evaluation_acquis_score),
       satisfaction_froid_date: formaterDate(e.satisfaction_froid_date),
-      attestation_heures_realisees: formaterNombre(d.heures_realisees?.[options.stagiaireId] ?? null),
+      attestation_heures_realisees: formaterNombre(
+        d.heures_realisees?.[options.stagiaireId] ?? null,
+      ),
       attestation_date: formaterDate(d.attestation_date),
     });
   }

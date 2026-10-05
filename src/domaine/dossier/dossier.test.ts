@@ -39,7 +39,9 @@ describe("champs calculés", () => {
     expect(c.formateur_montant_total).toBe(147_000);
     expect(c.facture_formateur_net_a_payer).toBe(147_000);
     expect(c.formateur_cout_horaire).toBe(10_500); // 1 470 € / 14 h
-    expect(c.portage_commission_montant! + c.formateur_montant_total!).toBe(c.formation_prix_total_ht);
+    expect(c.portage_commission_montant! + c.formateur_montant_total!).toBe(
+      c.formation_prix_total_ht,
+    );
   });
 
   it("laisse primer le coût horaire saisi au contrat, et affiche la commission réellement constatée", () => {
@@ -87,9 +89,9 @@ describe("champs calculés", () => {
 
 describe("résolution des variables", () => {
   it("ne produit que des variables du dictionnaire", () => {
-    const hors = Object.keys(resoudreVariables(dossierDeDemonstration(), { stagiaireId: "stg-1" })).filter(
-      (nom) => !estVariableConnue(nom),
-    );
+    const hors = Object.keys(
+      resoudreVariables(dossierDeDemonstration(), { stagiaireId: "stg-1" }),
+    ).filter((nom) => !estVariableConnue(nom));
     expect(hors).toEqual([]);
   });
 

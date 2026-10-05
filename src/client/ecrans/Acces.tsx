@@ -32,17 +32,21 @@ function Coquille({
             Un dossier complet, sans courir après les signatures.
           </p>
           <p className="mt-6 max-w-[46ch] text-[15px] leading-relaxed text-sur-accent/70">
-            De la candidature du formateur à l'archivage : chaque pièce est générée, suivie, signée et classée
-            — conforme au référentiel Qualiopi.
+            De la candidature du formateur à l'archivage : chaque pièce est générée, suivie, signée
+            et classée — conforme au référentiel Qualiopi.
           </p>
         </div>
         <ol className="grid grid-cols-7 gap-1.5 text-[11px] font-medium tracking-wide text-sur-accent/60">
-          {["Création", "Financement", "Début", "Fin", "Paiement", "Encaissé", "Archivé"].map((e, i) => (
-            <li key={e}>
-              <span className={`mb-2 block h-1 rounded-full ${i < 3 ? "bg-attente" : "bg-sur-accent/20"}`} />
-              {e}
-            </li>
-          ))}
+          {["Création", "Financement", "Début", "Fin", "Paiement", "Encaissé", "Archivé"].map(
+            (e, i) => (
+              <li key={e}>
+                <span
+                  className={`mb-2 block h-1 rounded-full ${i < 3 ? "bg-attente" : "bg-sur-accent/20"}`}
+                />
+                {e}
+              </li>
+            ),
+          )}
         </ol>
       </aside>
       <main className="flex items-center justify-center px-5 py-12">
@@ -50,7 +54,9 @@ function Coquille({
           <h1 className="text-[28px] font-semibold leading-tight">{titre}</h1>
           <p className="mt-2 text-encre-2">{accroche}</p>
           <div className="mt-8">{children}</div>
-          {pied && <div className="mt-8 border-t border-trait pt-5 text-sm text-encre-2">{pied}</div>}
+          {pied && (
+            <div className="mt-8 border-t border-trait pt-5 text-sm text-encre-2">{pied}</div>
+          )}
         </div>
       </main>
     </div>
@@ -67,7 +73,9 @@ export function Connexion() {
       requetes.clear();
       // Rechargement complet volontaire : la session change, tout l'état en mémoire doit repartir de zéro.
       const retour = new URLSearchParams(location.search).get("retour");
-      location.assign(retour?.startsWith("/") && !retour.startsWith("//") ? retour : "/tableau-de-bord");
+      location.assign(
+        retour?.startsWith("/") && !retour.startsWith("//") ? retour : "/tableau-de-bord",
+      );
     },
   });
   return (
@@ -77,7 +85,10 @@ export function Connexion() {
       pied={
         <>
           Vous êtes formateur et souhaitez être porté ?{" "}
-          <Link to="/inscription" className="font-medium text-accent underline-offset-4 hover:underline">
+          <Link
+            to="/inscription"
+            className="font-medium text-accent underline-offset-4 hover:underline"
+          >
             Déposer une candidature
           </Link>
         </>
@@ -132,7 +143,10 @@ export function Inscription() {
       pied={
         <>
           Déjà inscrit ?{" "}
-          <Link to="/connexion" className="font-medium text-accent underline-offset-4 hover:underline">
+          <Link
+            to="/connexion"
+            className="font-medium text-accent underline-offset-4 hover:underline"
+          >
             Se connecter
           </Link>
         </>
@@ -149,7 +163,13 @@ export function Inscription() {
           <Champ libelle="Prénom" autoComplete="given-name" required {...champ("prenom")} />
           <Champ libelle="Nom" autoComplete="family-name" required {...champ("nom")} />
         </div>
-        <Champ libelle="Adresse e-mail" type="email" autoComplete="email" required {...champ("email")} />
+        <Champ
+          libelle="Adresse e-mail"
+          type="email"
+          autoComplete="email"
+          required
+          {...champ("email")}
+        />
         <Champ
           libelle="Mot de passe"
           type="password"
@@ -160,7 +180,12 @@ export function Inscription() {
           {...champ("mot_de_passe")}
         />
         {inscription.error && <Alerte ton="danger">{inscription.error.message}</Alerte>}
-        <Bouton type="submit" variante="primaire" className="w-full" enCours={inscription.isPending}>
+        <Bouton
+          type="submit"
+          variante="primaire"
+          className="w-full"
+          enCours={inscription.isPending}
+        >
           Créer mon compte
         </Bouton>
       </form>
@@ -193,7 +218,10 @@ export function Invitation() {
         <Alerte ton="attention">{(invitation.error as ErreurApi).message}</Alerte>
         <p className="mt-5 text-sm text-encre-2">
           Vous avez déjà choisi un mot de passe ?{" "}
-          <Link to="/connexion" className="font-medium text-accent underline-offset-4 hover:underline">
+          <Link
+            to="/connexion"
+            className="font-medium text-accent underline-offset-4 hover:underline"
+          >
             Connectez-vous
           </Link>
           .

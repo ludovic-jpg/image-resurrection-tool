@@ -7,7 +7,8 @@ export const requetes = new QueryClient({
     queries: {
       staleTime: 15_000,
       // Inutile de réessayer une erreur métier (403, 404, 409…) : seul un souci réseau mérite un second essai.
-      retry: (tentatives, erreur) => erreur instanceof ErreurApi && erreur.statut === 0 && tentatives < 2,
+      retry: (tentatives, erreur) =>
+        erreur instanceof ErreurApi && erreur.statut === 0 && tentatives < 2,
       refetchOnWindowFocus: true,
     },
   },

@@ -79,7 +79,9 @@ describe("agrégation du BPF", () => {
   });
 
   it("rattache une action à cheval sur deux années à l'exercice de sa date de fin", () => {
-    expect(agregerBpf(LIGNES, 2027).lignes.map((l) => l.dossier_reference)).toEqual(["ADF-2026-0006"]);
+    expect(agregerBpf(LIGNES, 2027).lignes.map((l) => l.dossier_reference)).toEqual([
+      "ADF-2026-0006",
+    ]);
     expect(exercicesDisponibles(LIGNES)).toEqual([2027, 2026, 2025]);
   });
 
@@ -89,7 +91,9 @@ describe("agrégation du BPF", () => {
       ["opco", 2, 286_000],
       ["entreprise", 1, 70_000],
     ]);
-    expect(bpf.par_formateur.map((f) => [f.formateur_nom, f.nb_stagiaires, f.montant_sous_traite])).toEqual([
+    expect(
+      bpf.par_formateur.map((f) => [f.formateur_nom, f.nb_stagiaires, f.montant_sous_traite]),
+    ).toEqual([
       ["Durand Paul", 1, 52_500],
       ["Lambert Sophie", 5, 214_500],
     ]);

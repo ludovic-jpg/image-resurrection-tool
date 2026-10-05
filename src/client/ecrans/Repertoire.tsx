@@ -225,7 +225,9 @@ export function FormulaireStagiaire({
       </Selecteur>
       {nouvelle && (
         <fieldset className="space-y-3 rounded-md border border-accent/40 bg-accent-doux/40 p-4">
-          <legend className="px-1 text-[13px] font-semibold text-accent-fort">Nouvelle entreprise</legend>
+          <legend className="px-1 text-[13px] font-semibold text-accent-fort">
+            Nouvelle entreprise
+          </legend>
           <Champ
             libelle="Raison sociale"
             required
@@ -324,7 +326,8 @@ export function Repertoire() {
     queryFn: () => api.get<Entreprise[]>("/entreprises"),
   });
   if (stagiaires.isPending || entreprises.isPending) return <Chargement />;
-  const nomEntreprise = (id: string | null) => entreprises.data?.find((e) => e.id === id)?.entreprise_nom;
+  const nomEntreprise = (id: string | null) =>
+    entreprises.data?.find((e) => e.id === id)?.entreprise_nom;
 
   return (
     <>
@@ -335,7 +338,9 @@ export function Repertoire() {
           <Bouton
             variante="primaire"
             icone={<Plus className="size-4" aria-hidden />}
-            onClick={() => setEdition({ type: onglet === "stagiaires" ? "stagiaire" : "entreprise" })}
+            onClick={() =>
+              setEdition({ type: onglet === "stagiaires" ? "stagiaire" : "entreprise" })
+            }
           >
             {onglet === "stagiaires" ? "Nouvelle fiche apprenant" : "Nouvelle entreprise"}
           </Bouton>
@@ -345,8 +350,16 @@ export function Repertoire() {
         actif={onglet}
         choisir={setOnglet}
         onglets={[
-          { cle: "stagiaires", libelle: "Apprenants", compteur: String(stagiaires.data?.length ?? 0) },
-          { cle: "entreprises", libelle: "Entreprises", compteur: String(entreprises.data?.length ?? 0) },
+          {
+            cle: "stagiaires",
+            libelle: "Apprenants",
+            compteur: String(stagiaires.data?.length ?? 0),
+          },
+          {
+            cle: "entreprises",
+            libelle: "Entreprises",
+            compteur: String(entreprises.data?.length ?? 0),
+          },
         ]}
       />
 
@@ -355,7 +368,10 @@ export function Repertoire() {
           <Carte>
             <ul className="divide-y divide-trait">
               {stagiaires.data.map((s) => (
-                <li key={s.id} className="flex items-center justify-between gap-3 px-4 py-3 sm:px-5">
+                <li
+                  key={s.id}
+                  className="flex items-center justify-between gap-3 px-4 py-3 sm:px-5"
+                >
                   <div className="flex min-w-0 items-center gap-3">
                     <span className="grid size-9 shrink-0 place-items-center rounded-full bg-papier-3 text-encre-2">
                       <UserRound className="size-4" aria-hidden />
@@ -404,7 +420,10 @@ export function Repertoire() {
             </ul>
           </Carte>
         ) : (
-          <EtatVide icone={<UserRound className="size-7" aria-hidden />} titre="Aucune fiche apprenant">
+          <EtatVide
+            icone={<UserRound className="size-7" aria-hidden />}
+            titre="Aucune fiche apprenant"
+          >
             Créez la fiche d'un apprenant pour pouvoir l'inscrire à un dossier de formation.
           </EtatVide>
         ))}
@@ -414,7 +433,10 @@ export function Repertoire() {
           <Carte>
             <ul className="divide-y divide-trait">
               {entreprises.data.map((e) => (
-                <li key={e.id} className="flex items-center justify-between gap-3 px-4 py-3 sm:px-5">
+                <li
+                  key={e.id}
+                  className="flex items-center justify-between gap-3 px-4 py-3 sm:px-5"
+                >
                   <div className="flex min-w-0 items-center gap-3">
                     <span className="grid size-9 shrink-0 place-items-center rounded-md bg-papier-3 text-encre-2">
                       <Building2 className="size-4" aria-hidden />
@@ -456,7 +478,8 @@ export function Repertoire() {
           </Carte>
         ) : (
           <EtatVide icone={<Building2 className="size-7" aria-hidden />} titre="Aucune entreprise">
-            L'entreprise est le commanditaire : elle signe la convention et reçoit les pièces du financement.
+            L'entreprise est le commanditaire : elle signe la convention et reçoit les pièces du
+            financement.
           </EtatVide>
         ))}
 
@@ -478,7 +501,9 @@ export function Repertoire() {
         fermer={() => setInviter(null)}
         titre={`Inviter ${inviter?.stagiaire_prenom ?? ""} à se positionner`}
       >
-        {inviter && <InviterPositionnement stagiaireId={inviter.id} termine={() => setInviter(null)} />}
+        {inviter && (
+          <InviterPositionnement stagiaireId={inviter.id} termine={() => setInviter(null)} />
+        )}
       </Modale>
       <Modale
         ouverte={edition?.type === "entreprise"}

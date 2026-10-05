@@ -12,13 +12,21 @@ import { Alerte, Bouton, Carte, Chargement, TitrePage, useNotifier } from "../ui
 
 type Rubrique = keyof VueArchives;
 
-const RUBRIQUES: Array<{ cle: Rubrique; titre: string; restaurer: (id: string) => Promise<unknown> }> = [
+const RUBRIQUES: Array<{
+  cle: Rubrique;
+  titre: string;
+  restaurer: (id: string) => Promise<unknown>;
+}> = [
   {
     cle: "formations",
     titre: "Formations archivées",
     restaurer: (id) => api.post(`/formations/${id}/restaurer`),
   },
-  { cle: "outils", titre: "Questionnaires archivés", restaurer: (id) => api.post(`/outils/${id}/restaurer`) },
+  {
+    cle: "outils",
+    titre: "Questionnaires archivés",
+    restaurer: (id) => api.post(`/outils/${id}/restaurer`),
+  },
   {
     cle: "fichiers",
     titre: "Corbeille du coffre-fort",
@@ -45,7 +53,10 @@ export function Archives() {
   const requetes = useQueryClient();
   const notifier = useNotifier();
   const fichier = useRef<HTMLInputElement>(null);
-  const vue = useQuery({ queryKey: ["archives"], queryFn: () => api.get<VueArchives>("/archives") });
+  const vue = useQuery({
+    queryKey: ["archives"],
+    queryFn: () => api.get<VueArchives>("/archives"),
+  });
   const restaurer = useMutation({
     mutationFn: (x: { rubrique: Rubrique; id: string }) =>
       RUBRIQUES.find((r) => r.cle === x.rubrique)!.restaurer(x.id),
@@ -57,7 +68,10 @@ export function Archives() {
   });
   const importer = useMutation({
     mutationFn: (f: File) =>
-      api.fichier<{ formations: number; outils: number; erreurs: string[] }>("/sauvegarde/import", f),
+      api.fichier<{ formations: number; outils: number; erreurs: string[] }>(
+        "/sauvegarde/import",
+        f,
+      ),
     onSuccess: async (r) => {
       await requetes.invalidateQueries();
       notifier(
@@ -81,9 +95,9 @@ export function Archives() {
       <Carte className="mb-6 p-5">
         <h2 className="text-base font-semibold">Sauvegarde de mon espace pédagogique</h2>
         <p className="mt-1 text-[13px] text-encre-2">
-          Un fichier JSON avec vos formations (et leurs parcours), vos questionnaires, vos fiches apprenants
-          et entreprises. Gardez-le en lieu sûr ; il sert aussi à recréer vos formations sur une autre
-          installation.
+          Un fichier JSON avec vos formations (et leurs parcours), vos questionnaires, vos fiches
+          apprenants et entreprises. Gardez-le en lieu sûr ; il sert aussi à recréer vos formations
+          sur une autre installation.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           <a
@@ -152,7 +166,10 @@ export function Archives() {
                     taille?: number;
                   }>
                 ).map((x) => (
-                  <li key={x.id} className="flex flex-wrap items-center justify-between gap-3 py-2.5">
+                  <li
+                    key={x.id}
+                    className="flex flex-wrap items-center justify-between gap-3 py-2.5"
+                  >
                     <span className="min-w-0">
                       <span className="block truncate text-sm font-medium">{x.titre ?? x.nom}</span>
                       <span className="text-xs text-encre-3">

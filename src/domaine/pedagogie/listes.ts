@@ -123,7 +123,11 @@ export const CATEGORIES_COFFRE = [
   { valeur: "ressource", libelle: "Ressource complémentaire", partie: "pedagogique" },
   { valeur: "video", libelle: "Vidéo / audio", partie: "pedagogique" },
   { valeur: "administratif", libelle: "Document administratif", partie: "administratif" },
-  { valeur: "qualite", libelle: "Document qualité (livret d'accueil, règlement…)", partie: "administratif" },
+  {
+    valeur: "qualite",
+    libelle: "Document qualité (livret d'accueil, règlement…)",
+    partie: "administratif",
+  },
 ] as const;
 
 export type CategorieCoffre = (typeof CATEGORIES_COFFRE)[number]["valeur"];

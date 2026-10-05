@@ -39,7 +39,10 @@ export interface CleDePiece {
  * Pièces qui doivent exister pour un dossier arrivé à un sous-statut donné.
  * Le justificatif de refus n'est attendu que sur un dossier… refusé.
  */
-export function piecesAttendues(sousStatut: SousStatut, stagiaireIds: readonly string[]): CleDePiece[] {
+export function piecesAttendues(
+  sousStatut: SousStatut,
+  stagiaireIds: readonly string[],
+): CleDePiece[] {
   const sortie: CleDePiece[] = [];
   for (const def of NOMENCLATURE) {
     if (def.code === "REF") continue; // créé à la demande, lors du dépôt du justificatif
@@ -61,7 +64,10 @@ export function peutValider(code: CodePiece, role: Role): boolean {
  * Cloisonnement de lecture. L'apprenant ne voit que son espace, et, pour les pièces individuelles,
  * que les siennes. Il ne voit jamais l'ODM ni les factures (section 6.4.2 du cahier des charges).
  */
-export function peutVoir(piece: CleDePiece, acteur: { role: Role; stagiaire_id?: string | null }): boolean {
+export function peutVoir(
+  piece: CleDePiece,
+  acteur: { role: Role; stagiaire_id?: string | null },
+): boolean {
   if (acteur.role === "admin" || acteur.role === "formateur") return true;
   const def = definitionPiece(piece.code);
   if (def.espace !== "apprenant") return false;

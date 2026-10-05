@@ -9,7 +9,10 @@ export const Route = createFileRoute("/inscription")({
   head: () => ({
     meta: [
       { title: "Candidature formateur | Dossiers de formation" },
-      { name: "description", content: "Créez votre compte et déposez votre candidature de formateur." },
+      {
+        name: "description",
+        content: "Créez votre compte et déposez votre candidature de formateur.",
+      },
       { property: "og:title", content: "Candidature formateur" },
       {
         property: "og:description",
@@ -45,11 +48,15 @@ function Inscription() {
       setErreur("La création du compte a échoué. Vérifiez les informations puis réessayez.");
       return;
     }
-    setMessage("Votre compte est créé. Consultez votre messagerie pour confirmer votre adresse e-mail.");
+    setMessage(
+      "Votre compte est créé. Consultez votre messagerie pour confirmer votre adresse e-mail.",
+    );
   }
   async function google() {
     sessionStorage.setItem("s4m_retour_auth", "/tableau-de-bord");
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
     if (result.error) setErreur("La connexion avec Google a échoué. Réessayez.");
   }
   return (

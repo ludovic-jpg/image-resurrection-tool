@@ -28,7 +28,10 @@ import {
 } from "../ui/base";
 import { centimesSaisis, ChoixMultiples, eurosEnSaisie, ListeOuAutre } from "../ui/champs";
 
-const STATUTS: Record<string, { libelle: string; ton: "neutre" | "attente" | "accent" | "danger" }> = {
+const STATUTS: Record<
+  string,
+  { libelle: string; ton: "neutre" | "attente" | "accent" | "danger" }
+> = {
   brouillon: { libelle: "À compléter", ton: "neutre" },
   soumise: { libelle: "En cours d'étude", ton: "attente" },
   validee: { libelle: "Validée", ton: "accent" },
@@ -85,8 +88,8 @@ export function MaCandidature() {
       {enEtude && (
         <div className="mb-6">
           <Alerte titre={`Candidature envoyée le ${instantFr(c.formateur.soumise_le)}`}>
-            Elle est en cours d'étude : votre profil est figé jusqu'à la décision. Vous serez prévenu par
-            e-mail.
+            Elle est en cours d'étude : votre profil est figé jusqu'à la décision. Vous serez
+            prévenu par e-mail.
           </Alerte>
         </div>
       )}
@@ -100,7 +103,9 @@ export function MaCandidature() {
       {expirees.length > 0 && (
         <div className="mb-6">
           <Alerte ton="attention" titre="Justificatif(s) à renouveler">
-            {expirees.map((x) => `${x.nom_fichier} (fin de validité : ${dateFr(x.expire_le)})`).join(" · ")}
+            {expirees
+              .map((x) => `${x.nom_fichier} (fin de validité : ${dateFr(x.expire_le)})`)
+              .join(" · ")}
           </Alerte>
         </div>
       )}
@@ -145,7 +150,10 @@ export function MaCandidature() {
           </dl>
           {!valide && !enEtude && (
             <div className="space-y-4 border-t border-trait pt-4">
-              <ListeManques titre="Pour envoyer votre candidature, il manque :" manques={c.manques} />
+              <ListeManques
+                titre="Pour envoyer votre candidature, il manque :"
+                manques={c.manques}
+              />
               <Bouton
                 variante="primaire"
                 disabled={c.manques.length > 0}
@@ -158,8 +166,8 @@ export function MaCandidature() {
           )}
           {valide && (
             <p className="text-[13px] text-encre-2">
-              Votre candidature est validée. Pensez à renouveler vos attestations à leur échéance (onglet «
-              Justificatifs »).
+              Votre candidature est validée. Pensez à renouveler vos attestations à leur échéance
+              (onglet « Justificatifs »).
             </p>
           )}
         </Carte>
@@ -200,8 +208,8 @@ function Justificatifs({
     <Carte className="p-5">
       <h2 className="text-base font-semibold">Pièces justificatives</h2>
       <p className="mt-0.5 text-[13px] text-encre-2">
-        Pour les attestations (URSSAF, RC Pro), indiquez la date de fin de validité : l'application vous
-        préviendra.
+        Pour les attestations (URSSAF, RC Pro), indiquez la date de fin de validité : l'application
+        vous préviendra.
       </p>
       <ul className="mt-3 divide-y divide-trait">
         {c.types.map((t) => {
@@ -212,7 +220,9 @@ function Justificatifs({
                 <p className="flex items-center gap-2 text-sm font-medium">
                   {pieces.length > 0 && <Check className="size-4 text-valide" aria-hidden />}
                   {t.libelle}
-                  {t.obligatoire && pieces.length === 0 && <Etiquette ton="attente">Obligatoire</Etiquette>}
+                  {t.obligatoire && pieces.length === 0 && (
+                    <Etiquette ton="attente">Obligatoire</Etiquette>
+                  )}
                 </p>
                 {!fige && (
                   <span className="flex flex-wrap items-center gap-2">
@@ -222,7 +232,9 @@ function Justificatifs({
                         <input
                           type="date"
                           value={expiration[t.type] ?? ""}
-                          onChange={(e) => setExpiration({ ...expiration, [t.type]: e.target.value })}
+                          onChange={(e) =>
+                            setExpiration({ ...expiration, [t.type]: e.target.value })
+                          }
                           className="h-8 rounded-sm border border-trait-fort bg-carte px-2 text-[13px]"
                         />
                       </label>
@@ -242,7 +254,8 @@ function Justificatifs({
                   className="mt-2 flex items-center justify-between gap-2 rounded-sm bg-papier-2 px-3 py-1.5 text-[13px]"
                 >
                   <span className="min-w-0 truncate">
-                    {p.nom_fichier} <span className="chiffres text-encre-3">· {octets(p.taille)}</span>
+                    {p.nom_fichier}{" "}
+                    <span className="chiffres text-encre-3">· {octets(p.taille)}</span>
                     {p.expire_le && (
                       <span
                         className={
@@ -270,7 +283,9 @@ function Justificatifs({
                       <button
                         type="button"
                         aria-label={`Retirer ${p.nom_fichier}`}
-                        onClick={() => confirm(`Retirer « ${p.nom_fichier} » ?`) && retirer.mutate(p.id)}
+                        onClick={() =>
+                          confirm(`Retirer « ${p.nom_fichier} » ?`) && retirer.mutate(p.id)
+                        }
                         className="rounded-xs p-1.5 text-encre-3 hover:bg-papier-3 hover:text-danger"
                       >
                         <Trash2 className="size-3.5" />
@@ -335,7 +350,8 @@ function Profil({
       notifier("succes", "Profil enregistré.");
     },
   });
-  const err = enregistrer.error instanceof ErreurApi ? (enregistrer.error.details?.champs ?? {}) : {};
+  const err =
+    enregistrer.error instanceof ErreurApi ? (enregistrer.error.details?.champs ?? {}) : {};
   const champ = (cle: Exclude<keyof typeof v, "formateur_domaines">) => ({
     value: v[cle],
     erreur: err[cle],
@@ -420,7 +436,11 @@ function Profil({
           placeholder="Ex. français, allemand"
           {...champ("formateur_langues")}
         />
-        <Champ libelle="Tarif journalier indicatif (€ HT)" inputMode="decimal" {...champ("tarif")} />
+        <Champ
+          libelle="Tarif journalier indicatif (€ HT)"
+          inputMode="decimal"
+          {...champ("tarif")}
+        />
         <Champ
           libelle="Profil LinkedIn ou site"
           type="url"

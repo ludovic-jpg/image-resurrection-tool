@@ -31,14 +31,20 @@ export function useIaDisponible(): boolean {
 export function AlerteIaIndisponible() {
   return (
     <Alerte ton="attention" titre="L'assistant IA n'est pas configuré">
-      L'administrateur de l'organisme le règle dans <strong>Organisme → Assistant IA</strong>. En attendant,
-      la génération est indisponible : vous pouvez tout rédiger à la main.
+      L'administrateur de l'organisme le règle dans <strong>Organisme → Assistant IA</strong>. En
+      attendant, la génération est indisponible : vous pouvez tout rédiger à la main.
     </Alerte>
   );
 }
 
 /** Mention discrète du moteur, à côté d'un bouton de génération (ex. « Sonnet 5 + recherche web »). */
-export function MentionMoteur({ description, className }: { description: string; className?: string }) {
+export function MentionMoteur({
+  description,
+  className,
+}: {
+  description: string;
+  className?: string;
+}) {
   if (!description) return null;
   return (
     <span
@@ -98,7 +104,8 @@ export function BoutonIaQcm({
       )}
       {proposer.isSuccess && (
         <Alerte ton="attention" titre="Brouillon proposé par l'IA">
-          Relisez chaque question et chaque bonne réponse avant d'enregistrer : vous en êtes l'auteur.
+          Relisez chaque question et chaque bonne réponse avant d'enregistrer : vous en êtes
+          l'auteur.
         </Alerte>
       )}
       {proposer.error && <Alerte ton="danger">{proposer.error.message}</Alerte>}
@@ -121,7 +128,8 @@ export function BoutonIaProgramme({
 }) {
   const ia = useEtatIa();
   const proposer = useMutation({
-    mutationFn: () => api.post<{ formation_objectifs: string; programme: string }>("/ia/programme", contexte),
+    mutationFn: () =>
+      api.post<{ formation_objectifs: string; programme: string }>("/ia/programme", contexte),
     onSuccess: recevoir,
   });
   if (!ia.disponible) return null;
@@ -146,7 +154,8 @@ export function BoutonIaProgramme({
       </div>
       {proposer.isSuccess && (
         <Alerte ton="attention" titre="Brouillon proposé par l'IA">
-          Objectifs et programme ont été pré-remplis ci-dessous. Relisez et corrigez avant d'enregistrer.
+          Objectifs et programme ont été pré-remplis ci-dessous. Relisez et corrigez avant
+          d'enregistrer.
         </Alerte>
       )}
       {proposer.error && (

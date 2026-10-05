@@ -3,7 +3,11 @@
  * compilation) : si une réponse change de forme côté serveur, l'interface ne compile plus. Aucune génération de code.
  */
 import type { lireDossier, listerDossiers } from "@/serveur/services/dossiers";
-import type { lireMaCandidature, listerCandidatures, lireCandidature } from "@/serveur/services/candidatures";
+import type {
+  lireMaCandidature,
+  listerCandidatures,
+  lireCandidature,
+} from "@/serveur/services/candidatures";
 import type {
   listerFormations,
   listerOutils,
@@ -18,7 +22,10 @@ import type { apercuSuppression } from "@/serveur/services/rgpd";
 import type { lireOrganisme } from "@/serveur/services/organisme";
 import type { Acteur } from "@/serveur/services/socle";
 import type { listerCoffresParcours, lireCoffreParcours } from "@/serveur/services/coffre";
-import type { listerPositionnements, lirePositionnementPublic } from "@/serveur/services/positionnements";
+import type {
+  listerPositionnements,
+  lirePositionnementPublic,
+} from "@/serveur/services/positionnements";
 import type { archivesEtCorbeille } from "@/serveur/services/sauvegarde";
 import type { vueReglages, envoyerCourrielDeTest } from "@/serveur/services/reglages";
 import type {
@@ -138,7 +145,9 @@ export const dateLongue = (iso: string | null | undefined) => {
   const d = new Date(iso.length === 10 ? `${iso}T12:00:00` : iso);
   return Number.isNaN(d.getTime())
     ? "—"
-    : new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" }).format(d);
+    : new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" }).format(
+        d,
+      );
 };
 export const instantFr = (iso: string | null | undefined) => {
   if (!iso) return "—";

@@ -11,7 +11,10 @@ export const Route = createFileRoute("/connexion")({
       { title: "Connexion | Dossiers de formation" },
       { name: "description", content: "Connectez-vous à votre espace de formation sécurisé." },
       { property: "og:title", content: "Connexion | Dossiers de formation" },
-      { property: "og:description", content: "Connectez-vous à votre espace de formation sécurisé." },
+      {
+        property: "og:description",
+        content: "Connectez-vous à votre espace de formation sécurisé.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -44,8 +47,8 @@ export function CoquilleAcces({
             Un dossier complet, sans courir après les signatures.
           </p>
           <p className="mt-6 max-w-[46ch] text-[15px] leading-relaxed text-sur-accent/70">
-            De la candidature du formateur à l’archivage : chaque pièce est générée, suivie, signée et
-            classée.
+            De la candidature du formateur à l’archivage : chaque pièce est générée, suivie, signée
+            et classée.
           </p>
         </div>
         <ol className="grid grid-cols-7 gap-1.5 text-[11px] font-medium text-sur-accent/60">
@@ -59,14 +62,19 @@ export function CoquilleAcces({
       </aside>
       <main className="flex items-center justify-center px-5 py-12">
         <div className="w-full max-w-sm">
-          <Link to="/" className="mb-10 flex items-center gap-2 font-display font-semibold lg:hidden">
+          <Link
+            to="/"
+            className="mb-10 flex items-center gap-2 font-display font-semibold lg:hidden"
+          >
             <ShieldCheck className="size-5 text-accent" />
             Dossiers de formation
           </Link>
           <h1 className="text-[28px] font-semibold leading-tight">{titre}</h1>
           <p className="mt-2 text-encre-2">{accroche}</p>
           <div className="mt-8">{children}</div>
-          {pied && <div className="mt-8 border-t border-trait pt-5 text-sm text-encre-2">{pied}</div>}
+          {pied && (
+            <div className="mt-8 border-t border-trait pt-5 text-sm text-encre-2">{pied}</div>
+          )}
         </div>
       </main>
     </div>
@@ -99,7 +107,9 @@ function Connexion() {
   async function connecterGoogle() {
     setErreur("");
     sessionStorage.setItem("s4m_retour_auth", "/tableau-de-bord");
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+    });
     if (result.error) {
       setErreur("La connexion avec Google a échoué. Réessayez.");
       return;

@@ -116,7 +116,10 @@ export function dossierDeDemonstration(): AgregatDossier {
       facture_of_numero_adherent: "ADH-0001",
       facture_of_acompte: null,
     },
-    facture_formateur: { facture_formateur_numero: "FF-2026-0001", facture_formateur_date: "2026-11-05" },
+    facture_formateur: {
+      facture_formateur_numero: "FF-2026-0001",
+      facture_formateur_date: "2026-11-05",
+    },
     evaluations: {
       "stg-1": {
         recueil_date: "2026-10-01",

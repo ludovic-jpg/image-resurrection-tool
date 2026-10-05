@@ -36,7 +36,8 @@ export function validerDemandeSignature(demande: {
   consentement: boolean;
 }): string[] {
   const erreurs: string[] = [];
-  if (!demande.consentement) erreurs.push("Le consentement à la signature électronique est obligatoire.");
+  if (!demande.consentement)
+    erreurs.push("Le consentement à la signature électronique est obligatoire.");
   if (demande.lieu.trim() === "") erreurs.push("Le lieu de signature est obligatoire.");
   if (demande.lieu.length > 120) erreurs.push("Le lieu de signature est trop long.");
   if (!RE_PNG.test(demande.trace_png))

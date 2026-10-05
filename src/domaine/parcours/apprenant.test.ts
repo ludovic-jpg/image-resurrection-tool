@@ -6,7 +6,12 @@ import { describe, expect, it } from "vitest";
 import type { PieceDuDossier } from "../pieces/statut";
 import type { SousStatut } from "../pipeline/statuts";
 import type { CodePiece } from "../referentiel/pieces";
-import { sectionsParcours, sectionVisible, type CleSection, type EntreeParcours } from "./apprenant";
+import {
+  sectionsParcours,
+  sectionVisible,
+  type CleSection,
+  type EntreeParcours,
+} from "./apprenant";
 
 const piece = (
   code: CodePiece,
@@ -25,7 +30,8 @@ function entree(sous_statut: SousStatut, surcharge: Partial<EntreeParcours> = {}
   };
 }
 
-const etat = (e: EntreeParcours, cle: CleSection) => sectionsParcours(e).find((s) => s.cle === cle)!;
+const etat = (e: EntreeParcours, cle: CleSection) =>
+  sectionsParcours(e).find((s) => s.cle === cle)!;
 
 describe("ordre des sections : l'espace « évolue avec le temps »", () => {
   it("présente toujours les cinq étapes dans l'ordre du parcours", () => {
@@ -61,8 +67,10 @@ describe("« on peut inviter un apprenant […] qui commence par le recueil des 
 
   it("sans test de positionnement prévu pour la formation, le recueil suffit", () => {
     expect(
-      etat(entree("brouillon", { recueil_renseigne: true, positionnement_prevu: false }), "preliminaire")
-        .etat,
+      etat(
+        entree("brouillon", { recueil_renseigne: true, positionnement_prevu: false }),
+        "preliminaire",
+      ).etat,
     ).toBe("termine");
   });
 });
@@ -74,7 +82,10 @@ describe("« le faire valider par l'équipe administrative »", () => {
         entree("en_cours_validation", { recueil_renseigne: true, positionnement_renseigne: true }),
         "constitution",
       ),
-    ).toMatchObject({ etat: "en_attente", message: expect.stringContaining("équipe administrative") });
+    ).toMatchObject({
+      etat: "en_attente",
+      message: expect.stringContaining("équipe administrative"),
+    });
     expect(etat(entree("dossier_valide"), "constitution").etat).toBe("termine");
   });
 });
@@ -97,8 +108,12 @@ describe("« on remet à l'apprenant l'ensemble des pièces : convention, planni
     expect(etat(entree("dossier_valide", { pieces }), "financement").message).toContain(
       "signez la convention",
     );
-    const signees = pieces.map((p) => (p.code === "02-AVT" ? { ...p, statut: "valide" as const } : p));
-    expect(etat(entree("dossier_valide", { pieces: signees }), "financement").message).toContain("confirmez");
+    const signees = pieces.map((p) =>
+      p.code === "02-AVT" ? { ...p, statut: "valide" as const } : p,
+    );
+    expect(etat(entree("dossier_valide", { pieces: signees }), "financement").message).toContain(
+      "confirmez",
+    );
   });
 
   it("« il coche […] j'affirme avoir déposé la demande » : la section change d'état (et donc de couleur)", () => {

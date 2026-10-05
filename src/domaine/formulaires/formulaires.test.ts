@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { FORMULAIRES, moyenneNotes, validerReponses } from "./definitions";
 import { corriger, sansCorrige, validerQuestionnaire, type Questionnaire } from "./qcm";
-import { zoneGrilleNotes, zoneQcm, zoneReponses, zoneSynthesePositionnement } from "../gabarits/zones";
+import {
+  zoneGrilleNotes,
+  zoneQcm,
+  zoneReponses,
+  zoneSynthesePositionnement,
+} from "../gabarits/zones";
 
 const qcm: Questionnaire = {
   titre: "Positionnement Excel",
@@ -37,9 +42,15 @@ describe("formulaires à questions fixes", () => {
       FORMULAIRES["08-FIN"].champs.filter((c) => c.type === "note").map((c) => [c.id, "4"]),
     );
     expect(validerReponses(FORMULAIRES["08-FIN"], base)).toEqual({});
-    expect(validerReponses(FORMULAIRES["08-FIN"], { ...base, contenu: "6" }).contenu).toMatch(/entre 1 et 5/);
-    expect(validerReponses(FORMULAIRES["08-FIN"], { ...base, contenu: "3.5" }).contenu).toBeDefined();
-    expect(validerReponses(FORMULAIRES["08-FIN"], { ...base, pirate: "x" }).pirate).toBe("Champ inconnu");
+    expect(validerReponses(FORMULAIRES["08-FIN"], { ...base, contenu: "6" }).contenu).toMatch(
+      /entre 1 et 5/,
+    );
+    expect(
+      validerReponses(FORMULAIRES["08-FIN"], { ...base, contenu: "3.5" }).contenu,
+    ).toBeDefined();
+    expect(validerReponses(FORMULAIRES["08-FIN"], { ...base, pirate: "x" }).pirate).toBe(
+      "Champ inconnu",
+    );
     expect(
       validerReponses(FORMULAIRES["00-AVT"], { niveau_maitrise: "Expert mondial" }).niveau_maitrise,
     ).toBe("Choix non proposé");
@@ -77,7 +88,12 @@ describe("questionnaires à choix multiples", () => {
   });
 
   it("corrige une copie ; une question sans réponse est fausse", () => {
-    expect(corriger(qcm, [0, 1, 1])).toEqual({ bonnes: 2, total: 3, score: 67, detail: [true, true, false] });
+    expect(corriger(qcm, [0, 1, 1])).toEqual({
+      bonnes: 2,
+      total: 3,
+      score: 67,
+      detail: [true, true, false],
+    });
     expect(corriger(qcm, [0, null]).bonnes).toBe(1);
   });
 

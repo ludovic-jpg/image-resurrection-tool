@@ -40,7 +40,8 @@ export const FORMULAIRES = {
       },
       {
         id: "niveau_maitrise",
-        libelle: "Selon vous, quel est votre niveau de maîtrise dans le domaine de la formation choisie ?",
+        libelle:
+          "Selon vous, quel est votre niveau de maîtrise dans le domaine de la formation choisie ?",
         type: "choix",
         options: ["Débutant", "Notions de base", "Intermédiaire", "Avancé"],
         requis: true,
@@ -59,7 +60,8 @@ export const FORMULAIRES = {
       },
       {
         id: "handicap",
-        libelle: "Êtes-vous en situation de handicap, ou souhaitez-vous un aménagement de la formation ?",
+        libelle:
+          "Êtes-vous en situation de handicap, ou souhaitez-vous un aménagement de la formation ?",
         type: "choix",
         options: ["Non", "Oui"],
         requis: true,
@@ -143,7 +145,12 @@ export const FORMULAIRES = {
         type: "note",
         requis: true,
       },
-      { id: "recommandation", libelle: "Je recommanderais cette formation", type: "note", requis: true },
+      {
+        id: "recommandation",
+        libelle: "Je recommanderais cette formation",
+        type: "note",
+        requis: true,
+      },
       { id: "commentaire", libelle: "Commentaire libre", type: "texte_long" },
     ],
   },

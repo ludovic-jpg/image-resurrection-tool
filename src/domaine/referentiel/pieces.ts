@@ -128,7 +128,8 @@ export const NOMENCLATURE: readonly PieceDef[] = [
     fichier: "00b_AVT_Pre-Dossier",
     phase: "AVT",
     libelle: "Pré-dossier",
-    roleQualiopi: "Synthèse du recueil des besoins et du test de positionnement, validée par l'apprenant.",
+    roleQualiopi:
+      "Synthèse du recueil des besoins et du test de positionnement, validée par l'apprenant.",
     indicateurs: [1, 4, 8],
     signataires: "Apprenant",
     mode: "generee",
@@ -301,7 +302,8 @@ export const NOMENCLATURE: readonly PieceDef[] = [
     fichier: "08_FIN_Satisfaction-Chaud",
     phase: "FIN",
     libelle: "Satisfaction à chaud",
-    roleQualiopi: "Évaluation à chaud des conditions de formation, de la pédagogie et du formateur.",
+    roleQualiopi:
+      "Évaluation à chaud des conditions de formation, de la pédagogie et du formateur.",
     indicateurs: [30],
     signataires: "Apprenant",
     mode: "generee",

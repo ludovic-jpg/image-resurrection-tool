@@ -65,9 +65,15 @@ export function programmeDepuisModules(modules: readonly ModuleParcours[]): stri
 
 /** Objectifs de la formation (convention, attestation) : un objectif majeur par module, 3 à 8 au total. */
 export function objectifsDepuisModules(modules: readonly ModuleParcours[]): string {
-  const principaux = modules.map((m) => m.objectifs[0]).filter((x): x is string => Boolean(x?.trim()));
-  const complements = modules.flatMap((m) => m.objectifs.slice(1)).filter((x) => !principaux.includes(x));
-  return [...principaux, ...complements].slice(0, Math.max(3, Math.min(8, principaux.length))).join("\n");
+  const principaux = modules
+    .map((m) => m.objectifs[0])
+    .filter((x): x is string => Boolean(x?.trim()));
+  const complements = modules
+    .flatMap((m) => m.objectifs.slice(1))
+    .filter((x) => !principaux.includes(x));
+  return [...principaux, ...complements]
+    .slice(0, Math.max(3, Math.min(8, principaux.length)))
+    .join("\n");
 }
 
 export type Resultat<T> = { ok: true; valeur: T } | { ok: false; erreurs: string[] };
@@ -117,7 +123,8 @@ export function validerModules(
     if (module.duree_heures <= 0 || module.duree_heures > 400)
       erreurs.push(`Module ${i + 1} : durée invalide.`);
     if (module.objectifs.length === 0) erreurs.push(`Module ${i + 1} : au moins un objectif.`);
-    if (module.contenus.length === 0) erreurs.push(`Module ${i + 1} : au moins un point de contenu.`);
+    if (module.contenus.length === 0)
+      erreurs.push(`Module ${i + 1} : au moins un point de contenu.`);
     return module;
   });
   return erreurs.length > 0 ? { ok: false, erreurs } : { ok: true, valeur: modules };
@@ -168,7 +175,8 @@ export const TYPES_DIAPO: readonly TypeDiapo[] = [
 
 /** Valide un plan de diapositives (saisi ou proposé par l'IA) : exactement 20, une idée par diapositive, 6 points au plus. */
 export function validerDiapos(brut: unknown, attendu = DIAPOS_PAR_MODULE): Resultat<Diapo[]> {
-  if (!Array.isArray(brut)) return { ok: false, erreurs: ["Le plan n'est pas une liste de diapositives."] };
+  if (!Array.isArray(brut))
+    return { ok: false, erreurs: ["Le plan n'est pas une liste de diapositives."] };
   const erreurs: string[] = [];
   if (brut.length !== attendu) erreurs.push(`${brut.length} diapositive(s) au lieu de ${attendu}.`);
   const diapos = brut.map((x, i): Diapo => {

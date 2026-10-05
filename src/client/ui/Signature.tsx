@@ -24,7 +24,11 @@ export function ZoneDeTrace({
       const ratio = Math.max(window.devicePixelRatio || 1, 1);
       const { width } = canvas.getBoundingClientRect();
       // Ne réinitialiser que si la LARGEUR change : l'ouverture du clavier d'un téléphone ne doit pas effacer le tracé.
-      if (Math.round(width * ratio) === canvas.width && canvas.height === Math.round(hauteur * ratio)) return;
+      if (
+        Math.round(width * ratio) === canvas.width &&
+        canvas.height === Math.round(hauteur * ratio)
+      )
+        return;
       canvas.width = Math.round(width * ratio);
       canvas.height = Math.round(hauteur * ratio);
       const ctx = canvas.getContext("2d")!;
@@ -160,13 +164,19 @@ export function FormulaireSignature({
           className="mt-0.5 size-4 shrink-0 accent-(--color-accent)"
         />
         <span>
-          J'ai lu le document « {libelleDocument} » et je le signe électroniquement. La date et l'heure de ma
-          signature sont enregistrées, ainsi qu'une empreinte du document qui permet de prouver qu'il n'a pas
-          été modifié ensuite.
+          J'ai lu le document « {libelleDocument} » et je le signe électroniquement. La date et
+          l'heure de ma signature sont enregistrées, ainsi qu'une empreinte du document qui permet
+          de prouver qu'il n'a pas été modifié ensuite.
         </span>
       </label>
       {erreur && <p className="text-sm text-danger">{erreur}</p>}
-      <Bouton type="submit" variante="primaire" enCours={enCours} disabled={!pret} className="w-full">
+      <Bouton
+        type="submit"
+        variante="primaire"
+        enCours={enCours}
+        disabled={!pret}
+        className="w-full"
+      >
         Signer le document
       </Bouton>
     </form>

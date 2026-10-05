@@ -24,7 +24,15 @@ export type OrigineVariable =
   | "calcule"; // calculé — jamais saisissable
 
 export type TypeVariable =
-  "texte" | "texte_long" | "nombre" | "montant" | "pourcentage" | "date" | "heure" | "url" | "liste";
+  | "texte"
+  | "texte_long"
+  | "nombre"
+  | "montant"
+  | "pourcentage"
+  | "date"
+  | "heure"
+  | "url"
+  | "liste";
 
 export type GroupeRepetable = "stagiaire" | "session";
 

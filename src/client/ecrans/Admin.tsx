@@ -4,7 +4,16 @@
  */
 import { useId, useState, type ReactNode } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Download, ExternalLink, KeyRound, Mail, Send, Sparkles, Trash2, UserRoundCheck } from "lucide-react";
+import {
+  Download,
+  ExternalLink,
+  KeyRound,
+  Mail,
+  Send,
+  Sparkles,
+  Trash2,
+  UserRoundCheck,
+} from "lucide-react";
 import {
   api,
   ErreurApi,
@@ -35,7 +44,10 @@ import {
 } from "../ui/base";
 import { ZoneDeTrace } from "../ui/Signature";
 
-const STATUTS: Record<string, { libelle: string; ton: "neutre" | "attente" | "accent" | "danger" }> = {
+const STATUTS: Record<
+  string,
+  { libelle: string; ton: "neutre" | "attente" | "accent" | "danger" }
+> = {
   brouillon: { libelle: "En préparation", ton: "neutre" },
   soumise: { libelle: "À étudier", ton: "attente" },
   validee: { libelle: "Validée", ton: "accent" },
@@ -64,7 +76,10 @@ export function AdminCandidatures() {
         }
       />
       {visibles.length === 0 ? (
-        <EtatVide icone={<UserRoundCheck className="size-8" aria-hidden />} titre="Aucune candidature">
+        <EtatVide
+          icone={<UserRoundCheck className="size-8" aria-hidden />}
+          titre="Aucune candidature"
+        >
           Les formateurs qui postulent depuis la page d'inscription apparaîtront ici.
         </EtatVide>
       ) : (
@@ -87,7 +102,9 @@ export function AdminCandidatures() {
                   </span>
                   <span className="flex items-center gap-3">
                     {f.soumise_le && (
-                      <span className="chiffres text-xs text-encre-3">{instantFr(f.soumise_le)}</span>
+                      <span className="chiffres text-xs text-encre-3">
+                        {instantFr(f.soumise_le)}
+                      </span>
                     )}
                     <Etiquette ton={STATUTS[f.statut_candidature]!.ton}>
                       {STATUTS[f.statut_candidature]!.libelle}
@@ -115,7 +132,8 @@ function Decision({ id, fermer }: { id: string; fermer: () => void }) {
     queryFn: () => api.get<CandidatureAdmin>(`/admin/candidatures/${id}`),
   });
   const decider = useMutation({
-    mutationFn: (validee: boolean) => api.post(`/admin/candidatures/${id}/decision`, { validee, motif }),
+    mutationFn: (validee: boolean) =>
+      api.post(`/admin/candidatures/${id}/decision`, { validee, motif }),
     onSuccess: async (_r, validee) => {
       await requetes.invalidateQueries({ queryKey: ["candidatures"] });
       notifier(
@@ -184,7 +202,9 @@ function Decision({ id, fermer }: { id: string; fermer: () => void }) {
                 </a>
               </li>
             ))}
-            {c.data.pieces.length === 0 && <li className="text-sm text-encre-3">Aucune pièce déposée.</li>}
+            {c.data.pieces.length === 0 && (
+              <li className="text-sm text-encre-3">Aucune pièce déposée.</li>
+            )}
           </ul>
         </div>
         {f.statut_candidature === "soumise" ? (
@@ -334,10 +354,14 @@ function OngletIdentite() {
   if (config.isPending) return <Chargement />;
   if (config.error) return <Alerte ton="danger">{config.error.message}</Alerte>;
   const of = { ...config.data.organisme, ...v };
-  const err = enregistrer.error instanceof ErreurApi ? (enregistrer.error.details?.champs ?? {}) : {};
+  const err =
+    enregistrer.error instanceof ErreurApi ? (enregistrer.error.details?.champs ?? {}) : {};
   const nombre = (
     cle:
-      "portage_commission_pourcentage" | "tva_pourcentage" | "delai_paiement_jours" | "conservation_annees",
+      | "portage_commission_pourcentage"
+      | "tva_pourcentage"
+      | "delai_paiement_jours"
+      | "conservation_annees",
   ) => ({
     value: String(of[cle] ?? ""),
     erreur: err[cle],
@@ -425,8 +449,8 @@ function OngletIdentite() {
         <Carte className="p-5">
           <h2 className="text-base font-semibold">Signature du représentant légal</h2>
           <p className="mt-0.5 text-[13px] text-encre-3">
-            Apposée automatiquement sur les pièces émises par l'organisme : convention, ordre de mission,
-            convocation, attestation.
+            Apposée automatiquement sur les pièces émises par l'organisme : convention, ordre de
+            mission, convocation, attestation.
           </p>
           {config.data.organisme.signature_representant_png && !trace && (
             <img
@@ -478,7 +502,10 @@ const EFFACER = "-";
 function useReglages() {
   const requetes = useQueryClient();
   const notifier = useNotifier();
-  const reglages = useQuery({ queryKey: ["reglages"], queryFn: () => api.get<Reglages>("/admin/reglages") });
+  const reglages = useQuery({
+    queryKey: ["reglages"],
+    queryFn: () => api.get<Reglages>("/admin/reglages"),
+  });
   const [v, setV] = useState<Modifs>({});
   const enregistrer = useMutation({
     mutationFn: () => api.patch<Reglages>("/admin/reglages", v),
@@ -684,14 +711,14 @@ function OngletAssistantIa() {
               >
                 console.anthropic.com <ExternalLink className="size-3" aria-hidden />
               </a>
-              . Conseil : créez une clé rattachée à un <em>workspace</em> ; sinon, renseignez l'identifiant du
-              workspace ci-dessous.
+              . Conseil : créez une clé rattachée à un <em>workspace</em> ; sinon, renseignez
+              l'identifiant du workspace ci-dessous.
             </p>
           </div>
           {r.ia_defaut_serveur && !r.ia_cle_definie && (
             <Alerte>
-              Une clé du serveur sert par défaut : l'assistant fonctionne déjà. Renseignez votre propre clé
-              pour que les coûts soient portés par votre organisme.
+              Une clé du serveur sert par défaut : l'assistant fonctionne déjà. Renseignez votre
+              propre clé pour que les coûts soient portés par votre organisme.
             </Alerte>
           )}
           <ChampSecret
@@ -744,15 +771,16 @@ function OngletAssistantIa() {
               <strong className="chiffres">≈ 0,20 – 0,50 €</strong>
             </li>
             <li>
-              Un support de module : <strong className="chiffres">≈ 0,10 – 0,20 €</strong> (avec Sonnet 5)
+              Un support de module : <strong className="chiffres">≈ 0,10 – 0,20 €</strong> (avec
+              Sonnet 5)
             </li>
             <li>
               Une recherche web : <strong className="chiffres">≈ 0,01 €</strong>
             </li>
           </ul>
           <p className="mt-2 text-[13px] text-encre-3">
-            Facturé par Anthropic sur votre compte, selon le modèle choisi. Opus coûte environ deux fois plus
-            ; Haiku nettement moins.
+            Facturé par Anthropic sur votre compte, selon le modèle choisi. Opus coûte environ deux
+            fois plus ; Haiku nettement moins.
           </p>
         </Carte>
       </div>
@@ -823,7 +851,9 @@ function OngletEmails() {
                 key={p.cle}
                 taille="sm"
                 aria-pressed={prereglageActif === p.cle}
-                className={cx(prereglageActif === p.cle && "border-accent bg-accent-doux text-accent-fort")}
+                className={cx(
+                  prereglageActif === p.cle && "border-accent bg-accent-doux text-accent-fort",
+                )}
                 onClick={() => poser({ ...r.prereglages[p.cle] })}
               >
                 {p.libelle}
@@ -900,8 +930,8 @@ function OngletEmails() {
                   Activez la <strong>Validation en deux étapes</strong> si ce n'est pas déjà fait.
                 </li>
                 <li>
-                  Cherchez <strong>Mots de passe des applications</strong>, créez-en un (nom libre, par
-                  exemple « Plateforme formation »).
+                  Cherchez <strong>Mots de passe des applications</strong>, créez-en un (nom libre,
+                  par exemple « Plateforme formation »).
                 </li>
                 <li>Collez ici les 16 caractères obtenus, sans les espaces.</li>
               </ol>

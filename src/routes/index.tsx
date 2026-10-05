@@ -8,7 +8,10 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Dossiers de formation | Accueil" },
-      { name: "description", content: "Gérez chaque dossier de formation, de la candidature à l’archivage." },
+      {
+        name: "description",
+        content: "Gérez chaque dossier de formation, de la candidature à l’archivage.",
+      },
       { property: "og:title", content: "Dossiers de formation" },
       {
         property: "og:description",
@@ -60,8 +63,8 @@ function Index() {
             Un dossier complet, sans courir après les signatures.
           </h1>
           <p className="mt-6 max-w-[58ch] text-base leading-relaxed text-encre-2">
-            De la candidature du formateur à l’archivage, chaque pièce est générée, suivie, signée et classée
-            au même endroit.
+            De la candidature du formateur à l’archivage, chaque pièce est générée, suivie, signée
+            et classée au même endroit.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link to="/connexion">
@@ -81,7 +84,8 @@ function Index() {
               <div>
                 <h2 className="font-semibold">Documents regroupés</h2>
                 <p className="mt-1 text-sm leading-relaxed text-sur-accent/70">
-                  Contrats, conventions, factures, évaluations et preuves restent liés au bon dossier.
+                  Contrats, conventions, factures, évaluations et preuves restent liés au bon
+                  dossier.
                 </p>
               </div>
             </div>
@@ -90,7 +94,8 @@ function Index() {
               <div>
                 <h2 className="font-semibold">Trois espaces adaptés</h2>
                 <p className="mt-1 text-sm leading-relaxed text-sur-accent/70">
-                  Organisme, formateur et apprenant voient uniquement les informations qui les concernent.
+                  Organisme, formateur et apprenant voient uniquement les informations qui les
+                  concernent.
                 </p>
               </div>
             </div>
@@ -99,12 +104,16 @@ function Index() {
             className="mt-10 grid grid-cols-7 gap-1.5 text-[10px] font-medium text-sur-accent/60"
             aria-label="Étapes du dossier"
           >
-            {["Création", "Finance.", "Début", "Fin", "Paiem.", "Encaissé", "Archivé"].map((etape, index) => (
-              <li key={etape}>
-                <span className={`mb-2 block h-1 ${index < 3 ? "bg-attente" : "bg-sur-accent/20"}`} />
-                {etape}
-              </li>
-            ))}
+            {["Création", "Finance.", "Début", "Fin", "Paiem.", "Encaissé", "Archivé"].map(
+              (etape, index) => (
+                <li key={etape}>
+                  <span
+                    className={`mb-2 block h-1 ${index < 3 ? "bg-attente" : "bg-sur-accent/20"}`}
+                  />
+                  {etape}
+                </li>
+              ),
+            )}
           </ol>
         </div>
       </section>

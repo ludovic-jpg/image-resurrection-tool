@@ -147,7 +147,13 @@ export function bpfEnCsv(bpf: Bpf): string {
   ligne("RÉPARTITION PAR ORIGINE DU FINANCEMENT");
   ligne("Origine", "Actions", "Stagiaires", "Heures-stagiaires", "Produits HT (€)");
   for (const f of bpf.par_financement)
-    ligne(f.libelle, f.nb_actions, f.nb_stagiaires, nombre(f.heures_stagiaires), euros(f.montant_ht));
+    ligne(
+      f.libelle,
+      f.nb_actions,
+      f.nb_stagiaires,
+      nombre(f.heures_stagiaires),
+      euros(f.montant_ht),
+    );
   ligne();
   ligne("RÉPARTITION PAR FORMATEUR");
   ligne(

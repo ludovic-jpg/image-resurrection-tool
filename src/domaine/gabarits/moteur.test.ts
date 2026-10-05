@@ -4,9 +4,12 @@ import { migrerGabarit } from "./migration";
 
 describe("rendu d'un gabarit", () => {
   it("substitue les variables et n'en laisse aucune", () => {
-    const { html, manquantes } = rendreGabarit("<h1>{{formation_titre}}</h1><p>{{dossier_reference}}</p>", {
-      variables: { formation_titre: "Excel avancé", dossier_reference: "ADF-2026-0001" },
-    });
+    const { html, manquantes } = rendreGabarit(
+      "<h1>{{formation_titre}}</h1><p>{{dossier_reference}}</p>",
+      {
+        variables: { formation_titre: "Excel avancé", dossier_reference: "ADF-2026-0001" },
+      },
+    );
     expect(html).toBe("<h1>Excel avancé</h1><p>ADF-2026-0001</p>");
     expect(manquantes).toEqual([]);
     expect(balisesRestantes(html)).toEqual([]);
@@ -45,7 +48,9 @@ describe("rendu d'un gabarit", () => {
         stagiaire_2_poste: "Assistant",
       },
     });
-    expect(html).toBe("<ul><li>1. Anne Martin — Comptable</li><li>2. Luc Petit — Assistant</li></ul>");
+    expect(html).toBe(
+      "<ul><li>1. Anne Martin — Comptable</li><li>2. Luc Petit — Assistant</li></ul>",
+    );
     expect(manquantes).toEqual([]);
   });
 

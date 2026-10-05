@@ -89,7 +89,8 @@ export const ESPACES_FORMATEUR: readonly Espace[] = [
   {
     cle: "formation",
     titre: "Espace formation",
-    description: "Le générateur de conventions et le suivi de vos dossiers, de la création au paiement.",
+    description:
+      "Le générateur de conventions et le suivi de vos dossiers, de la création au paiement.",
     liens: [
       {
         vers: "/dossiers/nouveau",
@@ -127,7 +128,8 @@ const ESPACES_ADMIN: readonly Espace[] = [
   {
     cle: "administration",
     titre: "Administration",
-    description: "Candidatures des formateurs ; identité de l'organisme, assistant IA et envoi des e-mails.",
+    description:
+      "Candidatures des formateurs ; identité de l'organisme, assistant IA et envoi des e-mails.",
     liens: [
       { vers: "/admin/candidatures", libelle: "Candidatures", icone: "candidatures" },
       {
@@ -179,7 +181,9 @@ export function navigationPour(
         cle: "apprenant",
         titre: "Mon espace",
         description: "",
-        liens: [{ vers: "/tableau-de-bord", libelle: "Mes formations", icone: "formations", exact: true }],
+        liens: [
+          { vers: "/tableau-de-bord", libelle: "Mes formations", icone: "formations", exact: true },
+        ],
       },
     ],
     personnels: [],

@@ -127,7 +127,8 @@ export function rendreGabarit(gabarit: string, contexte: ContexteRendu): Resulta
     /<!--\s*zone:([a-z0-9_]+)((?:@[a-z]+=\d+)*)\s*-->/g,
     (_t, nom: string, suffixe: string) => {
       const rangs: Rangs = {};
-      for (const m of suffixe.matchAll(/@([a-z]+)=(\d+)/g)) rangs[m[1] as GroupeRepetable] = Number(m[2]);
+      for (const m of suffixe.matchAll(/@([a-z]+)=(\d+)/g))
+        rangs[m[1] as GroupeRepetable] = Number(m[2]);
       return zones[nom]?.(rangs) ?? "";
     },
   );
@@ -176,16 +177,17 @@ export function analyserGabarit(gabarit: string): AnalyseGabarit {
   }
 
   for (const m of gabarit.matchAll(/<!--\s*(si|sauf):([a-z0-9_]+)\s*-->/g)) {
-    if (!estVariableConnue(m[2]!)) defauts.push(`condition sur une variable hors dictionnaire : ${m[2]}`);
+    if (!estVariableConnue(m[2]!))
+      defauts.push(`condition sur une variable hors dictionnaire : ${m[2]}`);
   }
 
   for (const type of ["repeter", "si", "sauf"]) {
-    const ouvertures = [...gabarit.matchAll(new RegExp(`<!--\\s*${type}:([a-z0-9_]+)\\s*-->`, "g"))].map(
-      (m) => m[1]!,
-    );
-    const fermetures = [...gabarit.matchAll(new RegExp(`<!--\\s*/${type}:([a-z0-9_]+)\\s*-->`, "g"))].map(
-      (m) => m[1]!,
-    );
+    const ouvertures = [
+      ...gabarit.matchAll(new RegExp(`<!--\\s*${type}:([a-z0-9_]+)\\s*-->`, "g")),
+    ].map((m) => m[1]!);
+    const fermetures = [
+      ...gabarit.matchAll(new RegExp(`<!--\\s*/${type}:([a-z0-9_]+)\\s*-->`, "g")),
+    ].map((m) => m[1]!);
     if ([...ouvertures].sort().join() !== [...fermetures].sort().join()) {
       defauts.push(
         `blocs « ${type} » mal appariés (${ouvertures.length} ouverture(s), ${fermetures.length} fermeture(s))`,
@@ -193,7 +195,8 @@ export function analyserGabarit(gabarit: string): AnalyseGabarit {
     }
     if (type === "repeter") {
       for (const nom of ouvertures) {
-        if (!GROUPES.includes(nom as GroupeRepetable)) defauts.push(`groupe répétable inconnu : ${nom}`);
+        if (!GROUPES.includes(nom as GroupeRepetable))
+          defauts.push(`groupe répétable inconnu : ${nom}`);
       }
     }
   }

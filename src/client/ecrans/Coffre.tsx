@@ -81,7 +81,10 @@ export function CoffresParcours() {
         soustitre="Un coffre par parcours de formation : supports, questionnaires et programme d'un côté ; pièces administratives, positionnements et dossiers de l'autre. Tout se télécharge et se dépose au même endroit."
       />
       {coffres.data.length === 0 ? (
-        <EtatVide icone={<FolderLock className="size-8" aria-hidden />} titre="Aucun parcours pour l'instant">
+        <EtatVide
+          icone={<FolderLock className="size-8" aria-hidden />}
+          titre="Aucun parcours pour l'instant"
+        >
           {acteur.role === "formateur"
             ? "Créez une formation : son coffre-fort se crée avec elle et se remplit de ses supports et de ses tests."
             : "Les coffres des formateurs apparaîtront ici."}
@@ -144,7 +147,9 @@ export function CoffreParcours() {
   const { id } = useParams({ from: "/_authenticated/coffres/$id" });
   const requetes = useQueryClient();
   const notifier = useNotifier();
-  const [onglet, setOnglet] = useState<"pedagogique" | "administratif" | "corbeille">("pedagogique");
+  const [onglet, setOnglet] = useState<"pedagogique" | "administratif" | "corbeille">(
+    "pedagogique",
+  );
   const [modale, setModale] = useState<"depot" | "supports" | "inviter" | null>(null);
   const vue = useQuery({
     queryKey: ["coffre-parcours", id],
@@ -167,7 +172,10 @@ export function CoffreParcours() {
     onSuccess: async (_r, a) => {
       await rafraichir();
       if (a.type === "corbeille")
-        notifier("succes", "Fichier mis à la corbeille : il se restaure depuis l'onglet « Corbeille ».");
+        notifier(
+          "succes",
+          "Fichier mis à la corbeille : il se restaure depuis l'onglet « Corbeille ».",
+        );
       if (a.type === "restaurer") notifier("succes", "Fichier restauré.");
     },
     onError: (e) => notifier("danger", e.message),
@@ -304,7 +312,8 @@ export function CoffreParcours() {
                   <Presentation className="size-4 text-accent" aria-hidden /> Supports de cours
                 </h2>
                 <p className="mt-0.5 text-[13px] text-encre-2">
-                  Un PPTX de {DIAPOS_PAR_MODULE} diapositives par module, produit depuis le parcours.
+                  Un PPTX de {DIAPOS_PAR_MODULE} diapositives par module, produit depuis le
+                  parcours.
                 </p>
               </div>
               {proprietaire && (
@@ -332,7 +341,9 @@ export function CoffreParcours() {
               <li className="flex items-center justify-between gap-2 py-2.5">
                 <span className="min-w-0">
                   <span className="block text-sm font-medium">Programme de formation</span>
-                  <span className="text-xs text-encre-3">Produit à jour depuis la fiche formation</span>
+                  <span className="text-xs text-encre-3">
+                    Produit à jour depuis la fiche formation
+                  </span>
                 </span>
                 <a href={`/api/coffres-parcours/${id}/programme`} className={LIEN}>
                   <Download className="size-4" aria-hidden /> PDF
@@ -378,7 +389,8 @@ export function CoffreParcours() {
           <Carte className="p-5 xl:col-span-2">
             <h2 className="text-base font-semibold">Mes supports déposés</h2>
             <p className="mt-0.5 text-[13px] text-encre-2">
-              Ouverts à l'apprenant dès l'accord de financement, pour les fichiers marqués « Partagé ».
+              Ouverts à l'apprenant dès l'accord de financement, pour les fichiers marqués « Partagé
+              ».
             </p>
             {deposes.length ? (
               <ul className="mt-3 divide-y divide-trait">{deposes.map(ligneFichier)}</ul>
@@ -426,7 +438,10 @@ export function CoffreParcours() {
               {c.positionnements.length ? (
                 <ul className="mt-3 divide-y divide-trait">
                   {c.positionnements.map((p) => (
-                    <li key={p.id} className="flex flex-wrap items-center justify-between gap-2 py-2.5">
+                    <li
+                      key={p.id}
+                      className="flex flex-wrap items-center justify-between gap-2 py-2.5"
+                    >
                       <span className="min-w-0">
                         <span className="block text-sm font-medium">{p.apprenant}</span>
                         <span className="text-xs text-encre-3">
@@ -465,8 +480,8 @@ export function CoffreParcours() {
           <Carte className="p-5">
             <h2 className="text-base font-semibold">Dossiers de formation sur ce parcours</h2>
             <p className="mt-0.5 text-[13px] text-encre-2">
-              L'état des pièces de chaque dossier, à jour : ce qui est validé, ce qui est émis, ce qui reste
-              attendu.
+              L'état des pièces de chaque dossier, à jour : ce qui est validé, ce qui est émis, ce
+              qui reste attendu.
             </p>
             {c.dossiers.length === 0 ? (
               <p className="mt-3 text-sm text-encre-3">Aucun dossier ouvert sur ce parcours.</p>
@@ -500,7 +515,10 @@ export function CoffreParcours() {
                         <li key={p.id} className="flex flex-wrap items-center gap-2 px-4 py-2">
                           <span className="min-w-0 flex-1 text-sm">
                             {p.statut === "valide" ? (
-                              <CheckCircle2 className="mr-1.5 inline size-4 text-valide" aria-hidden />
+                              <CheckCircle2
+                                className="mr-1.5 inline size-4 text-valide"
+                                aria-hidden
+                              />
                             ) : (
                               <Clock3 className="mr-1.5 inline size-4 text-encre-3" aria-hidden />
                             )}
@@ -526,7 +544,10 @@ export function CoffreParcours() {
                             </a>
                           )}
                           {p.retour && (
-                            <a href={`/api/pieces/${p.id}/telecharger?version=retour`} className={LIEN}>
+                            <a
+                              href={`/api/pieces/${p.id}/telecharger?version=retour`}
+                              className={LIEN}
+                            >
                               Retour signé
                             </a>
                           )}
@@ -620,7 +641,11 @@ export function CoffreParcours() {
       >
         {modale === "supports" && <StudioSupports formationId={id} />}
       </Modale>
-      <Modale ouverte={modale === "inviter"} fermer={() => setModale(null)} titre="Inviter à se positionner">
+      <Modale
+        ouverte={modale === "inviter"}
+        fermer={() => setModale(null)}
+        titre="Inviter à se positionner"
+      >
         {modale === "inviter" && (
           <InviterPositionnement
             formationId={id}
@@ -672,7 +697,10 @@ function DepotCoffre({
       }}
     >
       <div>
-        <label className="mb-1.5 block text-[13px] font-medium text-encre-2" htmlFor="fichier-coffre">
+        <label
+          className="mb-1.5 block text-[13px] font-medium text-encre-2"
+          htmlFor="fichier-coffre"
+        >
           Fichier
         </label>
         <input
@@ -681,7 +709,9 @@ function DepotCoffre({
           onChange={(e) => setFichier(e.target.files?.[0] ?? null)}
           className="block w-full text-sm file:mr-3 file:rounded-sm file:border file:border-trait-fort file:bg-carte file:px-3 file:py-2 file:text-sm"
         />
-        <p className="mt-1.5 text-[13px] text-encre-3">PDF, Office, images, vidéo, ZIP… jusqu'à 100 Mo.</p>
+        <p className="mt-1.5 text-[13px] text-encre-3">
+          PDF, Office, images, vidéo, ZIP… jusqu'à 100 Mo.
+        </p>
       </div>
       <Selecteur
         libelle="Rubrique"
@@ -691,7 +721,8 @@ function DepotCoffre({
             ...v,
             categorie: e.target.value,
             partageable:
-              CATEGORIES_COFFRE.find((c) => c.valeur === e.target.value)?.partie !== "administratif",
+              CATEGORIES_COFFRE.find((c) => c.valeur === e.target.value)?.partie !==
+              "administratif",
           })
         }
       >
@@ -743,7 +774,13 @@ function DepotCoffre({
  * 20 diapositives à partir du dossier d'enjeux et du parcours, on l'aménage, puis on produit le PPTX, rangé dans le
  * coffre-fort. Ou tout le parcours d'un coup.
  */
-export function StudioSupports({ formation, formationId }: { formation?: Formation; formationId?: string }) {
+export function StudioSupports({
+  formation,
+  formationId,
+}: {
+  formation?: Formation;
+  formationId?: string;
+}) {
   const id = formation?.id ?? formationId!;
   const requetes = useQueryClient();
   const notifier = useNotifier();
@@ -762,12 +799,19 @@ export function StudioSupports({ formation, formationId }: { formation?: Formati
     ]);
   const plan = useMutation({
     mutationFn: () =>
-      api.post<{ diapos: Diapo[] }>("/ia/plan-support", { formation_id: id, module_index: Number(module) }),
+      api.post<{ diapos: Diapo[] }>("/ia/plan-support", {
+        formation_id: id,
+        module_index: Number(module),
+      }),
     onSuccess: (r) => setDiapos(r.diapos),
   });
   const produire = useMutation({
     mutationFn: () =>
-      api.post<{ nom: string }>("/supports", { formation_id: id, module_index: Number(module), diapos }),
+      api.post<{ nom: string }>("/supports", {
+        formation_id: id,
+        module_index: Number(module),
+        diapos,
+      }),
     onSuccess: async (r) => {
       await rafraichirCoffres();
       notifier("succes", `« ${r.nom} » est dans le coffre-fort.`);
@@ -800,14 +844,14 @@ export function StudioSupports({ formation, formationId }: { formation?: Formati
       {!ia.chargement && !ia.disponible && <AlerteIaIndisponible />}
       {modules.length === 0 && (
         <Alerte ton="attention" titre="Pas encore de parcours en modules">
-          Le support sera construit sur la formation entière (objectifs et programme). Pour un support par
-          module, générez d'abord le parcours dans la fiche formation.
+          Le support sera construit sur la formation entière (objectifs et programme). Pour un
+          support par module, générez d'abord le parcours dans la fiche formation.
         </Alerte>
       )}
       {!donnees.data.dossier_enjeux && (
         <Alerte>
-          Cette formation n'a pas encore de dossier d'enjeux : l'assistant le constituera d'abord (recherche
-          web), ce qui ajoute une minute environ.
+          Cette formation n'a pas encore de dossier d'enjeux : l'assistant le constituera d'abord
+          (recherche web), ce qui ajoute une minute environ.
         </Alerte>
       )}
       <Selecteur
@@ -833,11 +877,11 @@ export function StudioSupports({ formation, formationId }: { formation?: Formati
         ))}
       </Selecteur>
       <p className="text-[13px] text-encre-2">
-        L'assistant rédige le contenu de chaque diapositive à partir du dossier d'enjeux et du module : une
-        idée par diapositive, 3 à 5 points, un visuel suggéré, un point d'étape toutes les 4 à 5 diapositives,
-        un atelier de mise en pratique (consigne, critères, débriefing), une synthèse et un quiz. Les notes du
-        formateur accompagnent chaque diapositive. Vous relisez et aménagez le plan avant de produire le
-        fichier.
+        L'assistant rédige le contenu de chaque diapositive à partir du dossier d'enjeux et du
+        module : une idée par diapositive, 3 à 5 points, un visuel suggéré, un point d'étape toutes
+        les 4 à 5 diapositives, un atelier de mise en pratique (consigne, critères, débriefing), une
+        synthèse et un quiz. Les notes du formateur accompagnent chaque diapositive. Vous relisez et
+        aménagez le plan avant de produire le fichier.
       </p>
       <div className="flex flex-wrap items-center gap-3">
         <Bouton
@@ -869,8 +913,8 @@ export function StudioSupports({ formation, formationId }: { formation?: Formati
       )}
       {tous.isPending && (
         <p role="status" className="text-[13px] text-encre-3">
-          Production de {nbModules} support(s), module après module — comptez une à deux minutes par module.
-          Vous pouvez laisser cette fenêtre ouverte.
+          Production de {nbModules} support(s), module après module — comptez une à deux minutes par
+          module. Vous pouvez laisser cette fenêtre ouverte.
         </p>
       )}
       {(plan.error || tous.error) && (
@@ -897,8 +941,8 @@ export function StudioSupports({ formation, formationId }: { formation?: Formati
       {diapos && (
         <div className="space-y-3">
           <Alerte ton="attention" titre={`Plan de ${diapos.length} diapositives`}>
-            Aménagez les titres, les points (un par ligne), le visuel suggéré et vos notes, puis produisez le
-            PPTX.
+            Aménagez les titres, les points (un par ligne), le visuel suggéré et vos notes, puis
+            produisez le PPTX.
           </Alerte>
           <ol className="space-y-2">
             {diapos.map((d, i) => (
@@ -924,7 +968,9 @@ export function StudioSupports({ formation, formationId }: { formation?: Formati
                       libelle="Points (un par ligne, 6 au plus)"
                       rows={3}
                       value={d.points.join("\n")}
-                      onChange={(e) => majDiapo(i, { points: e.target.value.split("\n").slice(0, 6) })}
+                      onChange={(e) =>
+                        majDiapo(i, { points: e.target.value.split("\n").slice(0, 6) })
+                      }
                     />
                     <Champ
                       libelle="Visuel suggéré"

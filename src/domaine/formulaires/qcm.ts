@@ -18,7 +18,8 @@ export interface Questionnaire {
 export function validerQuestionnaire(q: Questionnaire): string[] {
   const erreurs: string[] = [];
   if (q.titre.trim() === "") erreurs.push("Le questionnaire doit avoir un titre.");
-  if (q.questions.length === 0) erreurs.push("Le questionnaire doit comporter au moins une question.");
+  if (q.questions.length === 0)
+    erreurs.push("Le questionnaire doit comporter au moins une question.");
   q.questions.forEach((question, i) => {
     const n = i + 1;
     if (question.enonce.trim() === "") erreurs.push(`Question ${n} : énoncé vide.`);

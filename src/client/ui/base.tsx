@@ -19,7 +19,8 @@ import {
 } from "react";
 import { AlertTriangle, Check, CircleAlert, Clock3, Info, Loader2, Upload, X } from "lucide-react";
 
-export const cx = (...classes: Array<string | false | null | undefined>) => classes.filter(Boolean).join(" ");
+export const cx = (...classes: Array<string | false | null | undefined>) =>
+  classes.filter(Boolean).join(" ");
 
 // ——— Bouton ———
 type VarianteBouton = "primaire" | "secondaire" | "discret" | "danger";
@@ -106,7 +107,11 @@ function Enveloppe({
   );
 }
 
-export type PropsChamp = { libelle: string; aide?: string | undefined; erreur?: string | undefined };
+export type PropsChamp = {
+  libelle: string;
+  aide?: string | undefined;
+  erreur?: string | undefined;
+};
 
 export function Champ({
   libelle,
@@ -176,7 +181,10 @@ export function Selecteur({
 // ——— Surfaces ———
 export function Carte({ children, className, ...reste }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div {...reste} className={cx("rounded-md border border-trait bg-carte shadow-carte", className)}>
+    <div
+      {...reste}
+      className={cx("rounded-md border border-trait bg-carte shadow-carte", className)}
+    >
       {children}
     </div>
   );
@@ -271,7 +279,10 @@ export function Alerte({
   children?: ReactNode;
 }) {
   const styles = {
-    info: ["border-trait bg-papier-2 text-encre-2", <Info key="i" className="size-4.5" aria-hidden />],
+    info: [
+      "border-trait bg-papier-2 text-encre-2",
+      <Info key="i" className="size-4.5" aria-hidden />,
+    ],
     attention: [
       "border-attente/60 bg-attente-doux text-attente-encre",
       <AlertTriangle key="i" className="size-4.5" aria-hidden />,
@@ -294,7 +305,9 @@ export function Alerte({
       <span className="mt-0.5 shrink-0">{icone}</span>
       <div className="min-w-0">
         {titre && <p className="font-semibold">{titre}</p>}
-        {children && <div className={cx(titre && "mt-0.5", "text-[13.5px] leading-relaxed")}>{children}</div>}
+        {children && (
+          <div className={cx(titre && "mt-0.5", "text-[13.5px] leading-relaxed")}>{children}</div>
+        )}
       </div>
     </div>
   );
@@ -404,7 +417,10 @@ export function Onglets<T extends string>({
   choisir: (cle: T) => void;
 }) {
   return (
-    <div role="tablist" className="-mx-1 mb-6 flex gap-1 overflow-x-auto border-b border-trait px-1">
+    <div
+      role="tablist"
+      className="-mx-1 mb-6 flex gap-1 overflow-x-auto border-b border-trait px-1"
+    >
       {onglets.map((o) => (
         <button
           key={o.cle}
@@ -483,7 +499,10 @@ export function FournisseurToasts({ children }: { children: ReactNode }) {
   const notifier = useCallback((ton: Toast["ton"], message: string) => {
     const id = Date.now() + Math.random();
     setToasts((t) => [...t, { id, ton, message }]);
-    setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), ton === "danger" ? 8000 : 3500);
+    setTimeout(
+      () => setToasts((t) => t.filter((x) => x.id !== id)),
+      ton === "danger" ? 8000 : 3500,
+    );
   }, []);
   return (
     <ContexteToasts.Provider value={notifier}>

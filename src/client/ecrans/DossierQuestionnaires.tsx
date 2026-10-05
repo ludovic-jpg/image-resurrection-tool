@@ -9,7 +9,16 @@
  */
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CheckCircle2, ClipboardList, Clock3, Eye, FileText, Mail, MailX, Send } from "lucide-react";
+import {
+  CheckCircle2,
+  ClipboardList,
+  Clock3,
+  Eye,
+  FileText,
+  Mail,
+  MailX,
+  Send,
+} from "lucide-react";
 import type { ErreurApi } from "../api";
 import {
   api,
@@ -285,11 +294,16 @@ export function Questionnaires({
     <Carte>
       <ul className="divide-y divide-trait">
         {lignes.map(({ type, def, etat }) => {
-          const evaluation = d.evaluations.find((e) => e.type === type && e.stagiaire_id === stagiaireId);
+          const evaluation = d.evaluations.find(
+            (e) => e.type === type && e.stagiaire_id === stagiaireId,
+          );
           const fait = etat!.valide;
           const aSigner = !fait && evaluation !== undefined && type === "acquis";
           return (
-            <li key={type} className="flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
+            <li
+              key={type}
+              className="flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-5"
+            >
               <div className="flex min-w-0 items-start gap-3">
                 {fait ? (
                   <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-valide" aria-hidden />
@@ -388,17 +402,18 @@ function ModaleEnvoi({
             <Alerte ton="danger" titre="L'e-mail n'a pas pu être expédié">
               {r.erreur_envoi || "Le serveur d'envoi a refusé le message."}
               <p className="mt-2">
-                Le lien personnel de {prenom} a tout de même été créé et copié dans le presse-papiers : vous
-                pouvez le lui transmettre par un autre moyen, ou lui remettre le document d'invitation (PDF).
+                Le lien personnel de {prenom} a tout de même été créé et copié dans le
+                presse-papiers : vous pouvez le lui transmettre par un autre moyen, ou lui remettre
+                le document d'invitation (PDF).
               </p>
             </Alerte>
           ) : (
             <Alerte ton="attention" titre="E-mail consigné, mais non expédié">
-              L'envoi d'e-mails n'est pas configuré sur la plateforme (Organisme → E-mails) : le message est
-              consigné dans la boîte d'envoi, sans partir.
+              L'envoi d'e-mails n'est pas configuré sur la plateforme (Organisme → E-mails) : le
+              message est consigné dans la boîte d'envoi, sans partir.
               <p className="mt-2">
-                Le lien personnel de {prenom} est copié dans le presse-papiers : transmettez-le lui, ou
-                remettez-lui le document d'invitation (PDF).
+                Le lien personnel de {prenom} est copié dans le presse-papiers : transmettez-le lui,
+                ou remettez-lui le document d'invitation (PDF).
               </p>
             </Alerte>
           )}
@@ -428,9 +443,9 @@ function ModaleEnvoi({
           }}
         >
           <p className="text-sm text-encre-2">
-            {prenom} reçoit un e-mail avec un lien personnel (valable 45 jours) et un document d'invitation
-            PDF avec QR code. La page s'ouvre à son nom, sans compte : réponses, date, lieu, signature. Une
-            fois signé, le document rejoint le dossier tout seul.
+            {prenom} reçoit un e-mail avec un lien personnel (valable 45 jours) et un document
+            d'invitation PDF avec QR code. La page s'ouvre à son nom, sans compte : réponses, date,
+            lieu, signature. Une fois signé, le document rejoint le dossier tout seul.
             {renvoi && " Le lien précédent cessera de fonctionner."}
           </p>
           <ZoneTexte
@@ -503,7 +518,10 @@ function LigneFormulaire({
   return (
     <li className="flex flex-wrap items-center gap-x-3 gap-y-2 px-4 py-3">
       <Icone
-        className={cx("size-4.5 shrink-0", ligne.statut === "valide" ? "text-valide" : "text-encre-3")}
+        className={cx(
+          "size-4.5 shrink-0",
+          ligne.statut === "valide" ? "text-valide" : "text-encre-3",
+        )}
         aria-hidden
       />
       <div className="min-w-0 flex-1">
@@ -542,7 +560,9 @@ function LigneFormulaire({
             taille="sm"
             icone={<Send className="size-3.5" aria-hidden />}
             disabled={sansEmail}
-            title={sansEmail ? "Ajoutez d'abord une adresse e-mail à la fiche de l'apprenant" : undefined}
+            title={
+              sansEmail ? "Ajoutez d'abord une adresse e-mail à la fiche de l'apprenant" : undefined
+            }
             onClick={() => setModale("envoi")}
           >
             {ligne.envois > 0 ? "Renvoyer" : "Envoyer"}
@@ -595,8 +615,8 @@ export function FormulairesApprenant({ d, stagiaireId }: { d: Dossier; stagiaire
       {!st?.email && !d.archive && (
         <div className="px-4 pb-2">
           <Alerte ton="attention">
-            Cette fiche n'a pas d'adresse e-mail : aucun formulaire ne peut lui être envoyé. Complétez-la dans
-            « Apprenants et entreprises ».
+            Cette fiche n'a pas d'adresse e-mail : aucun formulaire ne peut lui être envoyé.
+            Complétez-la dans « Apprenants et entreprises ».
           </Alerte>
         </div>
       )}

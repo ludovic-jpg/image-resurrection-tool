@@ -10,7 +10,11 @@ import "./passerelle";
 
 export { route, routesEnregistrees } from "./registre";
 
-export async function aiguiller(methode: string, cheminComplet: string, corps?: unknown): Promise<unknown> {
+export async function aiguiller(
+  methode: string,
+  cheminComplet: string,
+  corps?: unknown,
+): Promise<unknown> {
   const [chemin = "", requete = ""] = cheminComplet.split("?");
   for (const e of table) {
     if (e.methode !== methode) continue;
@@ -20,7 +24,12 @@ export async function aiguiller(methode: string, cheminComplet: string, corps?: 
     e.cles.forEach((cle, i) => (params[cle] = decodeURIComponent(m[i + 1] ?? "")));
     return e.gestionnaire({ params, requete: new URLSearchParams(requete), corps });
   }
-  throw new ErreurApi("Cette fonction arrive dans un prochain lot de la reprise.", 501, "non_porte", null);
+  throw new ErreurApi(
+    "Cette fonction arrive dans un prochain lot de la reprise.",
+    501,
+    "non_porte",
+    null,
+  );
 }
 
 /** Traduit une erreur Supabase (PostgREST, Auth, RPC) dans le format que les écrans connaissent. */

@@ -25,7 +25,10 @@ export function HistoriqueVersions({
     mutationFn: (versionId: string) => api.post(`/versions/${versionId}/restaurer`),
     onSuccess: async () => {
       await requetes.invalidateQueries();
-      notifier("succes", "Version restaurée. L'état précédent a lui-même été gardé dans l'historique.");
+      notifier(
+        "succes",
+        "Version restaurée. L'état précédent a lui-même été gardé dans l'historique.",
+      );
       restaure();
     },
     onError: (e) => notifier("danger", e.message),
@@ -35,14 +38,15 @@ export function HistoriqueVersions({
   if (versions.data.length === 0)
     return (
       <Alerte>
-        Aucune version antérieure : l'historique commence au premier enregistrement qui suit la création.
+        Aucune version antérieure : l'historique commence au premier enregistrement qui suit la
+        création.
       </Alerte>
     );
   return (
     <div className="space-y-3">
       <p className="text-[13px] text-encre-2">
-        Chaque enregistrement conserve l'état précédent (50 versions au plus). Restaurer une version est
-        réversible : l'état actuel est d'abord mis de côté.
+        Chaque enregistrement conserve l'état précédent (50 versions au plus). Restaurer une version
+        est réversible : l'état actuel est d'abord mis de côté.
       </p>
       <ul className="divide-y divide-trait rounded-md border border-trait">
         {versions.data.map((v) => (

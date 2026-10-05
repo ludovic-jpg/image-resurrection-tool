@@ -83,12 +83,17 @@ function LienIndisponible({ erreur }: { erreur: Error }) {
 }
 
 function Entete({ p }: { p: FormulairePublic }) {
-  const couleur = /^#[0-9a-f]{6}$/i.test(p.organisme.couleur) ? p.organisme.couleur : "var(--color-accent)";
+  const couleur = /^#[0-9a-f]{6}$/i.test(p.organisme.couleur)
+    ? p.organisme.couleur
+    : "var(--color-accent)";
   return (
     <header className="-mx-4 mb-6 sm:-mx-6">
       <div className="h-1.5" style={{ background: couleur }} aria-hidden />
       <div className="border-b border-trait bg-carte px-4 py-4 sm:px-6">
-        <p className="flex items-center gap-2 text-sm font-semibold tracking-wide" style={{ color: couleur }}>
+        <p
+          className="flex items-center gap-2 text-sm font-semibold tracking-wide"
+          style={{ color: couleur }}
+        >
           <ShieldCheck className="size-4 shrink-0" aria-hidden /> {p.organisme.nom}
         </p>
         <h1 className="mt-2 text-[24px] leading-tight font-semibold sm:text-[28px]">{p.libelle}</h1>
@@ -98,15 +103,26 @@ function Entete({ p }: { p: FormulairePublic }) {
 }
 
 function Recapitulatif({ p }: { p: FormulairePublic }) {
-  const periode = p.dates.debut || p.dates.fin ? `${dateFr(p.dates.debut)} → ${dateFr(p.dates.fin)}` : null;
+  const periode =
+    p.dates.debut || p.dates.fin ? `${dateFr(p.dates.debut)} → ${dateFr(p.dates.fin)}` : null;
   const lignes: Array<{ icone: React.ReactNode; cle: string; valeur: string }> = [
-    { icone: <GraduationCap className="size-4" aria-hidden />, cle: "Formation", valeur: p.formation_titre },
+    {
+      icone: <GraduationCap className="size-4" aria-hidden />,
+      cle: "Formation",
+      valeur: p.formation_titre,
+    },
     { icone: <FileText className="size-4" aria-hidden />, cle: "Formulaire", valeur: p.libelle },
     ...(periode
       ? [{ icone: <CalendarDays className="size-4" aria-hidden />, cle: "Dates", valeur: periode }]
       : []),
     ...(p.formateur
-      ? [{ icone: <UserRound className="size-4" aria-hidden />, cle: "Formateur", valeur: p.formateur }]
+      ? [
+          {
+            icone: <UserRound className="size-4" aria-hidden />,
+            cle: "Formateur",
+            valeur: p.formateur,
+          },
+        ]
       : []),
     {
       icone: <Mail className="size-4" aria-hidden />,
@@ -131,8 +147,8 @@ function Recapitulatif({ p }: { p: FormulairePublic }) {
         ))}
       </dl>
       <p className="mt-3 text-[13px] text-encre-3">
-        Une erreur dans votre nom ou votre adresse ? Signalez-la à votre formateur ; vous pouvez tout de même
-        répondre.
+        Une erreur dans votre nom ou votre adresse ? Signalez-la à votre formateur ; vous pouvez
+        tout de même répondre.
       </p>
     </Carte>
   );
@@ -150,7 +166,9 @@ function Formulaire({ jeton, p }: { jeton: string; p: FormulairePublic }) {
   const brouillon = p.brouillon;
 
   const [texte, setTexte] = useState<ReponsesTexte>(() =>
-    brouillon?.reponses && !Array.isArray(brouillon.reponses) && typeof brouillon.reponses === "object"
+    brouillon?.reponses &&
+    !Array.isArray(brouillon.reponses) &&
+    typeof brouillon.reponses === "object"
       ? (brouillon.reponses as ReponsesTexte)
       : {},
   );
@@ -174,7 +192,11 @@ function Formulaire({ jeton, p }: { jeton: string; p: FormulairePublic }) {
   const reponses: ReponsesTexte | ReponsesQcm = p.questionnaire ? qcm : texte;
   const enregistrer = useMutation({
     mutationFn: () =>
-      api.put<{ enregistre_le: string }>(`/public/formulaire/${jeton}/brouillon`, { reponses, date, lieu }),
+      api.put<{ enregistre_le: string }>(`/public/formulaire/${jeton}/brouillon`, {
+        reponses,
+        date,
+        lieu,
+      }),
     onSuccess: (r) => {
       setEnregistreLe(r.enregistre_le);
       modifie.current = false;
@@ -215,8 +237,8 @@ function Formulaire({ jeton, p }: { jeton: string; p: FormulairePublic }) {
         <Entete p={p} />
         <Recapitulatif p={p} />
         <Alerte ton="attention" titre="Ce formulaire n'est plus ouvert">
-          Le dossier de formation a changé d'étape : il n'est plus possible d'y répondre en ligne. Si vous
-          pensez qu'il s'agit d'une erreur, contactez votre formateur.
+          Le dossier de formation a changé d'étape : il n'est plus possible d'y répondre en ligne.
+          Si vous pensez qu'il s'agit d'une erreur, contactez votre formateur.
         </Alerte>
       </>
     );
@@ -228,8 +250,8 @@ function Formulaire({ jeton, p }: { jeton: string; p: FormulairePublic }) {
         <Entete p={p} />
         <Recapitulatif p={p} />
         <Alerte ton="attention" titre="Ce formulaire n'a pas encore de contenu">
-          Votre formateur doit le préparer avant que vous puissiez y répondre. Revenez par le même lien un peu
-          plus tard, ou contactez-le.
+          Votre formateur doit le préparer avant que vous puissiez y répondre. Revenez par le même
+          lien un peu plus tard, ou contactez-le.
         </Alerte>
       </>
     );
@@ -341,8 +363,8 @@ function Formulaire({ jeton, p }: { jeton: string; p: FormulairePublic }) {
             {p.questionnaire.titre}
           </h2>
           <p className="mb-3 text-sm text-encre-2">
-            Une seule réponse par question. Répondez spontanément : il s'agit de situer vos connaissances, pas
-            de vous piéger.
+            Une seule réponse par question. Répondez spontanément : il s'agit de situer vos
+            connaissances, pas de vous piéger.
           </p>
           <div className="space-y-3">
             {questions.map((q, i) => (
@@ -408,7 +430,8 @@ function Formulaire({ jeton, p }: { jeton: string; p: FormulairePublic }) {
           <PenLine className="size-5 text-accent" aria-hidden /> Date, lieu et signature
         </h2>
         <p className="mb-3 text-sm text-encre-2">
-          Dernière étape : datez, indiquez où vous vous trouvez et signez avec le doigt ou la souris.
+          Dernière étape : datez, indiquez où vous vous trouvez et signez avec le doigt ou la
+          souris.
         </p>
         <Carte className="space-y-4 p-4 sm:p-5">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -451,13 +474,15 @@ function Formulaire({ jeton, p }: { jeton: string; p: FormulairePublic }) {
               className="mt-0.5 size-5 shrink-0 accent-(--color-accent)"
             />
             <span>
-              Je certifie l'exactitude de mes réponses et je signe électroniquement ce document (signature
-              électronique simple). La date et l'heure de ma signature sont enregistrées par le serveur, avec
-              une empreinte du document qui permet de prouver qu'il n'a pas été modifié ensuite.
+              Je certifie l'exactitude de mes réponses et je signe électroniquement ce document
+              (signature électronique simple). La date et l'heure de ma signature sont enregistrées
+              par le serveur, avec une empreinte du document qui permet de prouver qu'il n'a pas été
+              modifié ensuite.
             </span>
           </label>
           <p className="flex items-center gap-1.5 text-[12px] text-encre-3">
-            <LockKeyhole className="size-3.5" aria-hidden /> Lien personnel : ne le transmettez à personne.
+            <LockKeyhole className="size-3.5" aria-hidden /> Lien personnel : ne le transmettez à
+            personne.
           </p>
         </Carte>
       </section>
@@ -569,7 +594,10 @@ function ChampReponse({
               );
             })}
           </div>
-          <div className="mt-1 flex justify-between text-[12px] text-encre-3 sm:max-w-sm" aria-hidden>
+          <div
+            className="mt-1 flex justify-between text-[12px] text-encre-3 sm:max-w-sm"
+            aria-hidden
+          >
             <span>{LEGENDE_NOTES[1]}</span>
             <span>{LEGENDE_NOTES[5]}</span>
           </div>
@@ -643,8 +671,8 @@ function Confirmation({ jeton, p }: { jeton: string; p: FormulairePublic }) {
         </p>
         <p className="mt-1 text-sm text-encre-2">
           Le document signé a rejoint votre dossier de formation « {p.formation_titre} »
-          {p.formateur ? ` ; ${p.formateur} en a été prévenu` : ""}. Une copie vous a aussi été envoyée par
-          e-mail{p.apprenant.email ? ` à ${p.apprenant.email}` : ""}.
+          {p.formateur ? ` ; ${p.formateur} en a été prévenu` : ""}. Une copie vous a aussi été
+          envoyée par e-mail{p.apprenant.email ? ` à ${p.apprenant.email}` : ""}.
         </p>
         {p.pdf ? (
           <a

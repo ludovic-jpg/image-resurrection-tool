@@ -17,7 +17,10 @@ import { Icone } from "./Cadre";
 
 export function Accueil() {
   const acteur = useActeur();
-  const liste = useQuery({ queryKey: ["dossiers"], queryFn: () => api.get<ListeDossiers>("/dossiers") });
+  const liste = useQuery({
+    queryKey: ["dossiers"],
+    queryFn: () => api.get<ListeDossiers>("/dossiers"),
+  });
   if (liste.isPending) return <Chargement />;
   if (liste.error) return <p className="text-danger">{liste.error.message}</p>;
   if (acteur.role === "apprenant")
@@ -31,7 +34,10 @@ export function Accueil() {
 /** « Mes dossiers » du formateur (espace formation) — et « Tous les dossiers » pour l'admin qui suivrait ce lien. */
 export function MesDossiers() {
   const acteur = useActeur();
-  const liste = useQuery({ queryKey: ["dossiers"], queryFn: () => api.get<ListeDossiers>("/dossiers") });
+  const liste = useQuery({
+    queryKey: ["dossiers"],
+    queryFn: () => api.get<ListeDossiers>("/dossiers"),
+  });
   if (liste.isPending) return <Chargement />;
   if (liste.error) return <p className="text-danger">{liste.error.message}</p>;
   return <Pipeline liste={liste.data} admin={acteur.role === "admin"} />;
@@ -55,7 +61,11 @@ function MenuEspaces({ liste, prenom }: { liste: ListeDossiers; prenom: string }
           ? "1 dossier en cours"
           : `${enCours} dossiers en cours`,
     "/dossiers/nouveau":
-      aTraiter > 0 ? (aTraiter === 1 ? "1 brouillon à finaliser" : `${aTraiter} brouillons à finaliser`) : "",
+      aTraiter > 0
+        ? aTraiter === 1
+          ? "1 brouillon à finaliser"
+          : `${aTraiter} brouillons à finaliser`
+        : "",
   };
   return (
     <>
@@ -84,7 +94,10 @@ function MenuEspaces({ liste, prenom }: { liste: ListeDossiers; prenom: string }
                     to={l.vers}
                     className="group flex items-center gap-3 rounded-md border border-trait px-3 py-2.5 transition-colors duration-150 hover:border-accent/60 hover:bg-papier-2"
                   >
-                    <Icone cle={l.icone} className="size-4 shrink-0 text-encre-3 group-hover:text-accent" />
+                    <Icone
+                      cle={l.icone}
+                      className="size-4 shrink-0 text-encre-3 group-hover:text-accent"
+                    />
                     <span className="min-w-0 flex-1">
                       <span className="block text-sm font-medium">{l.libelle}</span>
                       {(indicateur[l.vers] || l.aide) && (
@@ -152,7 +165,9 @@ function Carte({ d, admin }: { d: CarteDossier; admin: boolean }) {
           {d.libelle_statut}
         </Etiquette>
       </div>
-      <p className="mt-2 line-clamp-2 text-sm leading-snug font-semibold text-encre">{d.formation_titre}</p>
+      <p className="mt-2 line-clamp-2 text-sm leading-snug font-semibold text-encre">
+        {d.formation_titre}
+      </p>
       <p className="mt-1.5 flex items-center gap-1.5 truncate text-[13px] text-encre-2">
         <UserRound className="size-3.5 shrink-0 text-encre-3" aria-hidden />
         <span className="truncate">{d.apprenants.join(", ") || "—"}</span>
@@ -319,7 +334,9 @@ function MesFormations({ liste, prenom }: { liste: ListeDossiers; prenom: string
                   className="group flex items-center gap-4 rounded-md border border-trait bg-carte p-4 shadow-carte transition-[border-color] duration-150 hover:border-accent/60 sm:p-5"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="font-display text-[17px] leading-snug font-semibold">{d.formation_titre}</p>
+                    <p className="font-display text-[17px] leading-snug font-semibold">
+                      {d.formation_titre}
+                    </p>
                     <p className="chiffres mt-1 text-sm text-encre-2">
                       {d.formation_date_debut
                         ? `Du ${dateFr(d.formation_date_debut)} au ${dateFr(d.formation_date_fin)}`
@@ -334,7 +351,9 @@ function MesFormations({ liste, prenom }: { liste: ListeDossiers; prenom: string
                         </Etiquette>
                       ) : enAttente > 0 ? (
                         <Etiquette ton="attente">
-                          {enAttente === 1 ? "1 document à traiter" : `${enAttente} documents à traiter`}
+                          {enAttente === 1
+                            ? "1 document à traiter"
+                            : `${enAttente} documents à traiter`}
                         </Etiquette>
                       ) : (
                         <Etiquette ton="accent">Vous êtes à jour</Etiquette>

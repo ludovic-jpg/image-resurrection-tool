@@ -36,7 +36,13 @@ function nomStagiaire(d: Dossier, id: string | null) {
 }
 
 /** Aperçu d'une pièce (générée ou validée) dans un cadre isolé ; réutilisé par les formulaires de l'apprenant. */
-export function Apercu({ piece, fermer }: { piece: Pick<Piece, "id" | "libelle">; fermer: () => void }) {
+export function Apercu({
+  piece,
+  fermer,
+}: {
+  piece: Pick<Piece, "id" | "libelle">;
+  fermer: () => void;
+}) {
   return (
     <Modale ouverte fermer={fermer} titre={piece.libelle} large>
       {/* Cadre isolé : le document s'affiche sans script ni ressource externe (CSP posée par le serveur). */}
@@ -50,7 +56,15 @@ export function Apercu({ piece, fermer }: { piece: Pick<Piece, "id" | "libelle">
   );
 }
 
-function Signer({ piece, dossierId, fermer }: { piece: Piece; dossierId: string; fermer: () => void }) {
+function Signer({
+  piece,
+  dossierId,
+  fermer,
+}: {
+  piece: Piece;
+  dossierId: string;
+  fermer: () => void;
+}) {
   const rafraichir = useRafraichirDossier(dossierId);
   const notifier = useNotifier();
   const signer = useMutation({
@@ -100,8 +114,8 @@ function ControleIntegrite({ piece, fermer }: { piece: Piece; fermer: () => void
         <p className="text-sm text-encre-3">Recalcul de l'empreinte…</p>
       ) : controle.data?.integre ? (
         <Alerte ton="succes" titre="Document intègre">
-          L'empreinte du fichier archivé correspond à celle scellée lors du retour : il n'a pas été modifié
-          depuis.
+          L'empreinte du fichier archivé correspond à celle scellée lors du retour : il n'a pas été
+          modifié depuis.
         </Alerte>
       ) : (
         <Alerte ton="danger" titre="Document altéré">
@@ -164,7 +178,9 @@ function LignePiece({ d, piece }: { d: Dossier; piece: Piece }) {
         <div className="min-w-0">
           <p className="font-medium text-encre">
             {piece.libelle}
-            {stagiaire && interne && <span className="font-normal text-encre-2"> — {stagiaire}</span>}
+            {stagiaire && interne && (
+              <span className="font-normal text-encre-2"> — {stagiaire}</span>
+            )}
           </p>
           <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1">
             <PastilleStatut statut={piece.statut} libelle={piece.libelle_statut} />
@@ -257,7 +273,9 @@ function LignePiece({ d, piece }: { d: Dossier; piece: Piece }) {
       </div>
 
       {modale === "apercu" && <Apercu piece={piece} fermer={() => setModale(null)} />}
-      {modale === "signer" && <Signer piece={piece} dossierId={d.id} fermer={() => setModale(null)} />}
+      {modale === "signer" && (
+        <Signer piece={piece} dossierId={d.id} fermer={() => setModale(null)} />
+      )}
       {modale === "preuve" && <ControleIntegrite piece={piece} fermer={() => setModale(null)} />}
     </li>
   );
@@ -270,7 +288,9 @@ export function EspaceCommunication({ d, espace }: { d: Dossier; espace: "appren
       <EtatVide
         icone={<ShieldX className="size-7" aria-hidden />}
         titre={
-          espace === "of" ? "Rien à échanger avec l'organisme pour l'instant" : "Aucune pièce pour l'instant"
+          espace === "of"
+            ? "Rien à échanger avec l'organisme pour l'instant"
+            : "Aucune pièce pour l'instant"
         }
       >
         {espace === "of"

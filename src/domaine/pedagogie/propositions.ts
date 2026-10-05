@@ -158,12 +158,18 @@ export function consigneProgramme(
 export type Resultat<T> = { ok: true; valeur: T } | { ok: false; erreurs: string[] };
 
 /** Valide un QCM proposé par l'IA : forme, nombre exact de questions, règles du QCM de la plateforme. */
-export function validerPropositionQcm(brut: unknown, nombreAttendu: number): Resultat<Questionnaire> {
+export function validerPropositionQcm(
+  brut: unknown,
+  nombreAttendu: number,
+): Resultat<Questionnaire> {
   if (typeof brut !== "object" || brut === null)
     return { ok: false, erreurs: ["La réponse de l'IA n'est pas un objet."] };
   const o = brut as Record<string, unknown>;
   if (!texte(o.titre) || !Array.isArray(o.questions))
-    return { ok: false, erreurs: ["La réponse de l'IA ne suit pas le schéma attendu (titre, questions)."] };
+    return {
+      ok: false,
+      erreurs: ["La réponse de l'IA ne suit pas le schéma attendu (titre, questions)."],
+    };
   const questions = o.questions.map((q) => {
     const x = (q ?? {}) as Record<string, unknown>;
     return {
@@ -233,7 +239,11 @@ export function extraireJson(reponse: string): unknown {
 // ——— Parcours complet et supports de cours ———
 
 /** Parcours complet : l'IA rédige le contenu des modules ; leurs durées sont imposées par la plateforme. */
-export function consigneParcours(e: EntreeParcours, durees: number[], enjeux?: DossierEnjeux | null): string {
+export function consigneParcours(
+  e: EntreeParcours,
+  durees: number[],
+  enjeux?: DossierEnjeux | null,
+): string {
   return [
     `Conçois le parcours de l'action de formation « ${e.titre} », découpé en exactement ${durees.length} module(s), à partir du dossier d'enjeux ci-dessous.`,
     `Durées imposées (ne pas les modifier) : ${durees.map((d, i) => `module ${i + 1} = ${heuresTexte(d)}`).join(", ")}.`,
@@ -257,7 +267,12 @@ export function consigneParcours(e: EntreeParcours, durees: number[], enjeux?: D
 export function validerPropositionParcours(
   brut: unknown,
   durees: number[],
-): Resultat<{ objectifs: string[]; modules: ModuleParcours[]; public_vise: string; prerequis: string }> {
+): Resultat<{
+  objectifs: string[];
+  modules: ModuleParcours[];
+  public_vise: string;
+  prerequis: string;
+}> {
   if (typeof brut !== "object" || brut === null)
     return { ok: false, erreurs: ["La réponse de l'IA n'est pas un objet."] };
   const o = brut as Record<string, unknown>;
@@ -284,7 +299,11 @@ export function validerPropositionParcours(
 }
 
 /** Plan de 20 diapositives pour UN module : recherche, présentation cognitive, mise en page, mise en pratique. */
-export function consigneDiapos(formation: ContexteFormation, m: ModuleParcours, rang: number): string {
+export function consigneDiapos(
+  formation: ContexteFormation,
+  m: ModuleParcours,
+  rang: number,
+): string {
   return [
     `Conçois le support de cours (diaporama) du module ${rang} « ${m.titre} » de la formation « ${formation.formation_titre} » : exactement ${DIAPOS_PAR_MODULE} diapositives, au contenu RÉDIGÉ (faits, définitions, chiffres, exemples réels du domaine), prêt à projeter.`,
     "Utilise la recherche web pour vérifier les faits, textes et chiffres cités, et pour trouver un exemple réel récent.",

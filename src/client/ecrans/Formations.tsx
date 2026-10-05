@@ -91,13 +91,15 @@ function etatDepuis(f?: Formation) {
     formation_titre: f?.formation_titre ?? "",
     formation_niveau: f?.formation_niveau ?? "",
     formation_domaine: f?.formation_domaine ?? "",
-    formation_modalite: (f?.formation_modalite ?? "presentiel") as "presentiel" | "distanciel" | "mixte",
+    formation_modalite: (f?.formation_modalite ?? "presentiel") as
+      "presentiel" | "distanciel" | "mixte",
     heures: f?.formation_duree_heures_total?.toString().replace(".", ",") ?? "",
     jours: f?.formation_duree_jours?.toString().replace(".", ",") ?? "",
     prix: eurosEnSaisie(f?.formation_prix_unitaire_ht),
     prix_groupe: eurosEnSaisie(f?.formation_prix_groupe_ht),
     nb_modules: String(
-      f?.formation_nb_modules ?? ((f?.formation_modules as ModuleParcours[] | undefined)?.length || 3),
+      f?.formation_nb_modules ??
+        ((f?.formation_modules as ModuleParcours[] | undefined)?.length || 3),
     ),
     modules: ((f?.formation_modules ?? []) as ModuleParcours[]).map((m) => ({ ...m })),
     formation_objectifs: f?.formation_objectifs ?? "",
@@ -110,7 +112,8 @@ function etatDepuis(f?: Formation) {
     formation_lieu_adresse: f?.formation_lieu_adresse ?? "",
     formation_lieu_siret: f?.formation_lieu_siret ?? "",
     formation_lien_visio: f?.formation_lien_visio ?? "",
-    mode_financement: (f?.mode_financement ?? "opco") as "opco" | "faf" | "entreprise" | "fonds_propres",
+    mode_financement: (f?.mode_financement ?? "opco") as
+      "opco" | "faf" | "entreprise" | "fonds_propres",
     formation_opco: f?.formation_opco ?? "",
     public_vise: f?.public_vise ?? "",
     formation_prerequis: f?.formation_prerequis ?? "",
@@ -203,7 +206,10 @@ export function FormulaireFormation({
 
   const enregistrer = useMutation({
     mutationFn: () => {
-      const corps = { ...corpsDepuis(v), ...(enjeuxNouveau ? { dossier_enjeux: enjeuxNouveau } : {}) };
+      const corps = {
+        ...corpsDepuis(v),
+        ...(enjeuxNouveau ? { dossier_enjeux: enjeuxNouveau } : {}),
+      };
       return initiale
         ? api.patch<Formation>(`/formations/${initiale.id}`, corps)
         : api.post<Formation>("/formations", corps);
@@ -252,7 +258,8 @@ export function FormulaireFormation({
         formation_objectifs: r.formation_objectifs,
         programme: r.programme,
         public_vise: remplacer || !publicActuel ? r.public_vise : v.public_vise,
-        formation_prerequis: remplacer || !prerequisActuel ? r.formation_prerequis : v.formation_prerequis,
+        formation_prerequis:
+          remplacer || !prerequisActuel ? r.formation_prerequis : v.formation_prerequis,
       });
       if (JSON.stringify(r.dossier_enjeux) !== JSON.stringify(enjeuxEnregistre))
         setEnjeuxNouveau(r.dossier_enjeux);
@@ -268,7 +275,8 @@ export function FormulaireFormation({
     });
   });
 
-  const err = enregistrer.error instanceof ErreurApi ? (enregistrer.error.details?.champs ?? {}) : {};
+  const err =
+    enregistrer.error instanceof ErreurApi ? (enregistrer.error.details?.champs ?? {}) : {};
   const erreursListe =
     enregistrer.error instanceof ErreurApi && Array.isArray(enregistrer.error.details?.erreurs)
       ? enregistrer.error.details.erreurs
@@ -294,7 +302,8 @@ export function FormulaireFormation({
   });
   const totalModules = v.modules.reduce((a, m) => a + (Number(m.duree_heures) || 0), 0);
   const heuresTotal = nombreSaisi(v.heures);
-  const pretAGenerer = v.formation_titre.trim().length >= 3 && heuresTotal !== null && heuresTotal > 0;
+  const pretAGenerer =
+    v.formation_titre.trim().length >= 3 && heuresTotal !== null && heuresTotal > 0;
 
   return (
     <form
@@ -341,7 +350,9 @@ export function FormulaireFormation({
             <Selecteur
               libelle="Modalité habituelle"
               value={v.formation_modalite}
-              onChange={(e) => maj({ formation_modalite: e.target.value as Etat["formation_modalite"] })}
+              onChange={(e) =>
+                maj({ formation_modalite: e.target.value as Etat["formation_modalite"] })
+              }
             >
               {MODALITES.map((m) => (
                 <option key={m.valeur} value={m.valeur}>
@@ -387,10 +398,11 @@ export function FormulaireFormation({
               <Wand2 className="size-4 text-accent" aria-hidden /> Générer le parcours de formation
             </p>
             <p className="mt-1 text-[13px] text-encre-2">
-              Avec l'intitulé, la durée et le nombre de modules, l'assistant commence par se documenter sur le
-              sujet (recherche web : enjeux, cadre réglementaire, notions clés), puis conçoit le parcours
-              complet : modules, objectifs, contenus, méthodes, mise en pratique, évaluations, public visé et
-              prérequis. Vous en restez l'auteur : relisez, aménagez, puis enregistrez.
+              Avec l'intitulé, la durée et le nombre de modules, l'assistant commence par se
+              documenter sur le sujet (recherche web : enjeux, cadre réglementaire, notions clés),
+              puis conçoit le parcours complet : modules, objectifs, contenus, méthodes, mise en
+              pratique, évaluations, public visé et prérequis. Vous en restez l'auteur : relisez,
+              aménagez, puis enregistrez.
             </p>
             {!ia.chargement && !ia.disponible && (
               <div className="mt-3">
@@ -425,7 +437,9 @@ export function FormulaireFormation({
                   Générer le parcours
                 </Bouton>
                 {ia.disponible && <MentionMoteur description={ia.description} />}
-                {ia.disponible && <span className="text-[12.5px] text-encre-3">· 1 à 3 minutes</span>}
+                {ia.disponible && (
+                  <span className="text-[12.5px] text-encre-3">· 1 à 3 minutes</span>
+                )}
               </div>
             )}
             {generer.error && (
@@ -461,8 +475,8 @@ export function FormulaireFormation({
         <div className="space-y-4">
           {generer.isSuccess && (
             <Alerte ton="attention" titre="Parcours proposé par l'assistant IA">
-              Relisez et aménagez chaque module : vous en êtes l'auteur. Rien n'est enregistré avant «
-              Enregistrer » — le dossier d'enjeux (onglet 2) sera conservé avec la formation.
+              Relisez et aménagez chaque module : vous en êtes l'auteur. Rien n'est enregistré avant
+              « Enregistrer » — le dossier d'enjeux (onglet 2) sera conservé avec la formation.
             </Alerte>
           )}
           <EditeurModules modules={v.modules} onChange={(modules) => maj({ modules })} />
@@ -513,15 +527,17 @@ export function FormulaireFormation({
       {onglet === "convention" && (
         <div className="space-y-4">
           <p className="text-[13px] text-encre-2">
-            Ces valeurs pré-remplissent chaque nouveau dossier ; elles restent modifiables dans le dossier
-            jusqu'à sa validation. La rémunération du formateur se calcule dans chaque dossier, par la
-            commission de l'organisme.
+            Ces valeurs pré-remplissent chaque nouveau dossier ; elles restent modifiables dans le
+            dossier jusqu'à sa validation. La rémunération du formateur se calcule dans chaque
+            dossier, par la commission de l'organisme.
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
             <Selecteur
               libelle="Mode de financement habituel"
               value={v.mode_financement}
-              onChange={(e) => maj({ mode_financement: e.target.value as Etat["mode_financement"] })}
+              onChange={(e) =>
+                maj({ mode_financement: e.target.value as Etat["mode_financement"] })
+              }
             >
               {MODES_FINANCEMENT.map((m) => (
                 <option key={m.valeur} value={m.valeur}>
@@ -544,7 +560,11 @@ export function FormulaireFormation({
                 inputMode="decimal"
                 {...champ("heures_presentiel")}
               />
-              <Champ libelle="Dont heures à distance" inputMode="decimal" {...champ("heures_distanciel")} />
+              <Champ
+                libelle="Dont heures à distance"
+                inputMode="decimal"
+                {...champ("heures_distanciel")}
+              />
             </div>
           )}
           <div className="grid gap-4 sm:grid-cols-2">
@@ -559,7 +579,11 @@ export function FormulaireFormation({
               <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_minmax(0,0.8fr)]">
                 <Champ libelle="Nom du lieu" {...champ("formation_lieu_nom")} />
                 <Champ libelle="Adresse" {...champ("formation_lieu_adresse")} />
-                <Champ libelle="SIRET du lieu" inputMode="numeric" {...champ("formation_lieu_siret")} />
+                <Champ
+                  libelle="SIRET du lieu"
+                  inputMode="numeric"
+                  {...champ("formation_lieu_siret")}
+                />
               </div>
             </>
           )}
@@ -657,8 +681,8 @@ export function FormulaireFormation({
         </Bouton>
         <span className="text-[12.5px] text-encre-3">
           {enjeuxNouveau ? "Le nouveau dossier d'enjeux sera enregistré avec la formation. " : ""}
-          Enregistrez à tout moment : seul l'intitulé est obligatoire. Chaque enregistrement garde la version
-          précédente.
+          Enregistrez à tout moment : seul l'intitulé est obligatoire. Chaque enregistrement garde
+          la version précédente.
         </span>
       </div>
     </form>
@@ -699,7 +723,10 @@ function ProgressionGeneration({ avecRecherche }: { avecRecherche: boolean }) {
     <div role="status" aria-live="polite" className="rounded-md border border-trait bg-carte p-4">
       <ol className="space-y-3">
         {etapes.map((e) => (
-          <li key={e.libelle} className={cx("flex items-start gap-3", !e.fait && !e.actif && "opacity-50")}>
+          <li
+            key={e.libelle}
+            className={cx("flex items-start gap-3", !e.fait && !e.actif && "opacity-50")}
+          >
             <span className="mt-0.5 grid size-5 shrink-0 place-items-center">
               {e.fait ? (
                 <Check className="size-4 text-valide" strokeWidth={3} aria-hidden />
@@ -724,8 +751,8 @@ function ProgressionGeneration({ avecRecherche }: { avecRecherche: boolean }) {
         ))}
       </ol>
       <p className="chiffres mt-3 border-t border-trait pt-2.5 text-[12.5px] text-encre-3">
-        {mm} min {ss} s écoulées · comptez 1 à 3 minutes en tout. Vous pouvez renseigner les autres onglets
-        pendant ce temps ; le parcours s'affichera dans l'onglet « Parcours ».
+        {mm} min {ss} s écoulées · comptez 1 à 3 minutes en tout. Vous pouvez renseigner les autres
+        onglets pendant ce temps ; le parcours s'affichera dans l'onglet « Parcours ».
       </p>
     </div>
   );
@@ -791,13 +818,16 @@ export function PanneauEnjeux({
     </div>
   );
   const enCours = analyser.isPending && (
-    <div role="status" className="flex items-start gap-3 rounded-md border border-trait bg-carte p-4 text-sm">
+    <div
+      role="status"
+      className="flex items-start gap-3 rounded-md border border-trait bg-carte p-4 text-sm"
+    >
       <Loader2 className="mt-0.5 size-4 shrink-0 tourne text-accent" aria-hidden />
       <span>
         <span className="block font-semibold">Recherche documentaire en cours…</span>
         <span className="block text-[13px] text-encre-2">
-          L'assistant consulte des sources en ligne sur ce sujet ; comptez 30 secondes à 1 minute 30. La fiche
-          se mettra à jour toute seule.
+          L'assistant consulte des sources en ligne sur ce sujet ; comptez 30 secondes à 1 minute
+          30. La fiche se mettra à jour toute seule.
         </span>
       </span>
     </div>
@@ -836,8 +866,8 @@ export function PanneauEnjeux({
             ) : null}
           </h2>
           <p className="mt-0.5 text-[13px] text-encre-2">
-            Ce que l'assistant a appris du sujet par recherche documentaire. Il fonde le parcours, les tests
-            et les supports ; vous restez l'auteur et relisez.
+            Ce que l'assistant a appris du sujet par recherche documentaire. Il fonde le parcours,
+            les tests et les supports ; vous restez l'auteur et relisez.
           </p>
         </div>
         {boutonAnalyse}
@@ -847,7 +877,9 @@ export function PanneauEnjeux({
       {enCours}
 
       <Carte className="bg-papier-2/60 p-4">
-        <h3 className="text-[13px] font-semibold tracking-wide text-encre-2 uppercase">En résumé</h3>
+        <h3 className="text-[13px] font-semibold tracking-wide text-encre-2 uppercase">
+          En résumé
+        </h3>
         <p className="mt-1.5 text-sm leading-relaxed whitespace-pre-line">{enjeux.resume}</p>
       </Carte>
 
@@ -880,7 +912,9 @@ export function PanneauEnjeux({
         <details className="rounded-md border border-trait">
           <summary className="cursor-pointer list-none px-4 py-3 text-sm font-semibold">
             Glossaire{" "}
-            <span className="chiffres font-normal text-encre-3">({enjeux.glossaire.length} termes)</span>
+            <span className="chiffres font-normal text-encre-3">
+              ({enjeux.glossaire.length} termes)
+            </span>
           </summary>
           <dl className="grid gap-x-6 gap-y-2 border-t border-trait px-4 py-3 text-sm sm:grid-cols-2">
             {enjeux.glossaire.map((g) => (
@@ -914,8 +948,8 @@ export function PanneauEnjeux({
             ))}
           </ul>
           <p className="mt-2 text-[12.5px] text-encre-3">
-            Ces sources sont celles que l'assistant a consultées ; vérifiez celles que vous citez dans vos
-            supports.
+            Ces sources sont celles que l'assistant a consultées ; vérifiez celles que vous citez
+            dans vos supports.
           </p>
         </section>
       )}
@@ -973,12 +1007,18 @@ export function EditeurModules({
   return (
     <div className="space-y-3">
       {modules.map((m, i) => (
-        <details key={i} open={modules.length <= 3} className="rounded-md border border-trait bg-papier-2/60">
+        <details
+          key={i}
+          open={modules.length <= 3}
+          className="rounded-md border border-trait bg-papier-2/60"
+        >
           <summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3">
             <span className="chiffres grid size-7 shrink-0 place-items-center rounded-full bg-accent text-[13px] font-semibold text-sur-accent">
               {i + 1}
             </span>
-            <span className="min-w-0 flex-1 truncate font-medium">{m.titre || "Module sans titre"}</span>
+            <span className="min-w-0 flex-1 truncate font-medium">
+              {m.titre || "Module sans titre"}
+            </span>
             <Etiquette>{heuresTexte(Number(m.duree_heures) || 0)}</Etiquette>
           </summary>
           <div className="space-y-3 border-t border-trait px-4 py-4">
@@ -1051,7 +1091,8 @@ export function EditeurModules({
                 variante="discret"
                 icone={<Trash2 className="size-3.5" aria-hidden />}
                 onClick={() =>
-                  confirm(`Retirer le module ${i + 1} ?`) && onChange(modules.filter((_, k) => k !== i))
+                  confirm(`Retirer le module ${i + 1} ?`) &&
+                  onChange(modules.filter((_, k) => k !== i))
                 }
               >
                 Retirer
@@ -1064,7 +1105,9 @@ export function EditeurModules({
         taille="sm"
         disabled={modules.length >= 12}
         icone={<Plus className="size-4" aria-hidden />}
-        onClick={() => onChange([...modules, { ...MODULE_VIDE, titre: `Module ${modules.length + 1}` }])}
+        onClick={() =>
+          onChange([...modules, { ...MODULE_VIDE, titre: `Module ${modules.length + 1}` }])
+        }
       >
         Ajouter un module
       </Bouton>
@@ -1119,8 +1162,12 @@ export function Formations() {
           {formations.data.map((f) =>
             vue === "archivees" ? (
               <Carte key={f.id} className="flex flex-col p-5">
-                <p className="font-display text-[16px] leading-snug font-semibold">{f.formation_titre}</p>
-                <p className="mt-1 text-[13px] text-encre-3">Archivée le {instantFr(f.archivee_le)}</p>
+                <p className="font-display text-[16px] leading-snug font-semibold">
+                  {f.formation_titre}
+                </p>
+                <p className="mt-1 text-[13px] text-encre-3">
+                  Archivée le {instantFr(f.archivee_le)}
+                </p>
                 <Bouton
                   className="mt-4 self-start"
                   taille="sm"
@@ -1138,7 +1185,9 @@ export function Formations() {
                 params={{ id: f.id }}
                 className="flex flex-col rounded-md border border-trait bg-carte p-5 shadow-carte transition-[border-color,transform] duration-150 ease-(--ease-out) hover:-translate-y-px hover:border-accent/60"
               >
-                <p className="font-display text-[16px] leading-snug font-semibold">{f.formation_titre}</p>
+                <p className="font-display text-[16px] leading-snug font-semibold">
+                  {f.formation_titre}
+                </p>
                 <p className="mt-2 line-clamp-3 flex-1 text-[13px] leading-relaxed whitespace-pre-line text-encre-2">
                   {f.formation_objectifs || "Objectifs à renseigner."}
                 </p>
@@ -1158,7 +1207,10 @@ export function Formations() {
           )}
         </div>
       ) : vue === "archivees" ? (
-        <EtatVide icone={<Archive className="size-8" aria-hidden />} titre="Aucune formation archivée">
+        <EtatVide
+          icone={<Archive className="size-8" aria-hidden />}
+          titre="Aucune formation archivée"
+        >
           Une formation retirée du catalogue apparaît ici ; elle se restaure d'un clic.
         </EtatVide>
       ) : (
@@ -1171,8 +1223,8 @@ export function Formations() {
             </Bouton>
           }
         >
-          Décrivez une formation une fois — ou générez son parcours en un clic ; vous la réutiliserez pour
-          chaque nouveau dossier.
+          Décrivez une formation une fois — ou générez son parcours en un clic ; vous la
+          réutiliserez pour chaque nouveau dossier.
         </EtatVide>
       )}
       <Modale ouverte={creation} fermer={() => setCreation(false)} titre="Nouvelle formation" large>
@@ -1312,7 +1364,10 @@ export function FicheFormation() {
         soustitre={`Dernier enregistrement : ${instantFr(f.maj_le)}`}
         actions={
           <>
-            <Bouton icone={<History className="size-4" aria-hidden />} onClick={() => setModale("versions")}>
+            <Bouton
+              icone={<History className="size-4" aria-hidden />}
+              onClick={() => setModale("versions")}
+            >
               Historique
             </Bouton>
             <Bouton
@@ -1352,8 +1407,8 @@ export function FicheFormation() {
           <Carte className="p-5">
             <h2 className="text-base font-semibold">Kit pédagogique du parcours</h2>
             <p className="mt-0.5 text-[13px] text-encre-2">
-              Dans l'ordre : chaque étape s'appuie sur la précédente. Tout brouillon se relit et s'aménage
-              avant d'être enregistré, puis rejoint le coffre-fort.
+              Dans l'ordre : chaque étape s'appuie sur la précédente. Tout brouillon se relit et
+              s'aménage avant d'être enregistré, puis rejoint le coffre-fort.
             </p>
             {!ia.chargement && !ia.disponible && (
               <div className="mt-3">
@@ -1385,7 +1440,8 @@ export function FicheFormation() {
                   enCours={analyser.isPending}
                   disabled={!ia.disponible}
                   onClick={() =>
-                    (!enjeux || confirm("Refaire l'analyse des enjeux ? Le dossier actuel sera remplacé.")) &&
+                    (!enjeux ||
+                      confirm("Refaire l'analyse des enjeux ? Le dossier actuel sera remplacé.")) &&
                     analyser.mutate()
                   }
                 >
@@ -1406,7 +1462,11 @@ export function FicheFormation() {
                 rang={3}
                 titre="Générer les tests de connaissances"
                 etat={
-                  aPositionnement && aAcquis ? "fait" : aPositionnement || aAcquis ? "partiel" : "a_faire"
+                  aPositionnement && aAcquis
+                    ? "fait"
+                    : aPositionnement || aAcquis
+                      ? "partiel"
+                      : "a_faire"
                 }
                 detail="Test de positionnement (avant) et évaluation des acquis (après), rédigés par l'IA depuis le dossier d'enjeux et le parcours."
               >
@@ -1440,7 +1500,9 @@ export function FicheFormation() {
                   disabled={!ia.disponible}
                   onClick={() => setModale({ test: "acquis" })}
                 >
-                  {aAcquis ? "Regénérer l'évaluation des acquis" : "Générer l'évaluation des acquis"}
+                  {aAcquis
+                    ? "Regénérer l'évaluation des acquis"
+                    : "Générer l'évaluation des acquis"}
                 </Bouton>
               </Etape>
               <Etape
@@ -1474,7 +1536,11 @@ export function FicheFormation() {
                   className={BOUTON_ETAPE}
                   icone={<UserPlus className="size-3.5" aria-hidden />}
                   disabled={!aPositionnement}
-                  title={aPositionnement ? undefined : "Générez d'abord le test de positionnement (étape 3)"}
+                  title={
+                    aPositionnement
+                      ? undefined
+                      : "Générez d'abord le test de positionnement (étape 3)"
+                  }
                   onClick={() => setModale("inviter")}
                 >
                   Inviter un apprenant à se positionner
@@ -1506,7 +1572,9 @@ export function FicheFormation() {
                       <span className="chiffres mr-1.5 font-semibold text-accent">{i + 1}.</span>
                       {m.titre}
                     </span>
-                    <span className="chiffres shrink-0 text-encre-3">{heuresTexte(m.duree_heures)}</span>
+                    <span className="chiffres shrink-0 text-encre-3">
+                      {heuresTexte(m.duree_heures)}
+                    </span>
                   </li>
                 ))}
               </ol>
@@ -1569,8 +1637,14 @@ export function FicheFormation() {
       >
         {modale === "supports" && <StudioSupports formation={f} />}
       </Modale>
-      <Modale ouverte={modale === "inviter"} fermer={() => setModale(null)} titre="Inviter à se positionner">
-        {modale === "inviter" && <InviterPositionnement formationId={id} termine={() => setModale(null)} />}
+      <Modale
+        ouverte={modale === "inviter"}
+        fermer={() => setModale(null)}
+        titre="Inviter à se positionner"
+      >
+        {modale === "inviter" && (
+          <InviterPositionnement formationId={id} termine={() => setModale(null)} />
+        )}
       </Modale>
       <Modale
         ouverte={typeof modale === "object" && modale !== null}
