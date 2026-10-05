@@ -4,3 +4,7 @@ import "./lot-1-auth";
 import "./lot-2-routes";
 import "./lot-3";
 import "./lot-4";
+import "./lot-5";
+import "./lot-6";
+import "./lot-7";
+import "./lot-8";
