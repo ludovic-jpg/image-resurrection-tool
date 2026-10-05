@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { ArrowRight, CheckCircle2, FolderLock, GraduationCap, ShieldCheck } from "lucide-react";
 import { Bouton } from "@/client/ui/base";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,10 +21,15 @@ export const Route = createFileRoute("/")({
 function Index() {
   const navigate = useNavigate();
   useEffect(() => {
-    const retour = sessionStorage.getItem("s4m_retour_auth");
-    if (retour !== "/tableau-de-bord") return;
-    sessionStorage.removeItem("s4m_retour_auth");
-    void navigate({ to: "/tableau-de-bord", replace: true });
+    if (sessionStorage.getItem("s4m_retour_auth") !== "/tableau-de-bord") return;
+    const aller = () => {
+      sessionStorage.removeItem("s4m_retour_auth");
+      void navigate({ to: "/tableau-de-bord", replace: true });
+    };
+    // Attendre que la session Google soit bien enregistrée avant d'ouvrir l'espace protégé.
+    supabase.auth.getSession().then(({ data }) => { if (data.session) aller(); });
+    const { data: abonnement } = supabase.auth.onAuthStateChange((_e, session) => { if (session) aller(); });
+    return () => abonnement.subscription.unsubscribe();
   }, [navigate]);
   return (
     <main className="min-h-dvh bg-papier">
