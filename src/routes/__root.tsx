@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { FournisseurToasts } from "@/client/ui/base";
 import {
   Outlet,
   Link,
@@ -81,7 +82,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Dossiers de formation" },
       { name: "description", content: "Gestion sécurisée des dossiers et parcours de formation." },
       { property: "og:title", content: "Dossiers de formation" },
-      { property: "og:description", content: "Gestion sécurisée des dossiers et parcours de formation." },
+      {
+        property: "og:description",
+        content: "Gestion sécurisée des dossiers et parcours de formation.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -118,8 +122,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <FournisseurToasts>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </FournisseurToasts>
     </QueryClientProvider>
   );
 }

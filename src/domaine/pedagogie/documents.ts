@@ -1,0 +1,214 @@
+/**
+ * Documents imprimables du coffre-fort : programme du parcours et questionnaire (HTML autonome, imprimable ou
+ * enregistrable en PDF par le navigateur).
+ *
+ * Versions PURES de `documentProgramme` et `documentOutil` de `src/serveur/services/supports.ts` : même HTML, mêmes
+ * libellés. Seuls les types changent (des interfaces structurelles remplacent les lignes Drizzle) et la date du pied
+ * de page peut être fournie, ce qui rend le rendu reproductible dans les tests.
+ */
+import { echapperHtml as e } from "../gabarits/moteur";
+import { FORMULAIRES } from "../formulaires/definitions";
+import type { Questionnaire } from "../formulaires/qcm";
+import { libelleModeFinancement } from "./listes";
+import { heuresTexte, type ModuleParcours } from "./parcours";
+
+/** Les champs de la formation que le programme imprimable lit. */
+export interface FormationImprimable {
+  formation_titre: string;
+  formation_objectifs: string;
+  formation_niveau: string;
+  formation_prerequis: string;
+  formation_duree_heures_total: number | null;
+  formation_duree_jours: number | null;
+  formation_modalite: string;
+  formation_effectif_min: number | null;
+  formation_effectif_max: number | null;
+  formation_prix_unitaire_ht: number | null;
+  formation_prix_groupe_ht: number | null;
+  mode_financement: string;
+  formation_opco: string;
+  formation_delai_acces: string;
+  formation_accessibilite: string;
+  formation_moyens_pedagogiques: string;
+  formation_modalites_evaluation: string;
+  formation_modalites_sanction: string;
+  public_vise: string;
+  programme: string;
+  formation_modules: unknown;
+}
+
+/** Les champs du modèle d'outil que le questionnaire imprimable lit. */
+export interface OutilImprimable {
+  type: string;
+  titre: string;
+  contenu: unknown;
+}
+
+export interface IdentiteDocument {
+  nom: string;
+  couleur: string;
+}
+
+const hex = (c: string, defaut = "1D6A45") =>
+  /^#?[0-9a-f]{6}$/i.test(c) ? c.replace("#", "").toUpperCase() : defaut;
+
+function page(
+  titre: string,
+  sousTitre: string,
+  corps: string,
+  couleur: string,
+  maintenant: Date,
+): string {
+  return `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>${e(titre)}</title>
+<style>
+@page{size:A4;margin:18mm 16mm}
+body{font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:11pt;line-height:1.5;color:#1f2a24;margin:0}
+h1{font-size:19pt;margin:0 0 4pt;color:${couleur}}
+h2{font-size:13pt;margin:18pt 0 6pt;padding-bottom:3pt;border-bottom:1.5pt solid ${couleur}}
+h3{font-size:11.5pt;margin:12pt 0 4pt}
+.sous{color:#5b6472;margin:0 0 14pt}
+table{border-collapse:collapse;width:100%;margin:6pt 0}
+td,th{border:0.6pt solid #c9cfc9;padding:5pt 7pt;vertical-align:top;text-align:left}
+th{background:#f2f4f1;width:32%}
+ul{margin:4pt 0 4pt 16pt;padding:0}
+.q{margin:10pt 0;page-break-inside:avoid}
+.prop{margin:2pt 0 2pt 14pt}
+.case{display:inline-block;width:9pt;height:9pt;border:0.8pt solid #1f2a24;margin-right:6pt;vertical-align:-1pt}
+.ligne{border-bottom:0.6pt solid #9aa39b;height:20pt}
+.pied{margin-top:22pt;font-size:8.5pt;color:#5b6472}
+</style></head><body><h1>${e(titre)}</h1><p class="sous">${e(sousTitre)}</p>${corps}<p class="pied">Document produit par la plateforme — version du ${maintenant.toLocaleDateString("fr-FR")}.</p></body></html>`;
+}
+
+const ligneTableau = (libelle: string, valeur: string | null | undefined) =>
+  valeur ? `<tr><th>${e(libelle)}</th><td>${e(valeur).replace(/\n/g, "<br>")}</td></tr>` : "";
+const euros = (c: number | null) =>
+  c === null
+    ? ""
+    : new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(c / 100);
+
+/** Programme du parcours (fiche formation) : ce qui est remis au stagiaire et au financeur (indicateurs Qualiopi 1 à 3). */
+export function documentProgramme(
+  f: FormationImprimable,
+  organisme: IdentiteDocument,
+  maintenant: Date = new Date(),
+): string {
+  const modules = (f.formation_modules ?? []) as ModuleParcours[];
+  const infos = [
+    ligneTableau("Public visé", f.public_vise),
+    ligneTableau("Prérequis", f.formation_prerequis),
+    ligneTableau("Niveau", f.formation_niveau),
+    ligneTableau(
+      "Durée",
+      f.formation_duree_heures_total
+        ? `${heuresTexte(f.formation_duree_heures_total)}${f.formation_duree_jours ? ` sur ${String(f.formation_duree_jours).replace(".", ",")} jour(s)` : ""}`
+        : "",
+    ),
+    ligneTableau(
+      "Modalité",
+      { presentiel: "Présentiel", distanciel: "Distanciel", mixte: "Mixte" }[f.formation_modalite],
+    ),
+    ligneTableau(
+      "Effectif",
+      f.formation_effectif_min || f.formation_effectif_max
+        ? `De ${f.formation_effectif_min ?? 1} à ${f.formation_effectif_max ?? "—"} stagiaires`
+        : "",
+    ),
+    ligneTableau(
+      "Tarif",
+      [
+        f.formation_prix_unitaire_ht !== null
+          ? `${euros(f.formation_prix_unitaire_ht)} HT par stagiaire`
+          : "",
+        f.formation_prix_groupe_ht !== null
+          ? `${euros(f.formation_prix_groupe_ht)} HT en intra (groupe)`
+          : "",
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    ),
+    ligneTableau(
+      "Financement",
+      `${libelleModeFinancement(f.mode_financement)}${f.formation_opco ? ` — ${f.formation_opco}` : ""}`,
+    ),
+    ligneTableau("Délai d'accès", f.formation_delai_acces),
+    ligneTableau("Accessibilité (handicap)", f.formation_accessibilite),
+    ligneTableau("Moyens pédagogiques", f.formation_moyens_pedagogiques),
+    ligneTableau("Modalités d'évaluation", f.formation_modalites_evaluation),
+    ligneTableau("Sanction", f.formation_modalites_sanction),
+  ].join("");
+  const objectifs = f.formation_objectifs.split("\n").filter((x) => x.trim());
+  const corps = [
+    `<h2>Informations clés</h2><table>${infos}</table>`,
+    objectifs.length
+      ? `<h2>Objectifs pédagogiques</h2><ul>${objectifs.map((o) => `<li>${e(o)}</li>`).join("")}</ul>`
+      : "",
+    modules.length
+      ? `<h2>Parcours en ${modules.length} module(s)</h2>${modules
+          .map(
+            (m, i) => `<h3>Module ${i + 1} — ${e(m.titre)} (${e(heuresTexte(m.duree_heures))})</h3>
+<table>${ligneTableau("Objectifs", m.objectifs.join("\n"))}${ligneTableau("Contenus", m.contenus.map((c) => `• ${c}`).join("\n"))}${ligneTableau("Méthodes", m.methodes)}${ligneTableau("Mise en pratique", m.mise_en_pratique)}${ligneTableau("Évaluation", m.evaluation)}</table>`,
+          )
+          .join("")}`
+      : f.programme
+        ? `<h2>Programme détaillé</h2><p>${e(f.programme).replace(/\n/g, "<br>")}</p>`
+        : "",
+  ].join("");
+  return page(
+    f.formation_titre,
+    `Programme de formation — ${organisme.nom}`,
+    corps,
+    `#${hex(organisme.couleur)}`,
+    maintenant,
+  );
+}
+
+/** Questionnaire imprimable (version papier, SANS le corrigé) — pour une passation hors ligne. */
+export function documentOutil(
+  o: OutilImprimable,
+  organisme: IdentiteDocument,
+  formationTitre: string | null,
+  avecCorrige = false,
+  maintenant: Date = new Date(),
+): string {
+  const TYPES: Record<string, string> = {
+    recueil: "Recueil des besoins",
+    positionnement: "Test de positionnement",
+    acquis: "Évaluation des acquis",
+  };
+  const entete = `<table>${ligneTableau("Formation", formationTitre ?? "Toutes formations")}<tr><th>Nom et prénom</th><td><div class="ligne"></div></td></tr><tr><th>Date</th><td><div class="ligne"></div></td></tr></table>`;
+  let corps = entete;
+  if (o.type === "recueil") {
+    const supp = (
+      (o.contenu as { questions_supplementaires?: string[] }).questions_supplementaires ?? []
+    ).map((q) => ({ libelle: q }));
+    const questions: Array<{ libelle: string; options?: readonly string[] }> = [
+      ...FORMULAIRES["00-AVT"].champs.map((c) => ({
+        libelle: c.libelle,
+        options: "options" in c ? (c.options as readonly string[]) : undefined,
+      })),
+      ...supp,
+    ];
+    corps += questions
+      .map(
+        (c, i) =>
+          `<div class="q"><strong>${i + 1}. ${e(c.libelle)}</strong>${c.options ? c.options.map((p) => `<div class="prop"><span class="case"></span>${e(p)}</div>`).join("") : '<div class="ligne"></div><div class="ligne"></div>'}</div>`,
+      )
+      .join("");
+  } else {
+    const q = o.contenu as Questionnaire;
+    corps += q.questions
+      .map(
+        (x, i) =>
+          `<div class="q"><strong>${i + 1}. ${e(x.enonce)}</strong>${x.propositions.map((p, j) => `<div class="prop"><span class="case"></span>${e(p)}${avecCorrige && j === x.bonne_reponse ? " <strong>✔</strong>" : ""}</div>`).join("")}</div>`,
+      )
+      .join("");
+  }
+  corps += `<h2>Signature</h2><table><tr><th>Signature du stagiaire</th><td style="height:60pt"></td></tr></table>`;
+  return page(
+    o.titre,
+    `${TYPES[o.type] ?? o.type}${avecCorrige ? " — CORRIGÉ (réservé au formateur)" : ""} — ${organisme.nom}`,
+    corps,
+    `#${hex(organisme.couleur)}`,
+    maintenant,
+  );
+}
