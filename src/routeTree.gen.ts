@@ -13,7 +13,28 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as ConnexionRouteImport } from './routes/connexion'
 import { Route as InscriptionRouteImport } from './routes/inscription'
+import { Route as AuthenticatedArchivesRouteImport } from './routes/_authenticated/archives'
+import { Route as AuthenticatedBpfRouteImport } from './routes/_authenticated/bpf'
+import { Route as AuthenticatedCandidatureRouteImport } from './routes/_authenticated/candidature'
+import { Route as AuthenticatedCompteRouteImport } from './routes/_authenticated/compte'
+import { Route as AuthenticatedCourriersRouteImport } from './routes/_authenticated/courriers'
+import { Route as AuthenticatedOutilsRouteImport } from './routes/_authenticated/outils'
+import { Route as AuthenticatedPositionnementsRouteImport } from './routes/_authenticated/positionnements'
+import { Route as AuthenticatedProfilRouteImport } from './routes/_authenticated/profil'
+import { Route as AuthenticatedRepertoireRouteImport } from './routes/_authenticated/repertoire'
 import { Route as AuthenticatedTableauDeBordRouteImport } from './routes/_authenticated/tableau-de-bord'
+import { Route as FormulaireJetonRouteImport } from './routes/formulaire.$jeton'
+import { Route as InvitationJetonRouteImport } from './routes/invitation.$jeton'
+import { Route as PositionnementJetonRouteImport } from './routes/positionnement.$jeton'
+import { Route as AuthenticatedAdminCandidaturesRouteImport } from './routes/_authenticated/admin.candidatures'
+import { Route as AuthenticatedAdminOrganismeRouteImport } from './routes/_authenticated/admin.organisme'
+import { Route as AuthenticatedCoffresIndexRouteImport } from './routes/_authenticated/coffres.index'
+import { Route as AuthenticatedCoffresIdRouteImport } from './routes/_authenticated/coffres.$id'
+import { Route as AuthenticatedDossiersIndexRouteImport } from './routes/_authenticated/dossiers.index'
+import { Route as AuthenticatedDossiersIdRouteImport } from './routes/_authenticated/dossiers.$id'
+import { Route as AuthenticatedDossiersNouveauRouteImport } from './routes/_authenticated/dossiers.nouveau'
+import { Route as AuthenticatedFormationsIndexRouteImport } from './routes/_authenticated/formations.index'
+import { Route as AuthenticatedFormationsIdRouteImport } from './routes/_authenticated/formations.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,10 +55,124 @@ const InscriptionRoute = InscriptionRouteImport.update({
   path: '/inscription',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedArchivesRoute = AuthenticatedArchivesRouteImport.update({
+  id: '/archives',
+  path: '/archives',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedBpfRoute = AuthenticatedBpfRouteImport.update({
+  id: '/bpf',
+  path: '/bpf',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCandidatureRoute =
+  AuthenticatedCandidatureRouteImport.update({
+    id: '/candidature',
+    path: '/candidature',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCompteRoute = AuthenticatedCompteRouteImport.update({
+  id: '/compte',
+  path: '/compte',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCourriersRoute = AuthenticatedCourriersRouteImport.update({
+  id: '/courriers',
+  path: '/courriers',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOutilsRoute = AuthenticatedOutilsRouteImport.update({
+  id: '/outils',
+  path: '/outils',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPositionnementsRoute =
+  AuthenticatedPositionnementsRouteImport.update({
+    id: '/positionnements',
+    path: '/positionnements',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProfilRoute = AuthenticatedProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRepertoireRoute = AuthenticatedRepertoireRouteImport.update({
+  id: '/repertoire',
+  path: '/repertoire',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTableauDeBordRoute =
   AuthenticatedTableauDeBordRouteImport.update({
     id: '/tableau-de-bord',
     path: '/tableau-de-bord',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const FormulaireJetonRoute = FormulaireJetonRouteImport.update({
+  id: '/formulaire/$jeton',
+  path: '/formulaire/$jeton',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvitationJetonRoute = InvitationJetonRouteImport.update({
+  id: '/invitation/$jeton',
+  path: '/invitation/$jeton',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PositionnementJetonRoute = PositionnementJetonRouteImport.update({
+  id: '/positionnement/$jeton',
+  path: '/positionnement/$jeton',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminCandidaturesRoute =
+  AuthenticatedAdminCandidaturesRouteImport.update({
+    id: '/admin/candidatures',
+    path: '/admin/candidatures',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminOrganismeRoute =
+  AuthenticatedAdminOrganismeRouteImport.update({
+    id: '/admin/organisme',
+    path: '/admin/organisme',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCoffresIndexRoute =
+  AuthenticatedCoffresIndexRouteImport.update({
+    id: '/coffres/',
+    path: '/coffres/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCoffresIdRoute = AuthenticatedCoffresIdRouteImport.update({
+  id: '/coffres/$id',
+  path: '/coffres/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDossiersIndexRoute =
+  AuthenticatedDossiersIndexRouteImport.update({
+    id: '/dossiers/',
+    path: '/dossiers/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDossiersIdRoute = AuthenticatedDossiersIdRouteImport.update({
+  id: '/dossiers/$id',
+  path: '/dossiers/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDossiersNouveauRoute =
+  AuthenticatedDossiersNouveauRouteImport.update({
+    id: '/dossiers/nouveau',
+    path: '/dossiers/nouveau',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFormationsIndexRoute =
+  AuthenticatedFormationsIndexRouteImport.update({
+    id: '/formations/',
+    path: '/formations/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFormationsIdRoute =
+  AuthenticatedFormationsIdRouteImport.update({
+    id: '/formations/$id',
+    path: '/formations/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -45,13 +180,55 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/connexion': typeof ConnexionRoute
   '/inscription': typeof InscriptionRoute
+  '/archives': typeof AuthenticatedArchivesRoute
+  '/bpf': typeof AuthenticatedBpfRoute
+  '/candidature': typeof AuthenticatedCandidatureRoute
+  '/compte': typeof AuthenticatedCompteRoute
+  '/courriers': typeof AuthenticatedCourriersRoute
+  '/outils': typeof AuthenticatedOutilsRoute
+  '/positionnements': typeof AuthenticatedPositionnementsRoute
+  '/profil': typeof AuthenticatedProfilRoute
+  '/repertoire': typeof AuthenticatedRepertoireRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/formulaire/$jeton': typeof FormulaireJetonRoute
+  '/invitation/$jeton': typeof InvitationJetonRoute
+  '/positionnement/$jeton': typeof PositionnementJetonRoute
+  '/admin/candidatures': typeof AuthenticatedAdminCandidaturesRoute
+  '/admin/organisme': typeof AuthenticatedAdminOrganismeRoute
+  '/coffres/$id': typeof AuthenticatedCoffresIdRoute
+  '/dossiers/$id': typeof AuthenticatedDossiersIdRoute
+  '/dossiers/nouveau': typeof AuthenticatedDossiersNouveauRoute
+  '/formations/$id': typeof AuthenticatedFormationsIdRoute
+  '/coffres/': typeof AuthenticatedCoffresIndexRoute
+  '/dossiers/': typeof AuthenticatedDossiersIndexRoute
+  '/formations/': typeof AuthenticatedFormationsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/connexion': typeof ConnexionRoute
   '/inscription': typeof InscriptionRoute
+  '/archives': typeof AuthenticatedArchivesRoute
+  '/bpf': typeof AuthenticatedBpfRoute
+  '/candidature': typeof AuthenticatedCandidatureRoute
+  '/compte': typeof AuthenticatedCompteRoute
+  '/courriers': typeof AuthenticatedCourriersRoute
+  '/outils': typeof AuthenticatedOutilsRoute
+  '/positionnements': typeof AuthenticatedPositionnementsRoute
+  '/profil': typeof AuthenticatedProfilRoute
+  '/repertoire': typeof AuthenticatedRepertoireRoute
   '/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/formulaire/$jeton': typeof FormulaireJetonRoute
+  '/invitation/$jeton': typeof InvitationJetonRoute
+  '/positionnement/$jeton': typeof PositionnementJetonRoute
+  '/admin/candidatures': typeof AuthenticatedAdminCandidaturesRoute
+  '/admin/organisme': typeof AuthenticatedAdminOrganismeRoute
+  '/coffres/$id': typeof AuthenticatedCoffresIdRoute
+  '/dossiers/$id': typeof AuthenticatedDossiersIdRoute
+  '/dossiers/nouveau': typeof AuthenticatedDossiersNouveauRoute
+  '/formations/$id': typeof AuthenticatedFormationsIdRoute
+  '/coffres': typeof AuthenticatedCoffresIndexRoute
+  '/dossiers': typeof AuthenticatedDossiersIndexRoute
+  '/formations': typeof AuthenticatedFormationsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -59,20 +236,112 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/connexion': typeof ConnexionRoute
   '/inscription': typeof InscriptionRoute
+  '/_authenticated/archives': typeof AuthenticatedArchivesRoute
+  '/_authenticated/bpf': typeof AuthenticatedBpfRoute
+  '/_authenticated/candidature': typeof AuthenticatedCandidatureRoute
+  '/_authenticated/compte': typeof AuthenticatedCompteRoute
+  '/_authenticated/courriers': typeof AuthenticatedCourriersRoute
+  '/_authenticated/outils': typeof AuthenticatedOutilsRoute
+  '/_authenticated/positionnements': typeof AuthenticatedPositionnementsRoute
+  '/_authenticated/profil': typeof AuthenticatedProfilRoute
+  '/_authenticated/repertoire': typeof AuthenticatedRepertoireRoute
   '/_authenticated/tableau-de-bord': typeof AuthenticatedTableauDeBordRoute
+  '/formulaire/$jeton': typeof FormulaireJetonRoute
+  '/invitation/$jeton': typeof InvitationJetonRoute
+  '/positionnement/$jeton': typeof PositionnementJetonRoute
+  '/_authenticated/admin/candidatures': typeof AuthenticatedAdminCandidaturesRoute
+  '/_authenticated/admin/organisme': typeof AuthenticatedAdminOrganismeRoute
+  '/_authenticated/coffres/$id': typeof AuthenticatedCoffresIdRoute
+  '/_authenticated/dossiers/$id': typeof AuthenticatedDossiersIdRoute
+  '/_authenticated/dossiers/nouveau': typeof AuthenticatedDossiersNouveauRoute
+  '/_authenticated/formations/$id': typeof AuthenticatedFormationsIdRoute
+  '/_authenticated/coffres/': typeof AuthenticatedCoffresIndexRoute
+  '/_authenticated/dossiers/': typeof AuthenticatedDossiersIndexRoute
+  '/_authenticated/formations/': typeof AuthenticatedFormationsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/connexion' | '/inscription' | '/tableau-de-bord'
+  fullPaths:
+    | '/'
+    | '/connexion'
+    | '/inscription'
+    | '/archives'
+    | '/bpf'
+    | '/candidature'
+    | '/compte'
+    | '/courriers'
+    | '/outils'
+    | '/positionnements'
+    | '/profil'
+    | '/repertoire'
+    | '/tableau-de-bord'
+    | '/formulaire/$jeton'
+    | '/invitation/$jeton'
+    | '/positionnement/$jeton'
+    | '/admin/candidatures'
+    | '/admin/organisme'
+    | '/coffres/$id'
+    | '/dossiers/$id'
+    | '/dossiers/nouveau'
+    | '/formations/$id'
+    | '/coffres/'
+    | '/dossiers/'
+    | '/formations/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/connexion' | '/inscription' | '/tableau-de-bord'
+  to:
+    | '/'
+    | '/connexion'
+    | '/inscription'
+    | '/archives'
+    | '/bpf'
+    | '/candidature'
+    | '/compte'
+    | '/courriers'
+    | '/outils'
+    | '/positionnements'
+    | '/profil'
+    | '/repertoire'
+    | '/tableau-de-bord'
+    | '/formulaire/$jeton'
+    | '/invitation/$jeton'
+    | '/positionnement/$jeton'
+    | '/admin/candidatures'
+    | '/admin/organisme'
+    | '/coffres/$id'
+    | '/dossiers/$id'
+    | '/dossiers/nouveau'
+    | '/formations/$id'
+    | '/coffres'
+    | '/dossiers'
+    | '/formations'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/connexion'
     | '/inscription'
+    | '/_authenticated/archives'
+    | '/_authenticated/bpf'
+    | '/_authenticated/candidature'
+    | '/_authenticated/compte'
+    | '/_authenticated/courriers'
+    | '/_authenticated/outils'
+    | '/_authenticated/positionnements'
+    | '/_authenticated/profil'
+    | '/_authenticated/repertoire'
     | '/_authenticated/tableau-de-bord'
+    | '/formulaire/$jeton'
+    | '/invitation/$jeton'
+    | '/positionnement/$jeton'
+    | '/_authenticated/admin/candidatures'
+    | '/_authenticated/admin/organisme'
+    | '/_authenticated/coffres/$id'
+    | '/_authenticated/dossiers/$id'
+    | '/_authenticated/dossiers/nouveau'
+    | '/_authenticated/formations/$id'
+    | '/_authenticated/coffres/'
+    | '/_authenticated/dossiers/'
+    | '/_authenticated/formations/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,6 +349,9 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   ConnexionRoute: typeof ConnexionRoute
   InscriptionRoute: typeof InscriptionRoute
+  FormulaireJetonRoute: typeof FormulaireJetonRoute
+  InvitationJetonRoute: typeof InvitationJetonRoute
+  PositionnementJetonRoute: typeof PositionnementJetonRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -112,6 +384,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InscriptionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/archives': {
+      id: '/_authenticated/archives'
+      path: '/archives'
+      fullPath: '/archives'
+      preLoaderRoute: typeof AuthenticatedArchivesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/bpf': {
+      id: '/_authenticated/bpf'
+      path: '/bpf'
+      fullPath: '/bpf'
+      preLoaderRoute: typeof AuthenticatedBpfRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/candidature': {
+      id: '/_authenticated/candidature'
+      path: '/candidature'
+      fullPath: '/candidature'
+      preLoaderRoute: typeof AuthenticatedCandidatureRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/compte': {
+      id: '/_authenticated/compte'
+      path: '/compte'
+      fullPath: '/compte'
+      preLoaderRoute: typeof AuthenticatedCompteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/courriers': {
+      id: '/_authenticated/courriers'
+      path: '/courriers'
+      fullPath: '/courriers'
+      preLoaderRoute: typeof AuthenticatedCourriersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/outils': {
+      id: '/_authenticated/outils'
+      path: '/outils'
+      fullPath: '/outils'
+      preLoaderRoute: typeof AuthenticatedOutilsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/positionnements': {
+      id: '/_authenticated/positionnements'
+      path: '/positionnements'
+      fullPath: '/positionnements'
+      preLoaderRoute: typeof AuthenticatedPositionnementsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profil': {
+      id: '/_authenticated/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof AuthenticatedProfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/repertoire': {
+      id: '/_authenticated/repertoire'
+      path: '/repertoire'
+      fullPath: '/repertoire'
+      preLoaderRoute: typeof AuthenticatedRepertoireRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tableau-de-bord': {
       id: '/_authenticated/tableau-de-bord'
       path: '/tableau-de-bord'
@@ -119,15 +454,135 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTableauDeBordRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/formulaire/$jeton': {
+      id: '/formulaire/$jeton'
+      path: '/formulaire/$jeton'
+      fullPath: '/formulaire/$jeton'
+      preLoaderRoute: typeof FormulaireJetonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invitation/$jeton': {
+      id: '/invitation/$jeton'
+      path: '/invitation/$jeton'
+      fullPath: '/invitation/$jeton'
+      preLoaderRoute: typeof InvitationJetonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/positionnement/$jeton': {
+      id: '/positionnement/$jeton'
+      path: '/positionnement/$jeton'
+      fullPath: '/positionnement/$jeton'
+      preLoaderRoute: typeof PositionnementJetonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin/candidatures': {
+      id: '/_authenticated/admin/candidatures'
+      path: '/admin/candidatures'
+      fullPath: '/admin/candidatures'
+      preLoaderRoute: typeof AuthenticatedAdminCandidaturesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/organisme': {
+      id: '/_authenticated/admin/organisme'
+      path: '/admin/organisme'
+      fullPath: '/admin/organisme'
+      preLoaderRoute: typeof AuthenticatedAdminOrganismeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/coffres/': {
+      id: '/_authenticated/coffres/'
+      path: '/coffres'
+      fullPath: '/coffres/'
+      preLoaderRoute: typeof AuthenticatedCoffresIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/coffres/$id': {
+      id: '/_authenticated/coffres/$id'
+      path: '/coffres/$id'
+      fullPath: '/coffres/$id'
+      preLoaderRoute: typeof AuthenticatedCoffresIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dossiers/': {
+      id: '/_authenticated/dossiers/'
+      path: '/dossiers'
+      fullPath: '/dossiers/'
+      preLoaderRoute: typeof AuthenticatedDossiersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dossiers/$id': {
+      id: '/_authenticated/dossiers/$id'
+      path: '/dossiers/$id'
+      fullPath: '/dossiers/$id'
+      preLoaderRoute: typeof AuthenticatedDossiersIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dossiers/nouveau': {
+      id: '/_authenticated/dossiers/nouveau'
+      path: '/dossiers/nouveau'
+      fullPath: '/dossiers/nouveau'
+      preLoaderRoute: typeof AuthenticatedDossiersNouveauRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/formations/': {
+      id: '/_authenticated/formations/'
+      path: '/formations'
+      fullPath: '/formations/'
+      preLoaderRoute: typeof AuthenticatedFormationsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/formations/$id': {
+      id: '/_authenticated/formations/$id'
+      path: '/formations/$id'
+      fullPath: '/formations/$id'
+      preLoaderRoute: typeof AuthenticatedFormationsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedArchivesRoute: typeof AuthenticatedArchivesRoute
+  AuthenticatedBpfRoute: typeof AuthenticatedBpfRoute
+  AuthenticatedCandidatureRoute: typeof AuthenticatedCandidatureRoute
+  AuthenticatedCompteRoute: typeof AuthenticatedCompteRoute
+  AuthenticatedCourriersRoute: typeof AuthenticatedCourriersRoute
+  AuthenticatedOutilsRoute: typeof AuthenticatedOutilsRoute
+  AuthenticatedPositionnementsRoute: typeof AuthenticatedPositionnementsRoute
+  AuthenticatedProfilRoute: typeof AuthenticatedProfilRoute
+  AuthenticatedRepertoireRoute: typeof AuthenticatedRepertoireRoute
   AuthenticatedTableauDeBordRoute: typeof AuthenticatedTableauDeBordRoute
+  AuthenticatedAdminCandidaturesRoute: typeof AuthenticatedAdminCandidaturesRoute
+  AuthenticatedAdminOrganismeRoute: typeof AuthenticatedAdminOrganismeRoute
+  AuthenticatedCoffresIdRoute: typeof AuthenticatedCoffresIdRoute
+  AuthenticatedDossiersIdRoute: typeof AuthenticatedDossiersIdRoute
+  AuthenticatedDossiersNouveauRoute: typeof AuthenticatedDossiersNouveauRoute
+  AuthenticatedFormationsIdRoute: typeof AuthenticatedFormationsIdRoute
+  AuthenticatedCoffresIndexRoute: typeof AuthenticatedCoffresIndexRoute
+  AuthenticatedDossiersIndexRoute: typeof AuthenticatedDossiersIndexRoute
+  AuthenticatedFormationsIndexRoute: typeof AuthenticatedFormationsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedArchivesRoute: AuthenticatedArchivesRoute,
+  AuthenticatedBpfRoute: AuthenticatedBpfRoute,
+  AuthenticatedCandidatureRoute: AuthenticatedCandidatureRoute,
+  AuthenticatedCompteRoute: AuthenticatedCompteRoute,
+  AuthenticatedCourriersRoute: AuthenticatedCourriersRoute,
+  AuthenticatedOutilsRoute: AuthenticatedOutilsRoute,
+  AuthenticatedPositionnementsRoute: AuthenticatedPositionnementsRoute,
+  AuthenticatedProfilRoute: AuthenticatedProfilRoute,
+  AuthenticatedRepertoireRoute: AuthenticatedRepertoireRoute,
   AuthenticatedTableauDeBordRoute: AuthenticatedTableauDeBordRoute,
+  AuthenticatedAdminCandidaturesRoute: AuthenticatedAdminCandidaturesRoute,
+  AuthenticatedAdminOrganismeRoute: AuthenticatedAdminOrganismeRoute,
+  AuthenticatedCoffresIdRoute: AuthenticatedCoffresIdRoute,
+  AuthenticatedDossiersIdRoute: AuthenticatedDossiersIdRoute,
+  AuthenticatedDossiersNouveauRoute: AuthenticatedDossiersNouveauRoute,
+  AuthenticatedFormationsIdRoute: AuthenticatedFormationsIdRoute,
+  AuthenticatedCoffresIndexRoute: AuthenticatedCoffresIndexRoute,
+  AuthenticatedDossiersIndexRoute: AuthenticatedDossiersIndexRoute,
+  AuthenticatedFormationsIndexRoute: AuthenticatedFormationsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -138,6 +593,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ConnexionRoute: ConnexionRoute,
   InscriptionRoute: InscriptionRoute,
+  FormulaireJetonRoute: FormulaireJetonRoute,
+  InvitationJetonRoute: InvitationJetonRoute,
+  PositionnementJetonRoute: PositionnementJetonRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,9 +1,10 @@
-import { QueryClient } from "@tanstack/react-query";
+import { requetes } from "@/client/requetes";
 import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
 export const getRouter = () => {
-  const queryClient = new QueryClient();
+  // Le même client de requêtes sert aux gardes de routes et aux écrans : un seul cache pour toute l'application.
+  const queryClient = requetes;
 
   const router = createRouter({
     routeTree,

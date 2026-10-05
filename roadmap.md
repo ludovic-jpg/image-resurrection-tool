@@ -2,6 +2,7 @@
 
 - [x] Importer et conserver les écrans, le noyau métier, les gabarits et la documentation du dépôt d’origine.
 - [x] Reprendre la charte visuelle, l’accueil, la connexion, l’inscription et le premier espace protégé.
+- [x] Lot 0 : noyau métier, 19 écrans, routes TanStack et aiguilleur d'appels (`src/client/aiguilleur.ts`) en place ; une route non portée répond « 501 ».
 - [ ] Raccorder les profils, invitations et rôles admin, formateur et apprenant.
 - [ ] Raccorder le répertoire, les formations et les outils pédagogiques.
 - [ ] Raccorder les dossiers, le pipeline et les règles de transition.
