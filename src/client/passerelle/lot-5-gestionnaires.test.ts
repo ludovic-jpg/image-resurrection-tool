@@ -45,7 +45,7 @@ vi.mock("@/lib/formulaires.functions", () => ({
   pdfFormulaire: (...a: unknown[]) => serveur.pdf(...a),
 }));
 
-const { aiguiller, routesEnregistrees } = await import("../aiguilleur");
+const { aiguiller, routesEnregistrees, route } = await import("../aiguilleur");
 
 const echecApi = async (p: Promise<unknown>) => {
   try {
@@ -141,12 +141,16 @@ describe("transport vers les fonctions serveur", () => {
     expect(envoye.get("fichier")).toBeInstanceOf(File);
   });
 
-  it("99 : la pièce externe est déposée, puis le dossier relu quand le lot 4 est présent", async () => {
+  it("99 : la pièce externe est déposée, puis le dossier relu (route 87 du lot 4)", async () => {
+    // Le dernier enregistrement l'emporte : on remplace la lecture du dossier par un dossier factice.
+    route("GET", "/dossiers/:id", async () => ({ id: "d1", relu: true }));
     serveur.externe.mockResolvedValue(succes({ piece: { id: "p9" } }));
     const form = new FormData();
     form.set("fichier", new File([new Uint8Array([1])], "accord.pdf"));
-    // Route 87 non portée dans ce worktree : repli sur la pièce déposée.
-    expect(await aiguiller("POST", "/dossiers/d1/pieces-externes/ACC", form)).toEqual({ id: "p9" });
+    expect(await aiguiller("POST", "/dossiers/d1/pieces-externes/ACC", form)).toEqual({
+      id: "d1",
+      relu: true,
+    });
     const envoye = serveur.externe.mock.calls[0]![0].data as FormData;
     expect([envoye.get("dossier_id"), envoye.get("code")]).toEqual(["d1", "ACC"]);
   });

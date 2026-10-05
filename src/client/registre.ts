@@ -26,7 +26,11 @@ export function route(
     cles.push(nom);
     return "([^/]+)";
   });
-  table.push({ methode, motif: new RegExp(`^${source}$`), cles, gestionnaire });
+  const motif = new RegExp(`^${source}$`);
+  // Une même route enregistrée deux fois : le dernier lot importé (le plus spécialisé) l'emporte.
+  const existant = table.findIndex((e) => e.methode === methode && e.motif.source === motif.source);
+  if (existant >= 0) table.splice(existant, 1);
+  table.push({ methode, motif, cles, gestionnaire });
 }
 
 /** Les routes enregistrées, pour les tests et pour la carte de couverture. */
