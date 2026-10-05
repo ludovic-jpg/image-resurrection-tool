@@ -102,7 +102,7 @@ afterAll(() => {
 });
 
 describe("couverture du lot 3", () => {
-  it("enregistre les routes du lot et laisse les routes 28 et 29 (lot 2) non portées", async () => {
+  it("enregistre les routes du lot", async () => {
     const attendues = [
       "GET ^/candidature$",
       "PATCH ^/candidature$",
@@ -121,14 +121,6 @@ describe("couverture du lot 3", () => {
     ];
     const reelles = routesEnregistrees().map((r) => r.replace(/\\\//g, "/"));
     for (const r of attendues) expect(reelles).toContain(r);
-    monter(ACTEURS.admin);
-    for (const [m, c] of [
-      ["GET", "/admin/organisme"],
-      ["PATCH", "/admin/organisme"],
-    ] as const) {
-      const e = await echecApi(aiguiller(m, c, {}));
-      expect([e.statut, e.code]).toEqual([501, "non_porte"]);
-    }
   });
 });
 
