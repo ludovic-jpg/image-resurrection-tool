@@ -3,3 +3,4 @@ import "./lot-0-socle";
 import "./lot-1-auth";
 import "./lot-2-routes";
 import "./lot-3";
+import "./lot-8";
