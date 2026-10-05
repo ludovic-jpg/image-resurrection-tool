@@ -30,7 +30,7 @@ beforeEach(() => vi.resetAllMocks());
 
 describe("aiguilleur", () => {
   it("répond 501 « non_porte » pour une route d'un lot à venir", async () => {
-    const e = await echec(aiguiller("GET", "/formations"));
+    const e = await echec(aiguiller("GET", "/route-jamais-portee"));
     expect(e).toBeInstanceOf(ErreurApi);
     expect([e.statut, e.code]).toEqual([501, "non_porte"]);
   });
