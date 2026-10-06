@@ -1787,6 +1787,49 @@ export type Database = {
         }
         Relationships: []
       }
+      formulaire_apprenant_vue: {
+        Row: {
+          apprenant: string | null
+          cree_le: string | null
+          dossier_id: string | null
+          dossier_reference: string | null
+          envois: number | null
+          envoye_le: string | null
+          expire_le: string | null
+          formation_titre: string | null
+          id: string | null
+          invitation: boolean | null
+          libelle: string | null
+          of_id: string | null
+          signe_le: string | null
+          stagiaire_id: string | null
+          statut: string | null
+          type: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "formulaire_apprenant_dossier_id_fkey"
+            columns: ["dossier_id"]
+            isOneToOne: false
+            referencedRelation: "dossier_formation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "formulaire_apprenant_of_id_fkey"
+            columns: ["of_id"]
+            isOneToOne: false
+            referencedRelation: "organisme_formation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "formulaire_apprenant_stagiaire_id_fkey"
+            columns: ["stagiaire_id"]
+            isOneToOne: false
+            referencedRelation: "stagiaire"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organisme_public: {
         Row: {
           couleur: string | null
@@ -1807,6 +1850,78 @@ export type Database = {
         }
         Relationships: []
       }
+      positionnement_vue: {
+        Row: {
+          apprenant: string | null
+          archive_le: string | null
+          cree_le: string | null
+          date_reponse: string | null
+          email: string | null
+          entreprise: string | null
+          envoye_le: string | null
+          expire: boolean | null
+          expire_le: string | null
+          formateur_id: string | null
+          formation_id: string | null
+          formation_titre: string | null
+          id: string | null
+          message: string | null
+          of_id: string | null
+          pdf: boolean | null
+          score: number | null
+          signe_le: string | null
+          stagiaire_id: string | null
+          statut: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "positionnement_formateur_id_fkey"
+            columns: ["formateur_id"]
+            isOneToOne: false
+            referencedRelation: "formateur"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "positionnement_formation_id_fkey"
+            columns: ["formation_id"]
+            isOneToOne: false
+            referencedRelation: "formation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "positionnement_of_id_fkey"
+            columns: ["of_id"]
+            isOneToOne: false
+            referencedRelation: "organisme_formation"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "positionnement_stagiaire_id_fkey"
+            columns: ["stagiaire_id"]
+            isOneToOne: false
+            referencedRelation: "stagiaire"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reglage_vue: {
+        Row: {
+          courrier_actif: string | null
+          courrier_expediteur: string | null
+          ia_active: string | null
+          ia_cle_definie: boolean | null
+          ia_modele: string | null
+          ia_recherche_web: string | null
+          ia_workspace: string | null
+          of_id: string | null
+          smtp_hote: string | null
+          smtp_mot_de_passe_defini: boolean | null
+          smtp_port: string | null
+          smtp_securise: string | null
+          smtp_utilisateur: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       s4m_a_atteint: {
@@ -1818,9 +1933,19 @@ export type Database = {
         Returns: boolean
       }
       s4m_assurer_profil: { Args: never; Returns: string }
+      s4m_coffre_accessible: {
+        Args: { p_fichier_id: string }
+        Returns: boolean
+      }
       s4m_coffre_ouvert_apprenant: {
         Args: { p_formation_id: string }
         Returns: boolean
+      }
+      s4m_coffres_apprenant: { Args: never; Returns: Json }
+      s4m_coffres_parcours: { Args: never; Returns: Json }
+      s4m_definir_seances: {
+        Args: { p_dossier_id: string; p_seances: Json }
+        Returns: Json
       }
       s4m_dossier_interne: { Args: { p_dossier_id: string }; Returns: boolean }
       s4m_dossier_lisible: { Args: { p_dossier_id: string }; Returns: boolean }
@@ -1865,8 +1990,13 @@ export type Database = {
           valide_le: string
         }[]
       }
+      s4m_dupliquer_formation: {
+        Args: { p_formation_id: string }
+        Returns: Json
+      }
       s4m_est_admin: { Args: never; Returns: boolean }
       s4m_est_service: { Args: never; Returns: boolean }
+      s4m_etapes: { Args: never; Returns: Json }
       s4m_formateur_id: { Args: never; Returns: string }
       s4m_formateur_valide_id: { Args: never; Returns: string }
       s4m_formateurs_publics: {
@@ -1882,6 +2012,32 @@ export type Database = {
           of_id: string
           statut_candidature: string
         }[]
+      }
+      s4m_journal: {
+        Args: {
+          p_detail?: Json
+          p_dossier_id: string
+          p_libelle: string
+          p_of_id: string
+          p_type: string
+        }
+        Returns: undefined
+      }
+      s4m_lister_dossiers: { Args: never; Returns: Json }
+      s4m_memoriser_version: {
+        Args: {
+          p_libelle: string
+          p_objet_id: string
+          p_of_id: string
+          p_snapshot: Json
+          p_type: string
+        }
+        Returns: undefined
+      }
+      s4m_moi: { Args: never; Returns: Json }
+      s4m_objectifs_atteints: {
+        Args: { p_dossier_id: string; p_valeur: string }
+        Returns: Json
       }
       s4m_of_id: { Args: never; Returns: string }
       s4m_organisme_public: {
@@ -1905,8 +2061,34 @@ export type Database = {
         }[]
       }
       s4m_piece_espace_apprenant: { Args: { p_code: string }; Returns: boolean }
+      s4m_piece_suivie: { Args: { p_code: string }; Returns: boolean }
+      s4m_piece_visible: { Args: { p_piece_id: string }; Returns: boolean }
+      s4m_questionnaire: {
+        Args: { p_dossier_id: string; p_stagiaire_id?: string; p_type: string }
+        Returns: Json
+      }
       s4m_rang_statut: { Args: { s: string }; Returns: number }
+      s4m_reglages_vue: {
+        Args: never
+        Returns: {
+          courrier_actif: string
+          courrier_expediteur: string
+          ia_active: string
+          ia_cle_definie: boolean
+          ia_modele: string
+          ia_recherche_web: string
+          ia_workspace: string
+          of_id: string
+          smtp_hote: string
+          smtp_mot_de_passe_defini: boolean
+          smtp_port: string
+          smtp_securise: string
+          smtp_utilisateur: string
+        }[]
+      }
+      s4m_restaurer_version: { Args: { p_version_id: string }; Returns: Json }
       s4m_role: { Args: never; Returns: string }
+      s4m_sous_statuts: { Args: never; Returns: Json }
       s4m_stagiaire_id: { Args: never; Returns: string }
     }
     Enums: {
