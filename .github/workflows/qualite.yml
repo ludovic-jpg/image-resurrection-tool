@@ -1,0 +1,44 @@
+# Contrôle qualité automatique : s'exécute à chaque push (y compris ceux de Lovable) et à chaque pull request.
+# Un ✗ rouge sur GitHub signifie qu'une modification a cassé l'un des contrôles ci-dessous.
+name: Qualité
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: qualite-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  controles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # npm et non bun : bun.lock (géré par Lovable) épingle une partie des paquets sur le cache npm privé
+      # de Lovable, inaccessible depuis GitHub. npm résout les mêmes plages de versions sur le registre public.
+      # Ne pas committer de package-lock.json : un seul fichier de verrouillage, celui de Lovable.
+      - name: Dépendances
+        run: npm install --no-audit --no-fund --no-package-lock
+
+      - name: Typage TypeScript
+        run: npx tsc --noEmit -p .
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Tests (noyau métier + accès)
+        run: npm test
+
+      - name: Sécurité RLS (migrations rejouées sur PostgreSQL en mémoire)
+        run: node supabase/tests/rls_test.mjs
+
+      - name: Build de production
+        run: npm run build
