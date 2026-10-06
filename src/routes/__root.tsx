@@ -81,7 +81,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Dossiers de formation" },
       { name: "description", content: "Gestion sécurisée des dossiers et parcours de formation." },
       { property: "og:title", content: "Dossiers de formation" },
-      { property: "og:description", content: "Gestion sécurisée des dossiers et parcours de formation." },
+      {
+        property: "og:description",
+        content: "Gestion sécurisée des dossiers et parcours de formation.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

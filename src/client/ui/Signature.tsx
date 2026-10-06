@@ -6,7 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import { Eraser, PenLine } from "lucide-react";
 import { Bouton, Champ, cx } from "./base";
 
-export function ZoneDeTrace({ surChangement, hauteur = 170 }: { surChangement: (png: string | null) => void; hauteur?: number }) {
+export function ZoneDeTrace({
+  surChangement,
+  hauteur = 170,
+}: {
+  surChangement: (png: string | null) => void;
+  hauteur?: number;
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
   const dessin = useRef({ actif: false, vide: true, x: 0, y: 0 });
   const [vide, setVide] = useState(true);
@@ -18,7 +24,11 @@ export function ZoneDeTrace({ surChangement, hauteur = 170 }: { surChangement: (
       const ratio = Math.max(window.devicePixelRatio || 1, 1);
       const { width } = canvas.getBoundingClientRect();
       // Ne réinitialiser que si la LARGEUR change : l'ouverture du clavier d'un téléphone ne doit pas effacer le tracé.
-      if (Math.round(width * ratio) === canvas.width && canvas.height === Math.round(hauteur * ratio)) return;
+      if (
+        Math.round(width * ratio) === canvas.width &&
+        canvas.height === Math.round(hauteur * ratio)
+      )
+        return;
       canvas.width = Math.round(width * ratio);
       canvas.height = Math.round(hauteur * ratio);
       const ctx = canvas.getContext("2d")!;
@@ -36,6 +46,7 @@ export function ZoneDeTrace({ surChangement, hauteur = 170 }: { surChangement: (
     observateur.observe(canvas.parentElement!);
     return () => observateur.disconnect();
     // `surChangement` est un setState chez tous les appelants : référence stable, volontairement hors dépendances.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hauteur]);
 
   const position = (e: React.PointerEvent) => {
@@ -45,7 +56,12 @@ export function ZoneDeTrace({ surChangement, hauteur = 170 }: { surChangement: (
 
   return (
     <div>
-      <div className={cx("relative overflow-hidden rounded-md border-2 border-dashed bg-papier", vide ? "border-trait-fort" : "border-accent/50")}>
+      <div
+        className={cx(
+          "relative overflow-hidden rounded-md border-2 border-dashed bg-papier",
+          vide ? "border-trait-fort" : "border-accent/50",
+        )}
+      >
         <canvas
           ref={ref}
           style={{ height: hauteur, touchAction: "none" }}
@@ -107,7 +123,17 @@ export interface DemandeSignature {
   consentement: boolean;
 }
 
-export function FormulaireSignature({ libelleDocument, enCours, erreur, signer }: { libelleDocument: string; enCours: boolean; erreur?: string; signer: (d: DemandeSignature) => void }) {
+export function FormulaireSignature({
+  libelleDocument,
+  enCours,
+  erreur,
+  signer,
+}: {
+  libelleDocument: string;
+  enCours: boolean;
+  erreur?: string;
+  signer: (d: DemandeSignature) => void;
+}) {
   const [trace, setTrace] = useState<string | null>(null);
   const [lieu, setLieu] = useState("");
   const [consentement, setConsentement] = useState(false);
@@ -122,16 +148,36 @@ export function FormulaireSignature({ libelleDocument, enCours, erreur, signer }
       }}
     >
       <ZoneDeTrace surChangement={setTrace} />
-      <Champ libelle="Fait à" placeholder="Ville" value={lieu} onChange={(e) => setLieu(e.target.value)} required maxLength={120} autoComplete="address-level2" />
+      <Champ
+        libelle="Fait à"
+        placeholder="Ville"
+        value={lieu}
+        onChange={(e) => setLieu(e.target.value)}
+        required
+        maxLength={120}
+        autoComplete="address-level2"
+      />
       <label className="flex cursor-pointer items-start gap-3 rounded-md border border-trait bg-papier-2 p-3 text-[13.5px] leading-relaxed text-encre-2">
-        <input type="checkbox" checked={consentement} onChange={(e) => setConsentement(e.target.checked)} className="mt-0.5 size-4 shrink-0 accent-(--color-accent)" />
+        <input
+          type="checkbox"
+          checked={consentement}
+          onChange={(e) => setConsentement(e.target.checked)}
+          className="mt-0.5 size-4 shrink-0 accent-(--color-accent)"
+        />
         <span>
-          J'ai lu le document « {libelleDocument} » et je le signe électroniquement. La date et l'heure de ma signature sont enregistrées, ainsi qu'une empreinte du document qui permet de prouver qu'il n'a pas
-          été modifié ensuite.
+          J'ai lu le document « {libelleDocument} » et je le signe électroniquement. La date et
+          l'heure de ma signature sont enregistrées, ainsi qu'une empreinte du document qui permet
+          de prouver qu'il n'a pas été modifié ensuite.
         </span>
       </label>
       {erreur && <p className="text-sm text-danger">{erreur}</p>}
-      <Bouton type="submit" variante="primaire" enCours={enCours} disabled={!pret} className="w-full">
+      <Bouton
+        type="submit"
+        variante="primaire"
+        enCours={enCours}
+        disabled={!pret}
+        className="w-full"
+      >
         Signer le document
       </Bouton>
     </form>

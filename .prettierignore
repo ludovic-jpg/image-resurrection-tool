@@ -2,7 +2,18 @@ node_modules
 dist
 .output
 .vinxi
+.wrangler
 pnpm-lock.yaml
 package-lock.json
 bun.lock
 routeTree.gen.ts
+# Code de référence importé de s4mfinal : conservé tel quel.
+docs/reference-implementation
+# Fichiers générés par Lovable : régénérés à chaque synchronisation.
+src/integrations
+src/components/ui
+supabase/functions
+# Noyau métier : mise en forme d'origine conservée (règle « noyau sacré »).
+src/domaine
+# Gabarits HTML : toute modification de rendu change les empreintes de signature.
+gabarits
