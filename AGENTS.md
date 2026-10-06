@@ -11,3 +11,5 @@
 
 - Preserve the imported S4M domain core and original French screen structure; adapt transport and routing at boundaries because this minimizes migration drift.
 - Use Lovable Cloud authentication and data access for runtime behavior; keep the imported Hono/Drizzle server only as migration reference because the deployed runtime is TanStack Start.
+- The domain core lives in `src/domaine` (pure TypeScript, tested); the 19 original screens and the old server live in `docs/reference-implementation/` as reference only. `lovable/KNOWLEDGE.md` ("Où se trouve quoi") is the source of truth for paths.
+- Keep `.github/workflows/qualite.yml` green: `npx tsc --noEmit`, `npm run lint`, `npm test`, `node supabase/tests/rls_test.mjs`, `npm run build`. Never edit `src/integrations/**` by hand (Lovable regenerates it).

@@ -1,5 +1,11 @@
 # Guide de reprise de s4mfinal dans Lovable
 
+> **Correspondance des chemins (mise à jour du 06/10/2026)** — ce document a été écrit pour le dépôt d'origine.
+> Dans ce projet : `src/client/ecrans/*` → `docs/reference-implementation/ecrans/*` ; `src/client/api.ts`, `session.ts`,
+> `navigation.ts` → `docs/reference-implementation/` ; `src/serveur/*` → `docs/reference-implementation/serveur/*` ;
+> `src/domaine` est bien à `src/domaine`. Les pages raccordées vivent dans `src/routes/` (TanStack Start).
+> Le tableau « Où se trouve quoi » de `lovable/KNOWLEDGE.md` fait foi.
+
 Ce guide se suit dans l'ordre. Compte une demi-journée pour les étapes 1 à 6, puis un lot de prompts par session.
 
 ## 0. Ce que contient le kit (branche `lovable-kit`)

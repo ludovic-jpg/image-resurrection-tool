@@ -1,5 +1,11 @@
 # Carte des routes — migration Skills4mation vers Lovable + Supabase
 
+> **Correspondance des chemins (mise à jour du 06/10/2026)** — ce document a été écrit pour le dépôt d'origine.
+> Dans ce projet : `src/client/ecrans/*` → `docs/reference-implementation/ecrans/*` ; `src/client/api.ts`, `session.ts`,
+> `navigation.ts` → `docs/reference-implementation/` ; `src/serveur/*` → `docs/reference-implementation/serveur/*` ;
+> `src/domaine` est bien à `src/domaine`. Les pages raccordées vivent dans `src/routes/` (TanStack Start).
+> Le tableau « Où se trouve quoi » de `lovable/KNOWLEDGE.md` fait foi.
+
 Document de travail produit à partir de `src/serveur/http/app.ts` (116 routes), des services `src/serveur/services/*.ts`, des ports `src/serveur/ports/*.ts` et de `docs/ARCHITECTURE.md`. Il sert de contrat entre trois chantiers menés en parallèle : la migration SQL (tables, RLS, fonctions `s4m_*`), les Edge Functions (Deno) et le front Lovable.
 
 ## 0. Conventions retenues

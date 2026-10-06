@@ -1,5 +1,11 @@
 # Prompts Lovable, lot par lot
 
+> **Correspondance des chemins (mise à jour du 06/10/2026)** — ce document a été écrit pour le dépôt d'origine.
+> Dans ce projet : `src/client/ecrans/*` → `docs/reference-implementation/ecrans/*` ; `src/client/api.ts`, `session.ts`,
+> `navigation.ts` → `docs/reference-implementation/` ; `src/serveur/*` → `docs/reference-implementation/serveur/*` ;
+> `src/domaine` est bien à `src/domaine`. Les pages raccordées vivent dans `src/routes/` (TanStack Start).
+> Le tableau « Où se trouve quoi » de `lovable/KNOWLEDGE.md` fait foi.
+
 **Mode d'emploi.** Un prompt à la fois, dans l'ordre. Après chaque prompt : tester le parcours indiqué (« Recette du lot »)
 avec les comptes de démonstration, noter l'écart, le faire corriger **avant** d'enchaîner. Ne jamais coller deux lots
 d'un coup : Lovable mélange alors les responsabilités et casse ce qui marchait.

@@ -17,12 +17,28 @@ Multi-organismes : l'identité de l'OF est une configuration, jamais une constan
   Le formateur lit aussi `organisme_public` ; la table `organisme_formation` complète est réservée à l'admin.
 Un utilisateur introuvable par cloisonnement reçoit « introuvable », jamais « interdit ».
 
+## Où se trouve quoi (état réel au 06/10/2026 — fait foi sur tout autre document)
+| Élément | Emplacement réel | Statut |
+|---|---|---|
+| Noyau métier (règles, pipeline, pièces, signature, BPF) + ses tests | `src/domaine/` | Actif, testé (`npm test`) |
+| Pages raccordées (TanStack Start, routes par fichier) | `src/routes/` | Accueil, connexion, inscription, mot de passe oublié, réinitialisation, tableau de bord |
+| Composants d'interface S4M | `src/client/ui/` (`base.tsx`, `champs.tsx`, `Signature.tsx`, `CoquilleAcces.tsx`) | Actif |
+| Les 19 écrans d'origine (à raccorder lot par lot) | `docs/reference-implementation/ecrans/` | Référence, non exécutés |
+| Ancien client API, session, navigation | `docs/reference-implementation/{api,session,navigation,requetes}.ts` | Référence |
+| Ancien serveur Hono/Drizzle | `docs/reference-implementation/serveur/` | Référence, ne jamais exécuter |
+| Feuille de styles et jetons | `src/styles.css` | Actif |
+| Client Supabase, types de la base | `src/integrations/supabase/` | **Généré par Lovable, ne pas modifier à la main** |
+
+Quand un autre document (`PROMPTS_PAR_LOTS.md`, `CARTE_DES_ROUTES.md`…) cite `src/client/ecrans`, `src/client/api.ts`
+ou `src/serveur`, lire les emplacements du tableau ci-dessus. Pour raccorder un écran : le **copier** depuis
+`docs/reference-implementation/ecrans/` vers une route de `src/routes/`, puis remplacer ses appels `api.*` par Supabase.
+
 ## Architecture (ne pas en dévier)
-- Interface : React 19 + Vite + Tailwind v4 + TanStack Router + TanStack Query. **Les écrans de `src/client/ecrans` sont
-  conservés** ; ils parlent au serveur uniquement via `src/client/api.ts` (`api.get/post/patch/put/suppr/fichier(chemin)`).
-- Serveur : **Supabase** (Auth, Postgres + RLS, Storage, Edge Functions Deno). Plus de serveur Node, plus de Hono, plus
-  de Drizzle, plus de PGlite. Le dossier `src/serveur` reste dans le dépôt **comme référence et source des types** : ne pas
-  le supprimer, ne pas l'exécuter.
+- Interface : React 19 + TanStack Start (routes par fichier dans `src/routes/`) + Tailwind v4 + TanStack Query. Les
+  écrans d'origine sont **conservés à l'identique** (structure, libellés, mise en page) lors de leur raccordement.
+- Serveur : **Supabase / Lovable Cloud** (Auth, Postgres + RLS, Storage, Edge Functions Deno). Plus de serveur Node, plus
+  de Hono, plus de Drizzle, plus de PGlite. `docs/reference-implementation/serveur` reste dans le dépôt **comme référence
+  de la logique à porter** : ne pas le supprimer, ne pas l'exécuter.
 - Le schéma de référence est dans `supabase/migrations/` (`…000000_s4m_initial.sql` puis `…000100_s4m_rpc.sql`). **Ne jamais créer, renommer ni
   supprimer une table ou une colonne sans nouvelle migration** ; ne jamais lire une table qui n'existe pas dans ce fichier.
 - La correspondance route par route est dans `lovable/CARTE_DES_ROUTES.md` ; le modèle de données dans
@@ -66,10 +82,18 @@ Uniquement dans l'espace pédagogique (enjeux, parcours, QCM, programme, plan de
 Toute proposition IA est validée par le formateur avant enregistrement.
 
 ## Design
-Conserver `src/client/styles.css` (tokens `--color-*`, Inter + Poppins, accent vert profond). Ne pas installer shadcn par
+Conserver `src/styles.css` (tokens `--color-*`, Inter + Poppins, accent vert profond). Ne pas installer shadcn par
 défaut ni changer de palette. Interface sobre, lisible, mobile correct.
 
 ## Tests et comptes de démonstration
 Projet de test uniquement : `supabase/seed_demo.sql`. Mot de passe commun `demonstration-s4m` :
 admin@demo.example · formatrice@demo.example · formateur2@demo.example · apprenante@demo.example · candidat@demo.example.
 Après chaque changement touchant les droits, tester le parcours croisé admin ↔ formateur ↔ apprenant.
+**Ne jamais exécuter `seed_demo.sql` sur le projet Lovable Cloud de production** (il y crée des comptes à mot de passe
+connu). La production s'initialise avec `supabase/admin_production.sql` (organisme + premier admin).
+
+## Contrôle qualité (à garder vert après chaque modification)
+Le workflow GitHub `.github/workflows/qualite.yml` vérifie à chaque push : typage (`tsc`), lint, tests (`npm test`,
+dont le noyau métier), sécurité RLS (`node supabase/tests/rls_test.mjs`) et build. Toute nouvelle page de `src/routes/`
+s'ajoute à la liste testée dans `src/test/acces.test.tsx`. Toute nouvelle migration doit garder `rls_test.mjs` vert.
+Les erreurs d'authentification passent par `src/client/auth/messages.ts` (messages en français, détail en console).

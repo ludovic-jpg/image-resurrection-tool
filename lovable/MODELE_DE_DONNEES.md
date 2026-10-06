@@ -1,5 +1,11 @@
 # Skills4mation — Modèle de données Supabase (reconstruction Lovable)
 
+> **Correspondance des chemins (mise à jour du 06/10/2026)** — ce document a été écrit pour le dépôt d'origine.
+> Dans ce projet : `src/client/ecrans/*` → `docs/reference-implementation/ecrans/*` ; `src/client/api.ts`, `session.ts`,
+> `navigation.ts` → `docs/reference-implementation/` ; `src/serveur/*` → `docs/reference-implementation/serveur/*` ;
+> `src/domaine` est bien à `src/domaine`. Les pages raccordées vivent dans `src/routes/` (TanStack Start).
+> Le tableau « Où se trouve quoi » de `lovable/KNOWLEDGE.md` fait foi.
+
 Références : `supabase/migrations/20261005000000_s4m_initial.sql` (tables, RLS, Auth, Storage — exécutable d'un bloc sur un projet vierge) puis `supabase/migrations/20261005000100_s4m_rpc.sql` (RPC, triggers de journal / versions, vues sans secret, attendus par `CARTE_DES_ROUTES.md`).
 Mise en production : `supabase/admin_production.sql` (gabarit commenté, placeholders `<OF_ID>`, `<EMAIL>`, `<MOT_DE_PASSE>`… ; crée l'organisme réel et son premier admin par SQL, car le trigger exige `app_metadata.s4m_role` à la création du compte).
 Test de non-régression du cloisonnement : `supabase/tests/rls_test.mjs` (voir § Vérification).
