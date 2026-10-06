@@ -16,29 +16,34 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
 
-      # npm et non bun : bun.lock (géré par Lovable) épingle une partie des paquets sur le cache npm privé
-      # de Lovable, inaccessible depuis GitHub. npm résout les mêmes plages de versions sur le registre public.
-      # Ne pas committer de package-lock.json : un seul fichier de verrouillage, celui de Lovable.
+      - uses: oven-sh/setup-bun@v2
+
+      # bun.lock (géré par Lovable) épingle une partie des paquets sur le cache npm privé de Lovable,
+      # inaccessible depuis GitHub (403). On le met de côté DANS LA CI SEULEMENT et bun résout les mêmes
+      # plages de versions (package.json, overrides, bunfig.toml) sur le registre public.
+      # npm n'est pas utilisé : il plante sur le bloc « overrides » (bug « reading 'edgesOut' »).
       - name: Dépendances
-        run: npm install --no-audit --no-fund --no-package-lock
+        run: |
+          mv bun.lock bun.lock.lovable
+          bun install --no-save
 
       - name: Typage TypeScript
-        run: npx tsc --noEmit -p .
+        run: bunx tsc --noEmit -p .
 
       - name: Lint
-        run: npm run lint
+        run: bun run lint
 
       - name: Tests (noyau métier + accès)
-        run: npm test
+        run: bun run test
 
       - name: Sécurité RLS (migrations rejouées sur PostgreSQL en mémoire)
         run: node supabase/tests/rls_test.mjs
 
       - name: Build de production
-        run: npm run build
+        run: bun run build
