@@ -51,4 +51,9 @@ export default tseslint.config(
     },
   },
   eslintPluginPrettier,
+  {
+    // Lovable n'exécute pas Prettier : la mise en forme reste signalée (avertissement) sans faire échouer la CI.
+    // `npm run format` remet tout d'aplomb. Les vraies erreurs (hooks, imports…) restent bloquantes.
+    rules: { "prettier/prettier": "warn" },
+  },
 );
